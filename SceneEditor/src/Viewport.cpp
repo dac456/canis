@@ -55,8 +55,7 @@ namespace SceneEditor
 
         _mode = VIEW_MODE;
         
-        MainWindow* main = qobject_cast<MainWindow*>(QApplication::topLevelWidgets()[0]);
-        //connect(this, SIGNAL(contextCreated()), main, SLOT(initialize()));  
+ 
         
         //Q_EMIT contextCreated();
     }
@@ -92,7 +91,10 @@ namespace SceneEditor
         
         _timer->start(0);
         _initialized = true;
-        std::cout << "viewport initialized" << std::endl;    
+
+        MainWindow* main = qobject_cast<MainWindow*>(QApplication::topLevelWidgets()[0]);
+        //connect(this, SIGNAL(contextCreated()), main, SLOT(initialize()));
+        connect(this, SIGNAL(sceneChanged()), main, SLOT(updateSceneGraphTree()));  
     }
     
     void Viewport::render(){
@@ -101,10 +103,19 @@ namespace SceneEditor
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.5f, 0.5f, 0.5, 1.0f);
         
+        setView(_viewType);
+        if(underMouse())
+            setFocus(Qt::MouseFocusReason);        
+        
         if(_activeScene != nullptr && _cam != nullptr && _initialized && this->isVisible()){
-            _activeScene->setActiveCamera(_cam);
-            Canis::RenderManager::getSingleton().setActiveCamera(_cam); //TEMP!
-            _activeScene->render(_projMatrix);
+            //_activeScene->setActiveCamera(_cam);
+            _activeScene->render(_cam, _projMatrix);
+            
+            glDisable(GL_DEPTH_TEST);
+            for(size_t i=0; i<_activeScene->getNodes().size(); i++){
+                renderNodeMarker(_activeScene->getNodes()[i]);
+            }
+            glEnable(GL_DEPTH_TEST);            
         }
         
         swapBuffers();
@@ -112,6 +123,18 @@ namespace SceneEditor
     
     void Viewport::resize(int w, int h){
         glViewport(0, 0, w, h);
+        
+        if(_viewType == 0){
+            _projMatrix = glm::perspective(glm::radians(45.0f), (float)w/(float)h, 0.1f, 10000.0f);
+        }
+        else{
+            _orthoOrgX = -(this->width()/2.0f);
+            _orthoMaxX = this->width()/2.0f;
+            _orthoOrgY = -(this->height()/2.0f);
+            _orthoMaxY = this->height()/2.0f;
+
+            _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
+        }        
     }
 
     /*void Viewport::initialize(Canis::Scene* defaultScene){
@@ -274,10 +297,13 @@ namespace SceneEditor
         _activeScene = scene;
     }
     
-    void Viewport::setSelectedObject(QString name, QString type){
-        _selectedObjectName = name;
-        _selectedObjectType = type;
+    Canis::Scene* Viewport::getActiveScene(){
+        return _activeScene;
     }
+    
+    /*
+     * Events
+     */
 
     void Viewport::mouseMoveEvent(QMouseEvent* e){
         if(_viewType == 0){
@@ -360,7 +386,6 @@ namespace SceneEditor
                     _orthoOffsetY += abs(dY)/2;
 
                 _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
-                Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
 
                 //_lastX = pX;
                 //_lastY = pY;
@@ -445,7 +470,6 @@ namespace SceneEditor
 
         if(_viewType != 0){
             _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
-            Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
         }
     }
 
@@ -453,10 +477,13 @@ namespace SceneEditor
         if(e->key() == Qt::Key_Shift)
             _scrollDivisor = 32.0f;
     }
+    
+    /*
+     * Helpers
+     */
 
     void Viewport::setView(int type){
         if(type == 0){
-            Canis::RenderManager::getSingleton().setViewMatrix(_cam->getTransform());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_CULL_FACE);
@@ -465,7 +492,6 @@ namespace SceneEditor
             _cam->setPosition(glm::vec3(_orthoOffsetX, 0.0f, _orthoOffsetY));
             //_cam->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
             _cam->setRotation(glm::radians(-90.0f), 0.0f, 0.0f);
-            Canis::RenderManager::getSingleton().setViewMatrix(_cam->getTransform());
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_CULL_FACE);
@@ -473,7 +499,6 @@ namespace SceneEditor
         else if(type == 2){ //front
             _cam->setPosition(glm::vec3(_orthoOffsetX, -_orthoOffsetY, 0.0f));
             _cam->setRotation(0.0f, 0.0f, 0.0f);
-            Canis::RenderManager::getSingleton().setViewMatrix(_cam->getTransform());
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_CULL_FACE);
@@ -481,7 +506,6 @@ namespace SceneEditor
         else if(type == 3){ //side
             _cam->setPosition(glm::vec3(0.0f, -_orthoOffsetY, _orthoOffsetX));
             _cam->setRotation(0.0f, glm::radians(90.0f), 0.0f);
-            Canis::RenderManager::getSingleton().setViewMatrix(_cam->getTransform());
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_CULL_FACE);
@@ -531,7 +555,7 @@ namespace SceneEditor
         float markerScale;
         if(_viewType == 0){
             glm::vec3 nodePosition = glm::vec3(trans[3][0], trans[3][1], trans[3][2]);
-            float dist = glm::length(nodePosition - Canis::RenderManager::getSingleton().getActiveCamera()->getPosition());
+            float dist = glm::length(nodePosition - _cam->getPosition());
             markerScale = glm::max(dist/32.0f, 16.0f);
         }
         else
@@ -588,11 +612,21 @@ namespace SceneEditor
 
         return nullptr;
     }
+    
+    /*
+     * Slots
+     */
+     
+    void Viewport::selectObject(QString name, QString type){
+        _selectedObjectName = name;
+        _selectedObjectType = type;
+        
+        //Should eventually select by calling node->select();
+    }        
 
     void Viewport::updateView(QString item){
         if(item.compare("Perspective") == 0){
             _projMatrix = glm::perspective(glm::radians(45.0f), (float)this->width()/(float)this->height(), 0.1f, 10000.0f);
-            Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
             _viewType = 0;
 
             _cam->setPosition(_lastPerspPos);
@@ -614,8 +648,6 @@ namespace SceneEditor
 
                 _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
             }
-
-            Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
 
             _lastPerspPos = _cam->getPosition();
             _lastPerspOrient = _cam->getOrientation();
@@ -646,5 +678,12 @@ namespace SceneEditor
             }
         }
     }
+    
+    void Viewport::addSceneNode(QString name){
+        glm::vec3 pos = _cam->getPosition();
+        _activeScene->addSceneNode(new Canis::SceneNode(name.toStdString(), glm::translate(pos))); 
+        
+        Q_EMIT sceneChanged();
+    }       
 
 }

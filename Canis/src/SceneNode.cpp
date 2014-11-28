@@ -58,7 +58,7 @@ namespace Canis
         light->_parent = this;
         Scene* parentScene = this->getParentScene();
         if(parentScene != nullptr){
-            parentScene->addLight(light);
+            parentScene->_addLight(light);
         }
         
         _lights.push_back(light);

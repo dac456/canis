@@ -70,7 +70,7 @@ namespace SceneEditor
 		//void resizeGL(int width, int height);        
 
         void setActiveScene(Canis::Scene* scene);
-        void setSelectedObject(QString name, QString type);
+        Canis::Scene* getActiveScene();
 
         virtual void mouseMoveEvent(QMouseEvent* e);
         virtual void mousePressEvent(QMouseEvent* e);
@@ -79,6 +79,7 @@ namespace SceneEditor
         virtual void keyReleaseEvent(QKeyEvent* e);
 
     private:
+        //Helpers
         void setView(int type);
         void rotateFirstPerson(int x, int y);
 
@@ -87,11 +88,15 @@ namespace SceneEditor
         Canis::SceneNode* getChildNodeByName(Canis::SceneNode* node, std::string name);
 
     public Q_SLOTS:
+        void selectObject(QString name, QString type);
         void updateView(QString item);
         void setInitialPoseButtonClicked();
         
+        void addSceneNode(QString name);
+        
     Q_SIGNALS:
         void contextCreated();
+        void sceneChanged();
 
     };
 

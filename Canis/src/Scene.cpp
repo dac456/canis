@@ -40,12 +40,13 @@ namespace Canis
         delete _collisionConfiguration;
     }
 
-    void Scene::render(glm::mat4 projectionMatrix){
+    void Scene::render(Camera* activeCamera, glm::mat4 projectionMatrix){
         if(Engine::getSingleton().isDynamicsEnabled())
             _dynamicsWorld->stepSimulation(1.0f/60.0f);
 
         for(size_t i=0; i<_nodes.size(); i++){
-            if(_activeCamera != nullptr){
+            if(activeCamera != nullptr){
+                _activeCamera = activeCamera; 
                 _nodes[i]->render(projectionMatrix, _activeCamera->getTransform());
             }
         }
@@ -75,7 +76,7 @@ namespace Canis
         return _dynamicsWorld;
     }
     
-    void Scene::addLight(Light* light){
+    void Scene::_addLight(Light* light){
         _lights.push_back(light);
     }
     

@@ -29,21 +29,32 @@ namespace SceneEditor
         ~MainWindow();
 
         void loadPlugins();
-        void updateSceneGraphTree();
 
         QTreeWidgetItem* getSceneGraphRootItem();
+    
+        //Actions
+        //void about();
 
     private:
         void traverseNode(Canis::SceneNode* node, QTreeWidgetItem* root);
 
     public Q_SLOTS:
         void initialize();
-        void menuTriggered(QAction* act);
+        //void menuTriggered(QAction* act);
         void sceneGraphSelectionChanged();
         void addNodeButtonClicked();
         void addEntityButtonClicked();
         void pauseSimulationButtonClicked();
         void resetSimulationButtonClicked();
+        
+        void updateSceneGraphTree();
+        
+        void about();
+        void exit();
+        
+    Q_SIGNALS:
+        void objectSelected(QString name, QString type);
+        void sceneNodeAdded(QString name);
 
     private:
         Ui::MainWindowClass ui;

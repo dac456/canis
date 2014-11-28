@@ -25,7 +25,7 @@ namespace Canis
         Scene(std::string name, glm::mat4 transform = glm::mat4(1.0f));
         ~Scene();
 
-        void render(glm::mat4 projectionMatrix);
+        void render(Camera* activeCamera, glm::mat4 projectionMatrix);
         void reset(); //Override
 
         void addSceneNode(SceneNode* node);
@@ -40,7 +40,7 @@ namespace Canis
         std::vector<Light*> getLightsClosestToPoint(glm::vec4 point);
         
     private:
-        void addLight(Light* light);
+        void _addLight(Light* light);
         
         friend SceneNode; //TODO: this is currently just for addLight. right idea?
         

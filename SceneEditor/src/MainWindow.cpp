@@ -17,8 +17,10 @@ namespace SceneEditor
         ui.viewList->addItem("Top");
         ui.viewList->addItem("Front");
         ui.viewList->addItem("Side");
-
-        connect(ui.menuBar, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
+        
+        //Connect actions
+        connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(exit()));
+        connect(ui.actionAbout, SIGNAL(triggered()), this, SLOT(about()));        
 
         connect(ui.viewList, SIGNAL(activated(QString)), ui.viewport, SLOT(updateView(QString)));
         connect(ui.sceneGraphView, SIGNAL(itemSelectionChanged()), this, SLOT(sceneGraphSelectionChanged()));
@@ -27,6 +29,9 @@ namespace SceneEditor
         connect(ui.pauseSimulationButton, SIGNAL(clicked()), this, SLOT(pauseSimulationButtonClicked()));
         connect(ui.resetButton, SIGNAL(clicked()), this, SLOT(resetSimulationButtonClicked()));
         connect(ui.setPoseButton, SIGNAL(clicked()), ui.viewport, SLOT(setInitialPoseButtonClicked()));
+        
+        connect(this, SIGNAL(objectSelected(QString, QString)), ui.viewport, SLOT(selectObject(QString, QString)));
+        connect(this, SIGNAL(sceneNodeAdded(QString)), ui.viewport, SLOT(addSceneNode(QString)));
 
         _entityDialogManager = new EntityDialogManager();
     }
@@ -74,7 +79,7 @@ namespace SceneEditor
         //ui.viewport->initialize(defaultScene);
 
         _rootItem = nullptr;
-        //updateSceneGraphTree();
+        updateSceneGraphTree();
 
         //Canis::PluginManager::getSingleton().loadPlugin("./Plugins/CanisPluginTest.dll"); //TODO: load all plugins by searching directory
         //loadPlugins();
@@ -111,27 +116,6 @@ namespace SceneEditor
         }
     }
 
-    void MainWindow::updateSceneGraphTree(){
-        /*Canis::Scene* currentScene = ui.viewport->getCurrentScene();
-        ui.sceneGraphView->removeItemWidget(_rootItem, 1);
-
-        if(_rootItem != nullptr)
-            delete _rootItem;
-
-        _rootItem = new QTreeWidgetItem(QStringList("untitled <Scene>"));
-        ui.sceneGraphView->addTopLevelItem(_rootItem);
-
-        for(size_t i=0; i<currentScene->getNodes().size(); i++){
-            Canis::SceneNode* currentNode = currentScene->getNodes()[i];
-            QTreeWidgetItem* node = new QTreeWidgetItem(QStringList(std::string(currentNode->getName()+" <Node>").c_str()));
-            _rootItem->addChild(node);
-
-            traverseNode(currentNode, node);
-        }
-
-        ui.sceneGraphView->expandAll();*/
-    }
-
     QTreeWidgetItem* MainWindow::getSceneGraphRootItem(){
         return _rootItem;
     }
@@ -164,7 +148,7 @@ namespace SceneEditor
         }
     }
 
-    void MainWindow::menuTriggered(QAction* act){
+    /*void MainWindow::menuTriggered(QAction* act){
         if(act->text().compare("Exit") == 0){
             QApplication::instance()->quit();
         }
@@ -179,7 +163,11 @@ namespace SceneEditor
             }
             aboutWindow.update(QString(ss.str().c_str()));
         }
-    }
+    }*/
+    
+    /*
+     * Slots
+     */
 
     void MainWindow::sceneGraphSelectionChanged(){
         if(!ui.sceneGraphView->selectedItems().empty()){
@@ -192,7 +180,7 @@ namespace SceneEditor
                 ui.setPoseButton->setEnabled(true);
 
                 QString name = sel->text(0).remove(" <Node>");
-                ui.viewport->setSelectedObject(name, "node");
+                Q_EMIT objectSelected(name, "node");
             }
             else if(sel->text(0).contains("<Entity>")){
                 ui.addEntityButton->setEnabled(false);
@@ -201,7 +189,7 @@ namespace SceneEditor
                 ui.setPoseButton->setEnabled(false);
 
                 QString name = sel->text(0).remove(" <Entity>");
-                ui.viewport->setSelectedObject(name, "entity");
+                Q_EMIT objectSelected(name, "entity");
             }
             else{
                 ui.addEntityButton->setEnabled(false);
@@ -209,14 +197,15 @@ namespace SceneEditor
                 ui.addCameraButton->setEnabled(false);
                 ui.setPoseButton->setEnabled(false);
 
-
-                ui.viewport->setSelectedObject("", "");
+                Q_EMIT objectSelected("", "");
+                //ui.viewport->setSelectedObject("", ""); //TODO: should be a signal
             }
         }
     }
 
     void MainWindow::addNodeButtonClicked(){
         if(addNodeDialog.exec() == QDialog::Accepted){
+            Q_EMIT sceneNodeAdded(addNodeDialog.getNodeName());
             /*Canis::Scene* currentScene = ui.viewport->getCurrentScene();
             glm::vec3 pos = Canis::RenderManager::getSingleton().getActiveCamera()->getPosition();
             currentScene->addSceneNode(new Canis::SceneNode(addNodeDialog.getNodeName().toStdString(), glm::translate(pos)));
@@ -254,5 +243,45 @@ namespace SceneEditor
         Canis::Engine::getSingleton().setDynamicsEnabled(false);
         ui.pauseSimulationButton->setText("Play");
     }
+    
+    void MainWindow::updateSceneGraphTree(){
+        Canis::Scene* currentScene = ui.viewport->getActiveScene();
+        ui.sceneGraphView->removeItemWidget(_rootItem, 1);
+
+        if(_rootItem != nullptr)
+            delete _rootItem;
+
+        _rootItem = new QTreeWidgetItem(QStringList("untitled <Scene>"));
+        ui.sceneGraphView->addTopLevelItem(_rootItem);
+
+        for(size_t i=0; i<currentScene->getNodes().size(); i++){
+            Canis::SceneNode* currentNode = currentScene->getNodes()[i];
+            QTreeWidgetItem* node = new QTreeWidgetItem(QStringList(std::string(currentNode->getName()+" <Node>").c_str()));
+            _rootItem->addChild(node);
+
+            traverseNode(currentNode, node);
+        }
+
+        ui.sceneGraphView->expandAll();
+    }    
+    
+    /*
+     * Slots: Actions
+     */
+     void MainWindow::about(){
+        aboutWindow.show();
+
+        std::stringstream ss;
+        ss << "Loaded engine plugins:" << std::endl;
+        for(size_t i=0; i<Canis::PluginManager::getSingleton().getPlugins().size(); i++){
+            Canis::IPlugin* plugin = Canis::PluginManager::getSingleton().getPlugins()[i];
+            ss << plugin->getName() << " " << plugin->getVersion() << std::endl;
+        }
+        aboutWindow.update(QString(ss.str().c_str()));
+    }
+                 
+     void MainWindow::exit(){
+         QApplication::instance()->quit();
+     }    
 
 }
