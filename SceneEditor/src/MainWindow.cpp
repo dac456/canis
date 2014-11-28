@@ -229,8 +229,6 @@ namespace SceneEditor
     }
     
     void MainWindow::updateSceneGraphTree(){
-        std::cout << "updateSceneGraphTree()" << std::endl;
-        
         Canis::Scene* currentScene = ui.viewport->getActiveScene();
         ui.sceneGraphView->removeItemWidget(_rootItem, 1);
 

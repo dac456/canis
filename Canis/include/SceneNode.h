@@ -45,7 +45,6 @@ namespace Canis
         Scene* getParentScene();    
     
     private:
-
         friend class Scene;
     };
 

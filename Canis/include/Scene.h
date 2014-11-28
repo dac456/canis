@@ -4,6 +4,8 @@
 #include "Common.h"
 #include "IObject.h"
 
+#include "SceneNode.h"
+
 namespace Canis
 {
 
@@ -42,7 +44,8 @@ namespace Canis
     private:
         void _addLight(Light* light);
         
-        friend SceneNode; //TODO: this is currently just for addLight. right idea?
+        friend void SceneNode::attachLight(Light* light);
+        //friend SceneNode; //TODO: this is currently just for addLight. right idea?
         
     };
 
