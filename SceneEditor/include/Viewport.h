@@ -67,11 +67,7 @@ namespace SceneEditor
 
         void initialize();
         virtual void render();
-        virtual void resize(int w, int h);
-        //void contextCreated();
-		//void initializeGL();
-		//void paintGL();
-		//void resizeGL(int width, int height);        
+        virtual void resize(int w, int h);     
 
         void setActiveScene(Canis::Scene* scene);
         Canis::Scene* getActiveScene();

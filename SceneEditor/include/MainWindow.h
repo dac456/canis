@@ -36,11 +36,12 @@ namespace SceneEditor
         //void about();
 
     private:
-        void traverseNode(Canis::SceneNode* node, QTreeWidgetItem* root);
+        //Helpers
+        void _traverseNode(Canis::SceneNode* node, QTreeWidgetItem* root);
 
     public Q_SLOTS:
         void initialize();
-        //void menuTriggered(QAction* act);
+
         void sceneGraphSelectionChanged();
         void addNodeButtonClicked();
         void addEntityButtonClicked();

@@ -13,22 +13,6 @@ namespace SceneEditor
         connect(_timer, SIGNAL(timeout()), this, SLOT(update()));
         
         _initialized = false;
-		
-		//_timer->start(0);
-		
-        /*makeCurrent();
-		glewExperimental = GL_TRUE;
-		glewInit();
-		
-		if(GLEW_VERSION_3_0) {
-			std::cout << "Good stuff, OpenGL 3.0 is available!" << std::endl;
-		}
-		
-		if(glewIsSupported("GL_VERSION_4_0")) {
-			std::cout << "Look at you, Mr. Fancyman, OpenGL 4.0 is available as well!" << std::endl;
-		}*/
-        
-        //std::cout << glGetString(GL_VERSION) << std::endl;
 
         setFocusPolicy(Qt::ClickFocus);
         
@@ -72,6 +56,10 @@ namespace SceneEditor
         connect(this, SIGNAL(sceneChanged()), main, SLOT(updateSceneGraphTree()));  
     }        
 
+    /*
+     * Rendering methods
+     */
+
     void Viewport::initialize(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
@@ -107,7 +95,6 @@ namespace SceneEditor
             setFocus(Qt::MouseFocusReason);        
         
         if(_activeScene != nullptr && _cam != nullptr && _initialized && this->isVisible()){
-            //_activeScene->setActiveCamera(_cam);
             _activeScene->render(_cam, _projMatrix);
             
             glDisable(GL_DEPTH_TEST);
@@ -135,162 +122,6 @@ namespace SceneEditor
             _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
         }        
     }
-
-    /*void Viewport::initialize(Canis::Scene* defaultScene){
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-        _cam = new Canis::Camera("Editor", glm::vec3(0.0, 1.8, 0.0), glm::vec3(0.0, 1.8, -5.0));
-        Canis::RenderManager::getSingleton().addCamera(_cam);
-        Canis::RenderManager::getSingleton().setActiveCamera(_cam);
-        _lastPerspPos = _cam->getPosition();
-        _lastPerspOrient = _cam->getOrientation();
-
-        _currentScene = defaultScene;
-        Canis::RenderManager::getSingleton().addScene(_currentScene);
-
-        if(_viewType == 0)
-            _projMatrix = glm::perspective(45.0f, (float)this->width()/(float)this->height(), 0.1f, 10000.0f);
-        else
-            _projMatrix = glm::ortho(0.0f, (float)this->width(), (float)this->height(), 0.0f, 0.1f, 10000.0f);
-
-        Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
-
-        //Load editor specific assets
-        Canis::MaterialManager::getSingleton().addMaterial(new Canis::Material(new Canis::MaterialLoader("../Editor/Materials/Marker.material")));
-        Canis::MaterialManager::getSingleton().addMaterial(new Canis::Material(new Canis::MaterialLoader("../Editor/Materials/Selection.material")));
-        _nodeMarker = new Canis::Mesh(new Canis::AssimpLoader("./Media/Editor/Models/node.ms3d"));
-        _selectionBox = new Canis::Mesh(new Canis::AssimpLoader("./Media/Editor/Models/selection_box.ms3d"));
-
-        fprintf(stdout, "GL Version: %s\n", glGetString(GL_VERSION));
-        fprintf(stdout, "Canis Version: %i.%i.%i '%s'\n", CS_MAJOR_REVISION, CS_MINOR_REVISION, CS_BUILD_REVISION, CS_CODENAME);
-
-        _timer->start(0);
-
-        _initialised = true;
-    }
-
-    void Viewport::render(){
-        makeCurrent();
-
-        setView(_viewType);
-        if(underMouse())
-            setFocus(Qt::MouseFocusReason);
-
-        Canis::RenderManager::getSingleton().update();
-
-        glDisable(GL_DEPTH_TEST);
-        for(size_t i=0; i<_currentScene->getNodes().size(); i++){
-            renderNodeMarker(_currentScene->getNodes()[i]);
-        }
-        glEnable(GL_DEPTH_TEST);
-
-        swapBuffers();
-    }
-
-    void Viewport::resize(int w, int h){
-        glViewport(0, 0, w, h);
-
-        if(_viewType == 0)
-            _projMatrix = glm::perspective(glm::radians(45.0f), (float)w/(float)h, 0.1f, 10000.0f);
-        else{
-            _orthoOrgX = -(this->width()/2.0f);
-            _orthoMaxX = this->width()/2.0f;
-            _orthoOrgY = -(this->height()/2.0f);
-            _orthoMaxY = this->height()/2.0f;
-
-            _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
-            //Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
-        }
-
-        if(_initialised){
-            Canis::RenderManager::getSingleton().resize(w, h);
-            Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
-        }
-    }*/
-    
-    /*void Viewport::initializeGL(){
-        makeCurrent();
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glEnable(GL_DEPTH_TEST);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-        _cam = new Canis::Camera("Editor", glm::vec3(0.0, 1.8, 0.0), glm::vec3(0.0, 1.8, -5.0));
-        Canis::RenderManager::getSingleton().addCamera(_cam);
-        Canis::RenderManager::getSingleton().setActiveCamera(_cam);
-        _lastPerspPos = _cam->getPosition();
-        _lastPerspOrient = _cam->getOrientation();
-
-        //_currentScene = defaultScene;
-        //Canis::RenderManager::getSingleton().addScene(_currentScene);
-
-        if(_viewType == 0)
-            _projMatrix = glm::perspective(45.0f, (float)this->width()/(float)this->height(), 0.1f, 10000.0f);
-        else
-            _projMatrix = glm::ortho(0.0f, (float)this->width(), (float)this->height(), 0.0f, 0.1f, 10000.0f);
-
-        Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
-
-        //Load editor specific assets
-        Canis::MaterialManager::getSingleton().addMaterial(new Canis::Material(new Canis::MaterialLoader("../Editor/Materials/Marker.material")));
-        Canis::MaterialManager::getSingleton().addMaterial(new Canis::Material(new Canis::MaterialLoader("../Editor/Materials/Selection.material")));
-        _nodeMarker = new Canis::Mesh(new Canis::AssimpLoader("./Media/Editor/Models/node.ms3d"));
-        _selectionBox = new Canis::Mesh(new Canis::AssimpLoader("./Media/Editor/Models/selection_box.ms3d"));
-
-        fprintf(stdout, "GL Version: %s\n", glGetString(GL_VERSION));
-        fprintf(stdout, "Canis Version: %i.%i.%i '%s'\n", CS_MAJOR_REVISION, CS_MINOR_REVISION, CS_BUILD_REVISION, CS_CODENAME);
-
-        //_timer->start(0);
-
-        _initialised = true;
-    }
-    
-    void Viewport::paintGL(){
-        makeCurrent();
-        //swapBuffers();
-        
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        setView(_viewType);
-        if(underMouse())
-            setFocus(Qt::MouseFocusReason);
-
-        Canis::RenderManager::getSingleton().update();
-
-        glDisable(GL_DEPTH_TEST);
-        for(size_t i=0; i<_currentScene->getNodes().size(); i++){
-            renderNodeMarker(_currentScene->getNodes()[i]);
-        }
-        glEnable(GL_DEPTH_TEST);
-
-        swapBuffers();        
-    }
-    
-    void Viewport::resizeGL(int w, int h){
-        makeCurrent();
-        glViewport(0, 0, w, h);
-        paintGL();
-        
-        if(_viewType == 0)
-            _projMatrix = glm::perspective(glm::radians(45.0f), (float)w/(float)h, 0.1f, 10000.0f);
-        else{
-            _orthoOrgX = -(this->width()/2.0f);
-            _orthoMaxX = this->width()/2.0f;
-            _orthoOrgY = -(this->height()/2.0f);
-            _orthoMaxY = this->height()/2.0f;
-
-            _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
-            //Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
-        }
-
-        if(_initialised){
-            //Canis::RenderManager::getSingleton().resize(w, h);
-            //Canis::RenderManager::getSingleton().setProjectionMatrix(_projMatrix);
-        }        
-    }*/
     
     void Viewport::setActiveScene(Canis::Scene* scene){
         _activeScene = scene;
@@ -473,8 +304,9 @@ namespace SceneEditor
     }
 
     void Viewport::keyReleaseEvent(QKeyEvent* e){
-        if(e->key() == Qt::Key_Shift)
+        if(e->key() == Qt::Key_Shift){
             _scrollDivisor = 32.0f;
+        }
     }
     
     /*
@@ -584,17 +416,17 @@ namespace SceneEditor
 
     Canis::SceneNode* Viewport::getNodeByName(std::string name){
         Canis::SceneNode* selectedNode = nullptr;
-        /*for(size_t i=0; i<_currentScene->getNodes().size(); i++){
-            if(_currentScene->getNodes()[i]->getName().compare(name) == 0){
-                selectedNode = _currentScene->getNodes()[i];
+        for(size_t i=0; i<_activeScene->getNodes().size(); i++){
+            if(_activeScene->getNodes()[i]->getName().compare(name) == 0){
+                selectedNode = _activeScene->getNodes()[i];
                 break;
             }
             else{
-                selectedNode = getChildNodeByName(_currentScene->getNodes()[i], name);
+                selectedNode = getChildNodeByName(_activeScene->getNodes()[i], name);
                 if(selectedNode != nullptr)
                     break;
             }
-        }*/
+        }
 
         return selectedNode;
     }

@@ -72,7 +72,6 @@ namespace SceneEditor
         ball->attachSceneNode(new Canis::SceneNode("TestNode", glm::translate(glm::vec3(500.0f, 0.0f, 0.0f))));
 
         Canis::Light* light = new Canis::Light("Light0", glm::vec3(1.0f, 1.0f, 1.0f), 10000.0f, glm::translate(glm::vec3(0.0f, 2000.0f, 0.0f)));
-        //Canis::RenderManager::getSingleton().addLight(light);
         root->attachLight(light);
         //---End Scene---//
         
@@ -121,8 +120,13 @@ namespace SceneEditor
     QTreeWidgetItem* MainWindow::getSceneGraphRootItem(){
         return _rootItem;
     }
+    
+    /*
+     * Helpers
+     */
 
-    void MainWindow::traverseNode(Canis::SceneNode* node, QTreeWidgetItem* root){
+    //TODO: scene graph methods should possibly be moved to new widget class
+    void MainWindow::_traverseNode(Canis::SceneNode* node, QTreeWidgetItem* root){
         for(size_t i=0; i<node->getEntities().size(); i++){
             Canis::IEntity* currentEntity = node->getEntities()[i];
             QTreeWidgetItem* ent = new QTreeWidgetItem(QStringList(std::string(currentEntity->getName()+" <Entity>").c_str()));
@@ -146,26 +150,9 @@ namespace SceneEditor
             QTreeWidgetItem* nextRoot = new QTreeWidgetItem(QStringList(std::string(nextNode->getName()+" <Node>").c_str()));
             root->addChild(nextRoot);
 
-            traverseNode(nextNode, nextRoot);
+            _traverseNode(nextNode, nextRoot);
         }
     }
-
-    /*void MainWindow::menuTriggered(QAction* act){
-        if(act->text().compare("Exit") == 0){
-            QApplication::instance()->quit();
-        }
-        if(act->text().compare("About") == 0){
-            aboutWindow.show();
-
-            std::stringstream ss;
-            ss << "Loaded engine plugins:" << std::endl;
-            for(size_t i=0; i<Canis::PluginManager::getSingleton().getPlugins().size(); i++){
-                Canis::IPlugin* plugin = Canis::PluginManager::getSingleton().getPlugins()[i];
-                ss << plugin->getName() << " " << plugin->getVersion() << std::endl;
-            }
-            aboutWindow.update(QString(ss.str().c_str()));
-        }
-    }*/
     
     /*
      * Slots
@@ -258,7 +245,7 @@ namespace SceneEditor
             QTreeWidgetItem* node = new QTreeWidgetItem(QStringList(std::string(currentNode->getName()+" <Node>").c_str()));
             _rootItem->addChild(node);
 
-            traverseNode(currentNode, node);
+            _traverseNode(currentNode, node);
         }
 
         ui.sceneGraphView->expandAll();
