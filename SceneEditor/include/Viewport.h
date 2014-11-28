@@ -10,6 +10,8 @@
 
 namespace SceneEditor
 {
+    
+    class MainWindow; //Forward declare
 
     typedef enum{
         VIEW_MODE,
@@ -60,6 +62,8 @@ namespace SceneEditor
     public:
         Viewport(QWidget* parent = 0);
         ~Viewport();
+        
+        void connectToMainWindow(MainWindow* main);
 
         void initialize();
         virtual void render();

@@ -54,9 +54,7 @@ namespace SceneEditor
         _scrollDivisor = 32.0f;
 
         _mode = VIEW_MODE;
-        
- 
-        
+
         //Q_EMIT contextCreated();
     }
 
@@ -68,6 +66,11 @@ namespace SceneEditor
             delete _cam;
         }
     }
+    
+    void Viewport::connectToMainWindow(MainWindow* main){
+        //connect(this, SIGNAL(contextCreated()), main, SLOT(initialize()));
+        connect(this, SIGNAL(sceneChanged()), main, SLOT(updateSceneGraphTree()));  
+    }        
 
     void Viewport::initialize(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -91,10 +94,6 @@ namespace SceneEditor
         
         _timer->start(0);
         _initialized = true;
-
-        MainWindow* main = qobject_cast<MainWindow*>(QApplication::topLevelWidgets()[0]);
-        //connect(this, SIGNAL(contextCreated()), main, SLOT(initialize()));
-        connect(this, SIGNAL(sceneChanged()), main, SLOT(updateSceneGraphTree()));  
     }
     
     void Viewport::render(){

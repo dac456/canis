@@ -32,6 +32,8 @@ namespace SceneEditor
         
         connect(this, SIGNAL(objectSelected(QString, QString)), ui.viewport, SLOT(selectObject(QString, QString)));
         connect(this, SIGNAL(sceneNodeAdded(QString)), ui.viewport, SLOT(addSceneNode(QString)));
+        
+        ui.viewport->connectToMainWindow(this);
 
         _entityDialogManager = new EntityDialogManager();
     }
@@ -206,11 +208,6 @@ namespace SceneEditor
     void MainWindow::addNodeButtonClicked(){
         if(addNodeDialog.exec() == QDialog::Accepted){
             Q_EMIT sceneNodeAdded(addNodeDialog.getNodeName());
-            /*Canis::Scene* currentScene = ui.viewport->getCurrentScene();
-            glm::vec3 pos = Canis::RenderManager::getSingleton().getActiveCamera()->getPosition();
-            currentScene->addSceneNode(new Canis::SceneNode(addNodeDialog.getNodeName().toStdString(), glm::translate(pos)));
-
-            updateSceneGraphTree();*/
         }
     }
 
@@ -245,6 +242,8 @@ namespace SceneEditor
     }
     
     void MainWindow::updateSceneGraphTree(){
+        std::cout << "updateSceneGraphTree()" << std::endl;
+        
         Canis::Scene* currentScene = ui.viewport->getActiveScene();
         ui.sceneGraphView->removeItemWidget(_rootItem, 1);
 
