@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Viewer" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Linux/bin/Debug/Viewer" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../Linux/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add directory="../Linux/bin/Debug" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../Linux/bin/Release/Viewer" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../Linux/obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add directory="../Linux/bin/Release" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++0x" />
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-fPIC" />
+			<Add option="-DGLM_FORCE_RADIANS" />
+			<Add directory="../Canis" />
+			<Add directory="$CANIS_DEP_INC" />
+			<Add directory="$(CANIS_DEP_INC)/bullet" />
+		</Compiler>
+		<Linker>
+			<Add option="-lGLEW" />
+			<Add option="-lBulletSoftBody" />
+			<Add option="-lBulletDynamics" />
+			<Add option="-lBulletCollision" />
+			<Add option="-lLinearMath" />
+			<Add option="-lassimp" />
+			<Add option="-lSOIL" />
+			<Add option="-lglut" />
+			<Add option="-lboost_system" />
+			<Add option="-lboost_filesystem" />
+			<Add option="-lCanis" />
+			<Add directory="$CANIS_DEP_LIB" />
+			<Add directory="$LD_LIBRARY_PATH" />
+		</Linker>
+		<Unit filename="CanisViewer.cpp" />
+		<Unit filename="CanisViewer.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

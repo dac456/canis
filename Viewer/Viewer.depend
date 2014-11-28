@@ -1,0 +1,2119 @@
+# depslib dependency file v1.0
+1380722170 source:/home/dcook/Documents/Development/Canis/Viewer/CanisViewer.cpp
+	"CanisViewer.h"
+	<math.h>
+
+1380550188 /home/dcook/Documents/Development/Canis/Viewer/CanisViewer.h
+	<Canis.h>
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Canis.h
+	"Common.h"
+	"AssimpLoader.h"
+	"Camera.h"
+	"CSXLoader.h"
+	"DIFLoader.h"
+	"DXSLoader.h"
+	"DynamicLibrary.h"
+	"Engine.h"
+	"EntityManager.h"
+	"FramebufferObject.h"
+	"GlShader.h"
+	"GlShaderManager.h"
+	"IEntity.h"
+	"IEntityFactory.h"
+	"IObject.h"
+	"IPlugin.h"
+	"Light.h"
+	"LW14Loader.h"
+	"Material.h"
+	"MaterialLoader.h"
+	"MaterialManager.h"
+	"Mesh.h"
+	"PluginManager.h"
+	"ProgramLoader.h"
+	"Prop.h"
+	"PropFactory.h"
+	"Scene.h"
+	"SceneNode.h"
+	"StaticMesh.h"
+	"StaticMeshFactory.h"
+	"RenderManager.h"
+	"RenderTarget.h"
+	"SkyBox.h"
+	"Texture.h"
+	"TextureManager.h"
+	"VertexObject.h"
+
+1380721654 /home/dcook/Documents/Development/Canis/Canis/Common.h
+	<stdio.h>
+	<string>
+	<sstream>
+	<iostream>
+	<fstream>
+	<vector>
+	<map>
+	<Windows.h>
+	<stdlib.h>
+	<crtdbg.h>
+	<dlfcn.h>
+	<boost/algorithm/string.hpp>
+	<GL/glew.h>
+	<GL/wglew.h>
+	<GL/gl.h>
+	<GL/freeglut.h>
+	<glm/glm.hpp>
+	<glm/gtx/rotate_vector.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtc/matrix_inverse.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/gtc/random.hpp>
+	<assimp/Importer.hpp>
+	<assimp/scene.h>
+	<assimp/postprocess.h>
+	<btBulletCollisionCommon.h>
+	<btBulletDynamicsCommon.h>
+	"AxisAlignedBox.h"
+	"Utility.h"
+
+1343755071 /usr/local/include/bullet/btBulletCollisionCommon.h
+	"BulletCollision/CollisionDispatch/btCollisionWorld.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+	"BulletCollision/CollisionShapes/btBoxShape.h"
+	"BulletCollision/CollisionShapes/btSphereShape.h"
+	"BulletCollision/CollisionShapes/btCapsuleShape.h"
+	"BulletCollision/CollisionShapes/btCylinderShape.h"
+	"BulletCollision/CollisionShapes/btConeShape.h"
+	"BulletCollision/CollisionShapes/btStaticPlaneShape.h"
+	"BulletCollision/CollisionShapes/btConvexHullShape.h"
+	"BulletCollision/CollisionShapes/btTriangleMesh.h"
+	"BulletCollision/CollisionShapes/btConvexTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+	"BulletCollision/CollisionShapes/btCompoundShape.h"
+	"BulletCollision/CollisionShapes/btTetrahedronShape.h"
+	"BulletCollision/CollisionShapes/btEmptyShape.h"
+	"BulletCollision/CollisionShapes/btMultiSphereShape.h"
+	"BulletCollision/CollisionShapes/btUniformScalingShape.h"
+	"BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h"
+	"BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h"
+	"BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+	"BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
+	"BulletCollision/BroadphaseCollision/btAxisSweep3.h"
+	"BulletCollision/BroadphaseCollision/btMultiSapBroadphase.h"
+	"BulletCollision/BroadphaseCollision/btDbvtBroadphase.h"
+	"LinearMath/btQuaternion.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btDefaultMotionState.h"
+	"LinearMath/btQuickprof.h"
+	"LinearMath/btIDebugDraw.h"
+	"LinearMath/btSerializer.h"
+
+1347491945 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"btCollisionObject.h"
+	"btCollisionDispatcher.h"
+	"BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1347897827 /usr/local/include/bullet/LinearMath/btVector3.h
+	"btScalar.h"
+	"btMinMax.h"
+	"btAlignedAllocator.h"
+
+1347335390 /usr/local/include/bullet/LinearMath/btScalar.h
+	<math.h>
+	<stdlib.h>
+	<float.h>
+	<ppcintrinsics.h>
+	<emmintrin.h>
+	<stdio.h>
+	<assert.h>
+	<assert.h>
+	<spu_printf.h>
+	<assert.h>
+	<smmintrin.h>
+	<tmmintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<assert.h>
+	<stdio.h>
+	<assert.h>
+	<arm_neon.h>
+
+1323708999 /usr/local/include/bullet/LinearMath/btMinMax.h
+	"btScalar.h"
+
+1234997523 /usr/local/include/bullet/LinearMath/btAlignedAllocator.h
+	"btScalar.h"
+
+1339030590 /usr/local/include/bullet/LinearMath/btTransform.h
+	"btMatrix3x3.h"
+
+1339030590 /usr/local/include/bullet/LinearMath/btMatrix3x3.h
+	"btVector3.h"
+	"btQuaternion.h"
+	<stdio.h>
+
+1346608470 /usr/local/include/bullet/LinearMath/btQuaternion.h
+	"btVector3.h"
+	"btQuadWord.h"
+
+1339030590 /usr/local/include/bullet/LinearMath/btQuadWord.h
+	"btScalar.h"
+	"btMinMax.h"
+	<altivec.h>
+
+1348270644 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btMotionState.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1234997523 /usr/local/include/bullet/LinearMath/btMotionState.h
+	"btTransform.h"
+
+1339030590 /usr/local/include/bullet/LinearMath/btAlignedObjectArray.h
+	"btScalar.h"
+	"btAlignedAllocator.h"
+	<memory.h>
+	<string.h>
+	<new>
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h
+	"BulletCollision/BroadphaseCollision/btDispatcher.h"
+	"BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+	"BulletCollision/CollisionDispatch/btManifoldResult.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btCollisionCreateFunc.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btDispatcher.h
+	"LinearMath/btScalar.h"
+
+1347324971 /usr/local/include/bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"btManifoldPoint.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1347691937 /usr/local/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransformUtil.h"
+	"physics_effects/base_level/solver/pfx_constraint_row.h"
+
+1301678092 /usr/local/include/bullet/LinearMath/btTransformUtil.h
+	"btTransform.h"
+
+1349471711 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btManifoldResult.h
+	"BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+	"BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
+	"LinearMath/btTransform.h"
+	"BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btVector3.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h
+	"LinearMath/btScalar.h"
+
+1327354784 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h
+	"LinearMath/btScalar.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h
+	"LinearMath/btAlignedObjectArray.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h
+	"btBroadphaseInterface.h"
+	"btBroadphaseProxy.h"
+	"btOverlappingPairCallback.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h
+	"btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+
+1219803851 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btBoxShape.h
+	"btPolyhedralConvexShape.h"
+	"btCollisionMargin.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btMinMax.h"
+
+1348816488 /usr/local/include/bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h
+	"LinearMath/btMatrix3x3.h"
+	"btConvexInternalShape.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h
+	"btConvexShape.h"
+	"LinearMath/btAabbUtil2.h"
+
+1330487453 /usr/local/include/bullet/BulletCollision/CollisionShapes/btConvexShape.h
+	"btCollisionShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1347814885 /usr/local/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1316110640 /usr/local/include/bullet/BulletCollision/CollisionShapes/btCollisionMargin.h
+
+1339030590 /usr/local/include/bullet/LinearMath/btAabbUtil2.h
+	"btTransform.h"
+	"btVector3.h"
+	"btMinMax.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/CollisionShapes/btSphereShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1347814885 /usr/local/include/bullet/BulletCollision/CollisionShapes/btCapsuleShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1347814885 /usr/local/include/bullet/BulletCollision/CollisionShapes/btCylinderShape.h
+	"btBoxShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+
+1347814885 /usr/local/include/bullet/BulletCollision/CollisionShapes/btConeShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h
+	"btConcaveShape.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btConcaveShape.h
+	"btCollisionShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"btTriangleCallback.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/CollisionShapes/btTriangleCallback.h
+	"LinearMath/btVector3.h"
+
+1348816488 /usr/local/include/bullet/BulletCollision/CollisionShapes/btConvexHullShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1347213542 /usr/local/include/bullet/BulletCollision/CollisionShapes/btTriangleMesh.h
+	"btTriangleIndexVertexArray.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1330494055 /usr/local/include/bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h
+	"btStridingMeshInterface.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btScalar.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btStridingMeshInterface.h
+	"LinearMath/btVector3.h"
+	"btTriangleCallback.h"
+	"btConcaveShape.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btConvexTriangleMeshShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h
+	"btTriangleMeshShape.h"
+	"btOptimizedBvh.h"
+	"LinearMath/btAlignedAllocator.h"
+	"btTriangleInfoMap.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btTriangleMeshShape.h
+	"btConcaveShape.h"
+	"btStridingMeshInterface.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/CollisionShapes/btOptimizedBvh.h
+	"BulletCollision/BroadphaseCollision/btQuantizedBvh.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btQuantizedBvh.h
+	<stdio.h>
+	<stdlib.h>
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1347338217 /usr/local/include/bullet/BulletCollision/CollisionShapes/btTriangleInfoMap.h
+	"LinearMath/btHashMap.h"
+	"LinearMath/btSerializer.h"
+
+1301678092 /usr/local/include/bullet/LinearMath/btHashMap.h
+	"btAlignedObjectArray.h"
+
+1348279569 /usr/local/include/bullet/LinearMath/btSerializer.h
+	"btScalar.h"
+	"btStackAlloc.h"
+	"btHashMap.h"
+	<memory.h>
+	<string.h>
+
+1234997523 /usr/local/include/bullet/LinearMath/btStackAlloc.h
+	"btScalar.h"
+	"btAlignedAllocator.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h
+	"BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/CollisionShapes/btCompoundShape.h
+	"btCollisionShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btTetrahedronShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btEmptyShape.h
+	"btConcaveShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btMultiSphereShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btAabbUtil2.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionShapes/btUniformScalingShape.h
+	"btConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h
+	"btActivatingCollisionAlgorithm.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"BulletCollision/CollisionDispatch/btCollisionCreateFunc.h"
+	"btCollisionDispatcher.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btActivatingCollisionAlgorithm.h
+	"BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h
+	"LinearMath/btScalar.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1343755071 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h
+	"btCollisionConfiguration.h"
+
+1301678092 /usr/local/include/bullet/BulletCollision/CollisionDispatch/btCollisionConfiguration.h
+
+1301678092 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h
+	"btOverlappingPairCache.h"
+
+1349382724 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h
+	"LinearMath/btVector3.h"
+	"btOverlappingPairCache.h"
+	"btBroadphaseInterface.h"
+	"btBroadphaseProxy.h"
+	"btOverlappingPairCallback.h"
+	"btDbvtBroadphase.h"
+	<stdio.h>
+
+1265912750 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h
+	"BulletCollision/BroadphaseCollision/btDbvt.h"
+	"BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
+	"LinearMath/btQuickprof.h"
+
+1339030590 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btDbvt.h
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btAabbUtil2.h"
+	<emmintrin.h>
+	<memory.h>
+	<string.h>
+
+1314674912 /usr/local/include/bullet/LinearMath/btQuickprof.h
+	<stdio.h>
+	"btScalar.h"
+	"btAlignedAllocator.h"
+	<new>
+
+1243044954 /usr/local/include/bullet/BulletCollision/BroadphaseCollision/btMultiSapBroadphase.h
+	"btBroadphaseInterface.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btOverlappingPairCache.h"
+
+1339030590 /usr/local/include/bullet/LinearMath/btDefaultMotionState.h
+	"btMotionState.h"
+
+1347211350 /usr/local/include/bullet/LinearMath/btIDebugDraw.h
+	"btVector3.h"
+	"btTransform.h"
+
+1347576039 /usr/local/include/bullet/btBulletDynamicsCommon.h
+	"btBulletCollisionCommon.h"
+	"BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
+	"BulletDynamics/Dynamics/btSimpleDynamicsWorld.h"
+	"BulletDynamics/Dynamics/btRigidBody.h"
+	"BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h"
+	"BulletDynamics/ConstraintSolver/btHingeConstraint.h"
+	"BulletDynamics/ConstraintSolver/btConeTwistConstraint.h"
+	"BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h"
+	"BulletDynamics/ConstraintSolver/btSliderConstraint.h"
+	"BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h"
+	"BulletDynamics/ConstraintSolver/btUniversalConstraint.h"
+	"BulletDynamics/ConstraintSolver/btHinge2Constraint.h"
+	"BulletDynamics/ConstraintSolver/btGearConstraint.h"
+	"BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+	"BulletDynamics/Vehicle/btRaycastVehicle.h"
+
+1349471711 /usr/local/include/bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h
+	"btDynamicsWorld.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1348270644 /usr/local/include/bullet/BulletDynamics/Dynamics/btDynamicsWorld.h
+	"BulletCollision/CollisionDispatch/btCollisionWorld.h"
+	"BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
+
+1348279569 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h
+	"LinearMath/btScalar.h"
+
+1316112433 /usr/local/include/bullet/BulletDynamics/Dynamics/btSimpleDynamicsWorld.h
+	"btDynamicsWorld.h"
+
+1348111972 /usr/local/include/bullet/BulletDynamics/Dynamics/btRigidBody.h
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btTransform.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+
+1339030590 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1346442384 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btJacobianEntry.h
+	"LinearMath/btMatrix3x3.h"
+
+1349415432 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h
+	"LinearMath/btScalar.h"
+	"btSolverConstraint.h"
+	"BulletDynamics/Dynamics/btRigidBody.h"
+
+1347132074 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"btJacobianEntry.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btSolverBody.h"
+
+1347132074 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btTransformUtil.h"
+
+1339030590 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btHingeConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1347132074 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btConeTwistConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1339030590 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1339030590 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btSliderConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1347338217 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofConstraint.h"
+
+1339030590 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btUniversalConstraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofConstraint.h"
+
+1339030590 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btHinge2Constraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofSpringConstraint.h"
+
+1347576039 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btGearConstraint.h
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+
+1347691937 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+	"BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
+	"BulletDynamics/ConstraintSolver/btSolverBody.h"
+	"BulletDynamics/ConstraintSolver/btSolverConstraint.h"
+	"BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
+	"BulletDynamics/ConstraintSolver/btConstraintSolver.h"
+
+1301678092 /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btConstraintSolver.h
+	"LinearMath/btScalar.h"
+
+1301678092 /usr/local/include/bullet/BulletDynamics/Vehicle/btRaycastVehicle.h
+	"BulletDynamics/Dynamics/btRigidBody.h"
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+	"btVehicleRaycaster.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btWheelInfo.h"
+	"BulletDynamics/Dynamics/btActionInterface.h"
+
+1301678092 /usr/local/include/bullet/BulletDynamics/Vehicle/btVehicleRaycaster.h
+	"LinearMath/btVector3.h"
+
+1301678092 /usr/local/include/bullet/BulletDynamics/Vehicle/btWheelInfo.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+
+1283906295 /usr/local/include/bullet/BulletDynamics/Dynamics/btActionInterface.h
+	"LinearMath/btScalar.h"
+	"btRigidBody.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/AxisAlignedBox.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/AssimpLoader.h
+	"Common.h"
+	"VertexObject.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/VertexObject.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Camera.h
+	"Common.h"
+	"IObject.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/IObject.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/CSXLoader.h
+	"Common.h"
+	"IXmlLoader.h"
+	"VertexObject.h"
+
+1380218187 /home/dcook/Documents/Development/Canis/Canis/IXmlLoader.h
+	"Common.h"
+	"TinyXML/tinyxml.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/TinyXML/tinyxml.h
+	<ctype.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<string>
+	<iostream>
+	<sstream>
+	"tinystr.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/TinyXML/tinystr.h
+	<assert.h>
+	<string.h>
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/DIFLoader.h
+	"Common.h"
+	"VertexObject.h"
+
+1380218610 /home/dcook/Documents/Development/Canis/Canis/DXSLoader.h
+	"Common.h"
+	"VertexObject.h"
+	"TinyXML/tinyxml.h"
+
+1380295383 /home/dcook/Documents/Development/Canis/Canis/DynamicLibrary.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Engine.h
+	"Common.h"
+	"Singleton.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Singleton.h
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/EntityManager.h
+	"Common.h"
+	"Singleton.h"
+	"IEntityFactory.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/IEntityFactory.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/FramebufferObject.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/GlShader.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/GlShaderManager.h
+	"Common.h"
+	"Singleton.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/IEntity.h
+	"Common.h"
+	"IObject.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/IPlugin.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Light.h
+	"Common.h"
+	"IObject.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/LW14Loader.h
+	"Common.h"
+	"VertexObject.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Material.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/MaterialLoader.h
+	"Common.h"
+	"IXmlLoader.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/MaterialManager.h
+	"Common.h"
+	"Singleton.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Mesh.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/PluginManager.h
+	"Common.h"
+	"Singleton.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/ProgramLoader.h
+	"Common.h"
+	"IXmlLoader.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Prop.h
+	"Common.h"
+	"IEntity.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/PropFactory.h
+	"Common.h"
+	"IEntityFactory.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Scene.h
+	"Common.h"
+	"IObject.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/SceneNode.h
+	"Common.h"
+	"Mesh.h"
+	"IObject.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/StaticMesh.h
+	"Common.h"
+	"IEntity.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/StaticMeshFactory.h
+	"Common.h"
+	"IEntityFactory.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/RenderManager.h
+	"Common.h"
+	"Singleton.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/RenderTarget.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/SkyBox.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/Texture.h
+	"Common.h"
+
+1380210615 /home/dcook/Documents/Development/Canis/Canis/TextureManager.h
+	"Common.h"
+	"Singleton.h"
+
+1380720823 /home/dcook/Documents/Development/Canis/Canis/Utility.h
+	"Common.h"
+
+1395377469 source:/home/dcook/Documents/Development/canis/trunk/Viewer/CanisViewer.cpp
+	"CanisViewer.h"
+	<math.h>
+
+1394143951 /home/dcook/Documents/Development/canis/trunk/Viewer/CanisViewer.h
+	<Canis.h>
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Canis.h
+	"Common.h"
+	"AssimpLoader.h"
+	"Camera.h"
+	"CSXLoader.h"
+	"DIFLoader.h"
+	"DXSLoader.h"
+	"DynamicLibrary.h"
+	"Engine.h"
+	"EntityManager.h"
+	"FramebufferObject.h"
+	"GlShader.h"
+	"GlShaderManager.h"
+	"IEntity.h"
+	"IEntityFactory.h"
+	"IObject.h"
+	"IPlugin.h"
+	"Light.h"
+	"LW14Loader.h"
+	"Material.h"
+	"MaterialLoader.h"
+	"MaterialManager.h"
+	"Mesh.h"
+	"PluginManager.h"
+	"ProgramLoader.h"
+	"Prop.h"
+	"PropFactory.h"
+	"Scene.h"
+	"SceneNode.h"
+	"StaticMesh.h"
+	"StaticMeshFactory.h"
+	"RenderManager.h"
+	"RenderTarget.h"
+	"SkyBox.h"
+	"Texture.h"
+	"TextureManager.h"
+	"VertexObject.h"
+
+1394757420 /home/dcook/Documents/Development/canis/trunk/Canis/Common.h
+	<stdio.h>
+	<string>
+	<sstream>
+	<iostream>
+	<fstream>
+	<vector>
+	<map>
+	<Windows.h>
+	<stdlib.h>
+	<crtdbg.h>
+	<dlfcn.h>
+	<boost/algorithm/string.hpp>
+	<GL/glew.h>
+	<GL/wglew.h>
+	<GL/glxew.h>
+	<GL/gl.h>
+	<GL/freeglut.h>
+	<glm/glm.hpp>
+	<glm/gtx/rotate_vector.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtc/matrix_inverse.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/gtc/random.hpp>
+	<assimp/Importer.hpp>
+	<assimp/scene.h>
+	<assimp/postprocess.h>
+	<btBulletCollisionCommon.h>
+	<btBulletDynamicsCommon.h>
+	"AxisAlignedBox.h"
+	"Utility.h"
+
+1394476836 /opt/canis/dep/include/GL/glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1394476836 /opt/canis/dep/include/GL/wglew.h
+	<windows.h>
+
+1394476836 /opt/canis/dep/include/GL/glxew.h
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/Xmd.h>
+	<GL/glew.h>
+
+1394555876 /opt/canis/dep/include/GL/freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1394555876 /opt/canis/dep/include/GL/freeglut_std.h
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1394555876 /opt/canis/dep/include/GL/freeglut_ext.h
+	<stdarg.h>
+
+1394555668 /opt/canis/dep/include/glm/glm.hpp
+	"detail/_fixes.hpp"
+	<cmath>
+	<climits>
+	<cfloat>
+	<limits>
+	<cassert>
+	"fwd.hpp"
+	"vec2.hpp"
+	"vec3.hpp"
+	"vec4.hpp"
+	"mat2x2.hpp"
+	"mat2x3.hpp"
+	"mat2x4.hpp"
+	"mat3x2.hpp"
+	"mat3x3.hpp"
+	"mat3x4.hpp"
+	"mat4x2.hpp"
+	"mat4x3.hpp"
+	"mat4x4.hpp"
+	"trigonometric.hpp"
+	"exponential.hpp"
+	"common.hpp"
+	"packing.hpp"
+	"geometric.hpp"
+	"matrix.hpp"
+	"vector_relational.hpp"
+	"integer.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/_fixes.hpp
+	<cmath>
+
+1394555668 /opt/canis/dep/include/glm/fwd.hpp
+	"detail/type_int.hpp"
+	"detail/type_float.hpp"
+	"detail/type_vec.hpp"
+	"detail/type_mat.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_int.hpp
+	"setup.hpp"
+	<cstdint>
+
+1394555668 /opt/canis/dep/include/glm/detail/setup.hpp
+	<cassert>
+	<intrin.h>
+	<immintrin.h>
+	<immintrin.h>
+	<smmintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+
+1394555668 /opt/canis/dep/include/glm/detail/type_float.hpp
+	"setup.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec.hpp
+	"precision.hpp"
+	"type_int.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/precision.hpp
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat.hpp
+	"precision.hpp"
+
+1394555668 /opt/canis/dep/include/glm/vec2.hpp
+	"detail/type_vec2.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec2.hpp
+	"type_vec.hpp"
+	"_swizzle.hpp"
+	"_swizzle_func.hpp"
+	<cstddef>
+	"type_vec2.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/_swizzle.hpp
+
+1394555668 /opt/canis/dep/include/glm/detail/_swizzle_func.hpp
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec2.inl
+
+1394555668 /opt/canis/dep/include/glm/vec3.hpp
+	"detail/type_vec3.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec3.hpp
+	"type_vec.hpp"
+	"_swizzle.hpp"
+	"_swizzle_func.hpp"
+	<cstddef>
+	"type_vec3.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec3.inl
+
+1394555668 /opt/canis/dep/include/glm/vec4.hpp
+	"detail/type_vec4.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec4.hpp
+	"setup.hpp"
+	"type_vec.hpp"
+	"_swizzle.hpp"
+	"_swizzle_func.hpp"
+	<cstddef>
+	"type_vec4.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec4.inl
+
+1394555668 /opt/canis/dep/include/glm/mat2x2.hpp
+	"detail/type_mat2x2.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat2x2.hpp
+	"../fwd.hpp"
+	"type_vec2.hpp"
+	"type_mat.hpp"
+	<limits>
+	"type_mat2x2.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat2x2.inl
+
+1394555668 /opt/canis/dep/include/glm/mat2x3.hpp
+	"detail/type_mat2x3.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat2x3.hpp
+	"../fwd.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_mat.hpp"
+	<limits>
+	"type_mat2x3.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat2x3.inl
+
+1394555668 /opt/canis/dep/include/glm/mat2x4.hpp
+	"detail/type_mat2x4.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat2x4.hpp
+	"../fwd.hpp"
+	"type_vec2.hpp"
+	"type_vec4.hpp"
+	"type_mat.hpp"
+	<limits>
+	"type_mat2x4.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat2x4.inl
+
+1394555668 /opt/canis/dep/include/glm/mat3x2.hpp
+	"detail/type_mat3x2.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat3x2.hpp
+	"../fwd.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_mat.hpp"
+	<limits>
+	"type_mat3x2.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat3x2.inl
+
+1394555668 /opt/canis/dep/include/glm/mat3x3.hpp
+	"detail/type_mat3x3.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat3x3.hpp
+	"../fwd.hpp"
+	"type_vec3.hpp"
+	"type_mat.hpp"
+	<limits>
+	"type_mat3x3.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat3x3.inl
+
+1394555668 /opt/canis/dep/include/glm/mat3x4.hpp
+	"detail/type_mat3x4.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat3x4.hpp
+	"../fwd.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"type_mat.hpp"
+	<limits>
+	"type_mat3x4.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat3x4.inl
+
+1394555668 /opt/canis/dep/include/glm/mat4x2.hpp
+	"detail/type_mat4x2.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat4x2.hpp
+	"../fwd.hpp"
+	"type_vec2.hpp"
+	"type_vec4.hpp"
+	"type_mat.hpp"
+	<limits>
+	"type_mat4x2.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat4x2.inl
+
+1394555668 /opt/canis/dep/include/glm/mat4x3.hpp
+	"detail/type_mat4x3.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat4x3.hpp
+	"../fwd.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"type_mat.hpp"
+	<limits>
+	"type_mat4x3.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat4x3.inl
+
+1394555668 /opt/canis/dep/include/glm/mat4x4.hpp
+	"detail/type_mat4x4.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat4x4.hpp
+	"../fwd.hpp"
+	"type_vec4.hpp"
+	"type_mat.hpp"
+	<limits>
+	<cstddef>
+	"type_mat4x4.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_mat4x4.inl
+
+1394555668 /opt/canis/dep/include/glm/trigonometric.hpp
+	"detail/func_trigonometric.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_trigonometric.hpp
+	"func_trigonometric.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_trigonometric.inl
+	"_vectorize.hpp"
+	<cmath>
+	<limits>
+
+1394555668 /opt/canis/dep/include/glm/detail/_vectorize.hpp
+	"type_vec1.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec1.hpp
+	"../fwd.hpp"
+	"type_vec.hpp"
+	"_swizzle.hpp"
+	"_swizzle_func.hpp"
+	<cstddef>
+	"type_vec1.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_vec1.inl
+
+1394555668 /opt/canis/dep/include/glm/exponential.hpp
+	"detail/func_exponential.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_exponential.hpp
+	"type_vec1.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	<cmath>
+	"func_exponential.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_exponential.inl
+	"func_vector_relational.hpp"
+	"_vectorize.hpp"
+	<limits>
+	<cassert>
+
+1394555668 /opt/canis/dep/include/glm/detail/func_vector_relational.hpp
+	"precision.hpp"
+	"setup.hpp"
+	"func_vector_relational.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_vector_relational.inl
+	<limits>
+
+1394555668 /opt/canis/dep/include/glm/common.hpp
+	"detail/func_common.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_common.hpp
+	"setup.hpp"
+	"precision.hpp"
+	"type_int.hpp"
+	"_fixes.hpp"
+	"func_common.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_common.inl
+	"func_vector_relational.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"_vectorize.hpp"
+	<limits>
+
+1394555668 /opt/canis/dep/include/glm/packing.hpp
+	"detail/func_packing.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_packing.hpp
+	"type_vec2.hpp"
+	"type_vec4.hpp"
+	"func_packing.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_packing.inl
+	"func_common.hpp"
+	"type_half.hpp"
+	"../fwd.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_half.hpp
+	"setup.hpp"
+	"type_half.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/type_half.inl
+
+1394555668 /opt/canis/dep/include/glm/geometric.hpp
+	"detail/func_geometric.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_geometric.hpp
+	"type_vec3.hpp"
+	"func_geometric.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_geometric.inl
+	"func_exponential.hpp"
+	"func_common.hpp"
+	"type_vec2.hpp"
+	"type_vec4.hpp"
+	"type_float.hpp"
+
+1394555668 /opt/canis/dep/include/glm/matrix.hpp
+	"detail/func_matrix.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_matrix.hpp
+	"../detail/precision.hpp"
+	"../detail/setup.hpp"
+	"../detail/type_mat.hpp"
+	"../vec2.hpp"
+	"../vec3.hpp"
+	"../vec4.hpp"
+	"../mat2x2.hpp"
+	"../mat2x3.hpp"
+	"../mat2x4.hpp"
+	"../mat3x2.hpp"
+	"../mat3x3.hpp"
+	"../mat3x4.hpp"
+	"../mat4x2.hpp"
+	"../mat4x3.hpp"
+	"../mat4x4.hpp"
+	"func_matrix.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_matrix.inl
+	"../geometric.hpp"
+	<limits>
+
+1394555668 /opt/canis/dep/include/glm/vector_relational.hpp
+	"detail/func_vector_relational.hpp"
+
+1394555668 /opt/canis/dep/include/glm/integer.hpp
+	"detail/func_integer.hpp"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_integer.hpp
+	"setup.hpp"
+	"func_integer.inl"
+
+1394555668 /opt/canis/dep/include/glm/detail/func_integer.inl
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"type_int.hpp"
+	"_vectorize.hpp"
+	<intrin.h>
+	<limits>
+
+1394555668 /opt/canis/dep/include/glm/gtx/rotate_vector.hpp
+	"../glm.hpp"
+	"../gtx/transform.hpp"
+	"rotate_vector.inl"
+
+1394555668 /opt/canis/dep/include/glm/gtx/transform.hpp
+	"../glm.hpp"
+	"../gtc/matrix_transform.hpp"
+	"transform.inl"
+
+1394555668 /opt/canis/dep/include/glm/gtc/matrix_transform.hpp
+	"../mat4x4.hpp"
+	"../vec2.hpp"
+	"../vec3.hpp"
+	"../vec4.hpp"
+	"matrix_transform.inl"
+
+1394555668 /opt/canis/dep/include/glm/gtc/matrix_transform.inl
+	"../geometric.hpp"
+	"../trigonometric.hpp"
+	"../matrix.hpp"
+
+1394555668 /opt/canis/dep/include/glm/gtx/transform.inl
+
+1394555668 /opt/canis/dep/include/glm/gtx/rotate_vector.inl
+
+1394555668 /opt/canis/dep/include/glm/gtc/matrix_inverse.hpp
+	"../detail/setup.hpp"
+	"matrix_inverse.inl"
+
+1394555668 /opt/canis/dep/include/glm/gtc/matrix_inverse.inl
+	"../mat2x2.hpp"
+	"../mat3x3.hpp"
+	"../mat4x4.hpp"
+
+1394555668 /opt/canis/dep/include/glm/gtc/type_ptr.hpp
+	"../gtc/quaternion.hpp"
+	"../vec2.hpp"
+	"../vec3.hpp"
+	"../vec4.hpp"
+	"../mat2x2.hpp"
+	"../mat2x3.hpp"
+	"../mat2x4.hpp"
+	"../mat3x2.hpp"
+	"../mat3x3.hpp"
+	"../mat3x4.hpp"
+	"../mat4x2.hpp"
+	"../mat4x3.hpp"
+	"../mat4x4.hpp"
+	<cstring>
+	"type_ptr.inl"
+
+1394555668 /opt/canis/dep/include/glm/gtc/quaternion.hpp
+	"../mat3x3.hpp"
+	"../mat4x4.hpp"
+	"../vec3.hpp"
+	"../vec4.hpp"
+	"../gtc/constants.hpp"
+	"quaternion.inl"
+
+1394555668 /opt/canis/dep/include/glm/gtc/constants.hpp
+	"../detail/setup.hpp"
+	"constants.inl"
+
+1394555668 /opt/canis/dep/include/glm/gtc/constants.inl
+	<limits>
+
+1394555668 /opt/canis/dep/include/glm/gtc/quaternion.inl
+	"../trigonometric.hpp"
+	"../geometric.hpp"
+	"../exponential.hpp"
+	<limits>
+
+1394555668 /opt/canis/dep/include/glm/gtc/type_ptr.inl
+	<cstring>
+
+1394555668 /opt/canis/dep/include/glm/gtc/random.hpp
+	"../vec2.hpp"
+	"../vec3.hpp"
+	"random.inl"
+
+1394555668 /opt/canis/dep/include/glm/gtc/random.inl
+	"../geometric.hpp"
+	"../exponential.hpp"
+	<cstdlib>
+	<ctime>
+	<cassert>
+
+1335153162 /opt/canis/dep/include/assimp/Importer.hpp
+	"types.h"
+	"config.h"
+
+1328308448 /opt/canis/dep/include/assimp/types.h
+	<sys/types.h>
+	<memory.h>
+	<math.h>
+	<stddef.h>
+	"defs.h"
+	"vector3.h"
+	"vector2.h"
+	"color4.h"
+	"matrix3x3.h"
+	"matrix4x4.h"
+	"quaternion.h"
+	<new>
+	<string>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+	"vector2.inl"
+	"vector3.inl"
+	"color4.inl"
+	"quaternion.inl"
+	"matrix3x3.inl"
+	"matrix4x4.inl"
+
+1328308448 /opt/canis/dep/include/assimp/defs.h
+
+1328308448 /opt/canis/dep/include/assimp/vector3.h
+	<math.h>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1231630088 /opt/canis/dep/include/assimp/Compiler/pushpack1.h
+
+1231630088 /opt/canis/dep/include/assimp/Compiler/poppack1.h
+
+1328308448 /opt/canis/dep/include/assimp/vector2.h
+	<math.h>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1329582240 /opt/canis/dep/include/assimp/color4.h
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1328308448 /opt/canis/dep/include/assimp/matrix3x3.h
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1328308448 /opt/canis/dep/include/assimp/matrix4x4.h
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1328308448 /opt/canis/dep/include/assimp/quaternion.h
+
+1328308448 /opt/canis/dep/include/assimp/vector2.inl
+	"vector2.h"
+
+1328308448 /opt/canis/dep/include/assimp/vector3.inl
+	"vector3.h"
+
+1328308448 /opt/canis/dep/include/assimp/color4.inl
+	"color4.h"
+
+1328308448 /opt/canis/dep/include/assimp/quaternion.inl
+	"quaternion.h"
+
+1328308448 /opt/canis/dep/include/assimp/matrix3x3.inl
+	"matrix3x3.h"
+	"matrix4x4.h"
+	<algorithm>
+	<limits>
+
+1328308448 /opt/canis/dep/include/assimp/matrix4x4.inl
+	"matrix4x4.h"
+	"matrix3x3.h"
+	"quaternion.h"
+	<algorithm>
+	<limits>
+	<math.h>
+
+1338762694 /opt/canis/dep/include/assimp/config.h
+
+1328308448 /opt/canis/dep/include/assimp/scene.h
+	"types.h"
+	"texture.h"
+	"mesh.h"
+	"light.h"
+	"camera.h"
+	"material.h"
+	"anim.h"
+
+1328308448 /opt/canis/dep/include/assimp/texture.h
+	"types.h"
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1328308448 /opt/canis/dep/include/assimp/mesh.h
+	"types.h"
+
+1328308448 /opt/canis/dep/include/assimp/light.h
+	"types.h"
+
+1328308448 /opt/canis/dep/include/assimp/camera.h
+	"types.h"
+
+1328308448 /opt/canis/dep/include/assimp/material.h
+	"types.h"
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+	"material.inl"
+
+1328308448 /opt/canis/dep/include/assimp/material.inl
+
+1328308448 /opt/canis/dep/include/assimp/anim.h
+	"types.h"
+	"quaternion.h"
+
+1335151946 /opt/canis/dep/include/assimp/postprocess.h
+	"types.h"
+
+1343755071 /opt/canis/dep/include/bullet/btBulletCollisionCommon.h
+	"BulletCollision/CollisionDispatch/btCollisionWorld.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+	"BulletCollision/CollisionShapes/btBoxShape.h"
+	"BulletCollision/CollisionShapes/btSphereShape.h"
+	"BulletCollision/CollisionShapes/btCapsuleShape.h"
+	"BulletCollision/CollisionShapes/btCylinderShape.h"
+	"BulletCollision/CollisionShapes/btConeShape.h"
+	"BulletCollision/CollisionShapes/btStaticPlaneShape.h"
+	"BulletCollision/CollisionShapes/btConvexHullShape.h"
+	"BulletCollision/CollisionShapes/btTriangleMesh.h"
+	"BulletCollision/CollisionShapes/btConvexTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+	"BulletCollision/CollisionShapes/btCompoundShape.h"
+	"BulletCollision/CollisionShapes/btTetrahedronShape.h"
+	"BulletCollision/CollisionShapes/btEmptyShape.h"
+	"BulletCollision/CollisionShapes/btMultiSphereShape.h"
+	"BulletCollision/CollisionShapes/btUniformScalingShape.h"
+	"BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h"
+	"BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h"
+	"BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+	"BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
+	"BulletCollision/BroadphaseCollision/btAxisSweep3.h"
+	"BulletCollision/BroadphaseCollision/btMultiSapBroadphase.h"
+	"BulletCollision/BroadphaseCollision/btDbvtBroadphase.h"
+	"LinearMath/btQuaternion.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btDefaultMotionState.h"
+	"LinearMath/btQuickprof.h"
+	"LinearMath/btIDebugDraw.h"
+	"LinearMath/btSerializer.h"
+
+1380777221 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"btCollisionObject.h"
+	"btCollisionDispatcher.h"
+	"BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1382469204 /opt/canis/dep/include/bullet/LinearMath/btVector3.h
+	"btScalar.h"
+	"btMinMax.h"
+	"btAlignedAllocator.h"
+
+1382468481 /opt/canis/dep/include/bullet/LinearMath/btScalar.h
+	<math.h>
+	<stdlib.h>
+	<float.h>
+	<ppcintrinsics.h>
+	<emmintrin.h>
+	<stdio.h>
+	<assert.h>
+	<assert.h>
+	<spu_printf.h>
+	<assert.h>
+	<smmintrin.h>
+	<tmmintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<assert.h>
+	<stdio.h>
+	<assert.h>
+	<arm_neon.h>
+	<arm_neon.h>
+
+1323708999 /opt/canis/dep/include/bullet/LinearMath/btMinMax.h
+	"btScalar.h"
+
+1234997523 /opt/canis/dep/include/bullet/LinearMath/btAlignedAllocator.h
+	"btScalar.h"
+
+1339030590 /opt/canis/dep/include/bullet/LinearMath/btTransform.h
+	"btMatrix3x3.h"
+
+1382469204 /opt/canis/dep/include/bullet/LinearMath/btMatrix3x3.h
+	"btVector3.h"
+	"btQuaternion.h"
+	<stdio.h>
+
+1381958752 /opt/canis/dep/include/bullet/LinearMath/btQuaternion.h
+	"btVector3.h"
+	"btQuadWord.h"
+
+1339030590 /opt/canis/dep/include/bullet/LinearMath/btQuadWord.h
+	"btScalar.h"
+	"btMinMax.h"
+	<altivec.h>
+
+1380667831 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btMotionState.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1234997523 /opt/canis/dep/include/bullet/LinearMath/btMotionState.h
+	"btTransform.h"
+
+1339030590 /opt/canis/dep/include/bullet/LinearMath/btAlignedObjectArray.h
+	"btScalar.h"
+	"btAlignedAllocator.h"
+	<memory.h>
+	<string.h>
+	<new>
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h
+	"BulletCollision/BroadphaseCollision/btDispatcher.h"
+	"BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+	"BulletCollision/CollisionDispatch/btManifoldResult.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btCollisionCreateFunc.h"
+
+1368053135 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btDispatcher.h
+	"LinearMath/btScalar.h"
+
+1347324971 /opt/canis/dep/include/bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"btManifoldPoint.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1347691937 /opt/canis/dep/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransformUtil.h"
+	"physics_effects/base_level/solver/pfx_constraint_row.h"
+
+1301678092 /opt/canis/dep/include/bullet/LinearMath/btTransformUtil.h
+	"btTransform.h"
+
+1349471711 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btManifoldResult.h
+	"BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+	"BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
+	"LinearMath/btTransform.h"
+	"BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+
+1368053135 /opt/canis/dep/include/bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btVector3.h"
+
+1352511755 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h
+	"LinearMath/btScalar.h"
+
+1327354784 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h
+	"LinearMath/btScalar.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h
+	"LinearMath/btAlignedObjectArray.h"
+
+1379014119 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h
+	"btBroadphaseInterface.h"
+	"btBroadphaseProxy.h"
+	"btOverlappingPairCallback.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1301678092 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h
+	"btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+
+1219803851 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btBoxShape.h
+	"btPolyhedralConvexShape.h"
+	"btCollisionMargin.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btMinMax.h"
+
+1348816488 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h
+	"LinearMath/btMatrix3x3.h"
+	"btConvexInternalShape.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h
+	"btConvexShape.h"
+	"LinearMath/btAabbUtil2.h"
+
+1330487453 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btConvexShape.h
+	"btCollisionShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1347814885 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1316110640 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btCollisionMargin.h
+
+1339030590 /opt/canis/dep/include/bullet/LinearMath/btAabbUtil2.h
+	"btTransform.h"
+	"btVector3.h"
+	"btMinMax.h"
+
+1301678092 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btSphereShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1347814885 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btCapsuleShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1347814885 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btCylinderShape.h
+	"btBoxShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+
+1379090079 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btConeShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h
+	"btConcaveShape.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btConcaveShape.h
+	"btCollisionShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"btTriangleCallback.h"
+
+1301678092 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btTriangleCallback.h
+	"LinearMath/btVector3.h"
+
+1356041399 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btConvexHullShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1379024535 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btTriangleMesh.h
+	"btTriangleIndexVertexArray.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1330494055 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h
+	"btStridingMeshInterface.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btScalar.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btStridingMeshInterface.h
+	"LinearMath/btVector3.h"
+	"btTriangleCallback.h"
+	"btConcaveShape.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btConvexTriangleMeshShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1355517063 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h
+	"btTriangleMeshShape.h"
+	"btOptimizedBvh.h"
+	"LinearMath/btAlignedAllocator.h"
+	"btTriangleInfoMap.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btTriangleMeshShape.h
+	"btConcaveShape.h"
+	"btStridingMeshInterface.h"
+
+1301678092 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btOptimizedBvh.h
+	"BulletCollision/BroadphaseCollision/btQuantizedBvh.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btQuantizedBvh.h
+	<stdio.h>
+	<stdlib.h>
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1347338217 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btTriangleInfoMap.h
+	"LinearMath/btHashMap.h"
+	"LinearMath/btSerializer.h"
+
+1301678092 /opt/canis/dep/include/bullet/LinearMath/btHashMap.h
+	"btAlignedObjectArray.h"
+
+1379018250 /opt/canis/dep/include/bullet/LinearMath/btSerializer.h
+	"btScalar.h"
+	"btHashMap.h"
+	<memory.h>
+	<string.h>
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h
+	"BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+
+1301678092 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btCompoundShape.h
+	"btCollisionShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btTetrahedronShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btEmptyShape.h
+	"btConcaveShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btMultiSphereShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btAabbUtil2.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionShapes/btUniformScalingShape.h
+	"btConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h
+	"btActivatingCollisionAlgorithm.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"BulletCollision/CollisionDispatch/btCollisionCreateFunc.h"
+	"btCollisionDispatcher.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btActivatingCollisionAlgorithm.h
+	"BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h
+	"LinearMath/btScalar.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1379014119 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h
+	"btCollisionConfiguration.h"
+
+1368053135 /opt/canis/dep/include/bullet/BulletCollision/CollisionDispatch/btCollisionConfiguration.h
+
+1301678092 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h
+	"btOverlappingPairCache.h"
+
+1349382724 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h
+	"LinearMath/btVector3.h"
+	"btOverlappingPairCache.h"
+	"btBroadphaseInterface.h"
+	"btBroadphaseProxy.h"
+	"btOverlappingPairCallback.h"
+	"btDbvtBroadphase.h"
+	<stdio.h>
+
+1265912750 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h
+	"BulletCollision/BroadphaseCollision/btDbvt.h"
+	"BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
+	"LinearMath/btQuickprof.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btDbvt.h
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btAabbUtil2.h"
+	<emmintrin.h>
+	<memory.h>
+	<string.h>
+
+1314674912 /opt/canis/dep/include/bullet/LinearMath/btQuickprof.h
+	<stdio.h>
+	"btScalar.h"
+	"btAlignedAllocator.h"
+	<new>
+
+1243044954 /opt/canis/dep/include/bullet/BulletCollision/BroadphaseCollision/btMultiSapBroadphase.h
+	"btBroadphaseInterface.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btOverlappingPairCache.h"
+
+1339030590 /opt/canis/dep/include/bullet/LinearMath/btDefaultMotionState.h
+	"btMotionState.h"
+
+1379383274 /opt/canis/dep/include/bullet/LinearMath/btIDebugDraw.h
+	"btVector3.h"
+	"btTransform.h"
+
+1380750650 /opt/canis/dep/include/bullet/btBulletDynamicsCommon.h
+	"btBulletCollisionCommon.h"
+	"BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
+	"BulletDynamics/Dynamics/btSimpleDynamicsWorld.h"
+	"BulletDynamics/Dynamics/btRigidBody.h"
+	"BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h"
+	"BulletDynamics/ConstraintSolver/btHingeConstraint.h"
+	"BulletDynamics/ConstraintSolver/btConeTwistConstraint.h"
+	"BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h"
+	"BulletDynamics/ConstraintSolver/btSliderConstraint.h"
+	"BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h"
+	"BulletDynamics/ConstraintSolver/btUniversalConstraint.h"
+	"BulletDynamics/ConstraintSolver/btHinge2Constraint.h"
+	"BulletDynamics/ConstraintSolver/btGearConstraint.h"
+	"BulletDynamics/ConstraintSolver/btFixedConstraint.h"
+	"BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+	"BulletDynamics/Vehicle/btRaycastVehicle.h"
+
+1382573623 /opt/canis/dep/include/bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h
+	"btDynamicsWorld.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1368053135 /opt/canis/dep/include/bullet/BulletDynamics/Dynamics/btDynamicsWorld.h
+	"BulletCollision/CollisionDispatch/btCollisionWorld.h"
+	"BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
+
+1348279569 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h
+	"LinearMath/btScalar.h"
+
+1316112433 /opt/canis/dep/include/bullet/BulletDynamics/Dynamics/btSimpleDynamicsWorld.h
+	"btDynamicsWorld.h"
+
+1371603642 /opt/canis/dep/include/bullet/BulletDynamics/Dynamics/btRigidBody.h
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btTransform.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+
+1379177371 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1346442384 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btJacobianEntry.h
+	"LinearMath/btMatrix3x3.h"
+
+1382465445 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h
+	"LinearMath/btScalar.h"
+	"btSolverConstraint.h"
+	"BulletDynamics/Dynamics/btRigidBody.h"
+
+1382290694 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"btJacobianEntry.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btSolverBody.h"
+
+1382433968 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btTransformUtil.h"
+
+1379177371 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btHingeConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1379177371 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btConeTwistConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1379177371 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1379177371 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btSliderConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1379177371 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofConstraint.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btUniversalConstraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofConstraint.h"
+
+1339030590 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btHinge2Constraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofSpringConstraint.h"
+
+1379181069 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btGearConstraint.h
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+
+1380750650 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btFixedConstraint.h
+	"btTypedConstraint.h"
+
+1382571313 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+	"BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
+	"BulletDynamics/ConstraintSolver/btSolverBody.h"
+	"BulletDynamics/ConstraintSolver/btSolverConstraint.h"
+	"BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
+	"BulletDynamics/ConstraintSolver/btConstraintSolver.h"
+
+1382571313 /opt/canis/dep/include/bullet/BulletDynamics/ConstraintSolver/btConstraintSolver.h
+	"LinearMath/btScalar.h"
+
+1301678092 /opt/canis/dep/include/bullet/BulletDynamics/Vehicle/btRaycastVehicle.h
+	"BulletDynamics/Dynamics/btRigidBody.h"
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+	"btVehicleRaycaster.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btWheelInfo.h"
+	"BulletDynamics/Dynamics/btActionInterface.h"
+
+1301678092 /opt/canis/dep/include/bullet/BulletDynamics/Vehicle/btVehicleRaycaster.h
+	"LinearMath/btVector3.h"
+
+1301678092 /opt/canis/dep/include/bullet/BulletDynamics/Vehicle/btWheelInfo.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+
+1283906295 /opt/canis/dep/include/bullet/BulletDynamics/Dynamics/btActionInterface.h
+	"LinearMath/btScalar.h"
+	"btRigidBody.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/AxisAlignedBox.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Utility.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/AssimpLoader.h
+	"Common.h"
+	"VertexObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/VertexObject.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Camera.h
+	"Common.h"
+	"IObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/IObject.h
+	"Common.h"
+
+1394571362 /home/dcook/Documents/Development/canis/trunk/Canis/CSXLoader.h
+	"Common.h"
+	"IXmlLoader.h"
+	"VertexObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/IXmlLoader.h
+	"Common.h"
+	"TinyXML/tinyxml.h"
+
+1394143952 /home/dcook/Documents/Development/canis/trunk/Canis/TinyXML/tinyxml.h
+	<ctype.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<string>
+	<iostream>
+	<sstream>
+	"tinystr.h"
+
+1394143952 /home/dcook/Documents/Development/canis/trunk/Canis/TinyXML/tinystr.h
+	<assert.h>
+	<string.h>
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/DIFLoader.h
+	"Common.h"
+	"VertexObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/DXSLoader.h
+	"Common.h"
+	"VertexObject.h"
+	"TinyXML/tinyxml.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/DynamicLibrary.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Engine.h
+	"Common.h"
+	"Singleton.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Singleton.h
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/EntityManager.h
+	"Common.h"
+	"Singleton.h"
+	"IEntityFactory.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/IEntityFactory.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/FramebufferObject.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/GlShader.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/GlShaderManager.h
+	"Common.h"
+	"Singleton.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/IEntity.h
+	"Common.h"
+	"IObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/IPlugin.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Light.h
+	"Common.h"
+	"IObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/LW14Loader.h
+	"Common.h"
+	"VertexObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Material.h
+	"Common.h"
+
+1394571343 /home/dcook/Documents/Development/canis/trunk/Canis/MaterialLoader.h
+	"Common.h"
+	"IXmlLoader.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/MaterialManager.h
+	"Common.h"
+	"Singleton.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Mesh.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/PluginManager.h
+	"Common.h"
+	"Singleton.h"
+
+1394571386 /home/dcook/Documents/Development/canis/trunk/Canis/ProgramLoader.h
+	"Common.h"
+	"IXmlLoader.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Prop.h
+	"Common.h"
+	"IEntity.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/PropFactory.h
+	"Common.h"
+	"IEntityFactory.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Scene.h
+	"Common.h"
+	"IObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/SceneNode.h
+	"Common.h"
+	"Mesh.h"
+	"IObject.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/StaticMesh.h
+	"Common.h"
+	"IEntity.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/StaticMeshFactory.h
+	"Common.h"
+	"IEntityFactory.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/RenderManager.h
+	"Common.h"
+	"Singleton.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/RenderTarget.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/SkyBox.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/Texture.h
+	"Common.h"
+
+1394143953 /home/dcook/Documents/Development/canis/trunk/Canis/TextureManager.h
+	"Common.h"
+	"Singleton.h"
+

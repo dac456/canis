@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/MainWindow">
+    <file>res/Node-128.png</file>
+    <file>res/light-bulb-icon.png</file>
+    <file>res/video_camera.png</file>
+  </qresource>
+</RCC>
