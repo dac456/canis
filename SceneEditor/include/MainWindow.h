@@ -30,11 +30,6 @@ namespace SceneEditor
 
         void loadPlugins();
 
-        QTreeWidgetItem* getSceneGraphRootItem();
-    
-        //Actions
-        //void about();
-
     private:
         //Helpers
         void _traverseNode(Canis::SceneNode* node, QTreeWidgetItem* root);

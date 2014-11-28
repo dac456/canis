@@ -71,7 +71,7 @@ namespace SceneEditor
         ball->attachEntity(ent);
         ball->attachSceneNode(new Canis::SceneNode("TestNode", glm::translate(glm::vec3(500.0f, 0.0f, 0.0f))));
 
-        Canis::Light* light = new Canis::Light("Light0", glm::vec3(1.0f, 1.0f, 1.0f), 10000.0f, glm::translate(glm::vec3(0.0f, 2000.0f, 0.0f)));
+        Canis::Light* light = new Canis::Light("Light0", glm::vec3(1.0f, 1.0f, 1.0f), 10000.0f, glm::translate(glm::vec3(0.0f, 200.0f, 0.0f)));
         root->attachLight(light);
         //---End Scene---//
         
@@ -115,10 +115,6 @@ namespace SceneEditor
                 }
             }
         }
-    }
-
-    QTreeWidgetItem* MainWindow::getSceneGraphRootItem(){
-        return _rootItem;
     }
     
     /*
@@ -187,7 +183,6 @@ namespace SceneEditor
                 ui.setPoseButton->setEnabled(false);
 
                 Q_EMIT objectSelected("", "");
-                //ui.viewport->setSelectedObject("", ""); //TODO: should be a signal
             }
         }
     }
@@ -228,6 +223,7 @@ namespace SceneEditor
         ui.pauseSimulationButton->setText("Play");
     }
     
+    //TODO: this can probably be faster; deleting the whole tree will be dangerous for large scenes
     void MainWindow::updateSceneGraphTree(){
         Canis::Scene* currentScene = ui.viewport->getActiveScene();
         ui.sceneGraphView->removeItemWidget(_rootItem, 1);
