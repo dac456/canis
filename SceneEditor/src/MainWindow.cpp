@@ -32,6 +32,8 @@ namespace SceneEditor
         
         connect(this, SIGNAL(objectSelected(QString, QString)), ui.viewport, SLOT(selectObject(QString, QString)));
         connect(this, SIGNAL(sceneNodeAdded(QString)), ui.viewport, SLOT(addSceneNode(QString)));
+        connect(this, SIGNAL(initialized()), ui.viewport, SLOT(initialize()));
+        connect(this, SIGNAL(sceneLoaded(Canis::Scene*)), ui.viewport, SLOT(setActiveScene(Canis::Scene*)));
         
         ui.viewport->connectToMainWindow(this);
 
@@ -75,9 +77,8 @@ namespace SceneEditor
         root->attachLight(light);
         //---End Scene---//
         
-        ui.viewport->setActiveScene(defaultScene);
-
-        //ui.viewport->initialize(defaultScene);
+        //ui.viewport->setActiveScene(defaultScene);
+        Q_EMIT sceneLoaded(defaultScene);
 
         _rootItem = nullptr;
         updateSceneGraphTree();
@@ -92,7 +93,7 @@ namespace SceneEditor
             
         std::cout << "mainwindow initialized" << std::endl;
             
-        ui.viewport->initialize();
+        Q_EMIT initialized();
     }
 
     void MainWindow::loadPlugins(){
@@ -116,6 +117,10 @@ namespace SceneEditor
             }
         }
     }
+    
+    /*
+     * Events
+     */
     
     /*
      * Helpers
@@ -153,6 +158,10 @@ namespace SceneEditor
     /*
      * Slots
      */
+     
+    void MainWindow::viewportChanged(int type){
+        ui.viewList->setCurrentIndex(type);
+    }
 
     void MainWindow::sceneGraphSelectionChanged(){
         if(!ui.sceneGraphView->selectedItems().empty()){

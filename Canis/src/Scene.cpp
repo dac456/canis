@@ -89,7 +89,7 @@ namespace Canis
 
             //_lights[i]->_brightness = glm::dot(lightDir, eyeDir);
             //_lights[i]->_brightness = glm::length(point - lightPos);
-            _lights[i]->_brightness = glm::length(lightPos - point);
+            _lights[i]->_brightness = fabs(glm::length(lightPos - point));
             //printf("Brightness: %f\n", _lights[i]->_brightness);
         }
 
@@ -107,35 +107,6 @@ namespace Canis
         }
         
         return ret;
-
-        /*glm::mat4 retPos = glm::mat4(0.0f);
-        glm::mat4 retCol = glm::mat4(0.0f);
-        glm::vec4 retRad = glm::vec4(0.0f);
-
-        int count = 0;
-        if(_lights.size() <= 4)
-            count = _lights.size();
-        else
-            count = 4;
-
-        for(size_t i=0; i<count; i++){
-            retPos[i] = glm::vec4(_lights[i]->getAbsolutePosition(), 1.0f);
-            retCol[i] = glm::vec4(_lights[i]->getDiffuse(), 1.0f);
-            retRad[i] = _lights[i]->getRadius();
-        }
-
-        std::pair<std::pair<glm::mat4, glm::mat4>, glm::vec4> ret;
-        ret.first.first = glm::mat4(0.0f);
-        ret.first.second = glm::mat4(0.0f);
-        for(int i=0; i<4; i++)
-            for(int j=0; j<4; j++)
-                ret.first.first[i][j] = retPos[i][j];
-        for(int i=0; i<4; i++)
-            for(int j=0; j<4; j++)
-                ret.first.second[i][j] = retCol[i][j];
-        for(int i=0; i<4; i++)
-            ret.second[i] = retRad[i];
-        return ret;*/
     }    
 
 }

@@ -37,6 +37,7 @@ namespace SceneEditor
     public Q_SLOTS:
         void initialize();
 
+        void viewportChanged(int);
         void sceneGraphSelectionChanged();
         void addNodeButtonClicked();
         void addEntityButtonClicked();
@@ -51,6 +52,8 @@ namespace SceneEditor
     Q_SIGNALS:
         void objectSelected(QString name, QString type);
         void sceneNodeAdded(QString name);
+        void initialized();
+        void sceneLoaded(Canis::Scene* scene);
 
     private:
         Ui::MainWindowClass ui;

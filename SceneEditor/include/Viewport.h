@@ -19,6 +19,13 @@ namespace SceneEditor
         SCALE_MODE,
         ROTATE_MODE
     } MOUSE_MODE;
+    
+    typedef enum{
+        PERSP,
+        TOP,
+        FRONT,
+        SIDE
+    } VIEW_TYPE;
 
     class Viewport : public GL3Widget{
         Q_OBJECT
@@ -65,11 +72,9 @@ namespace SceneEditor
         
         void connectToMainWindow(MainWindow* main);
 
-        void initialize();
         virtual void render();
         virtual void resize(int w, int h);     
 
-        void setActiveScene(Canis::Scene* scene);
         Canis::Scene* getActiveScene();
 
         virtual void mouseMoveEvent(QMouseEvent* e);
@@ -80,24 +85,33 @@ namespace SceneEditor
 
     private:
         //Helpers
-        void setView(int type);
-        void rotateFirstPerson(int x, int y);
+        void _setView(int type);
+        void _setOrtho();
+        void _rotateFirstPerson(int x, int y);
 
-        void renderNodeMarker(Canis::SceneNode* node);
-        Canis::SceneNode* getNodeByName(std::string name);
-        Canis::SceneNode* getChildNodeByName(Canis::SceneNode* node, std::string name);
+        void _renderNodeMarker(Canis::SceneNode* node);
+        Canis::SceneNode* _getNodeByName(std::string name);
+        Canis::SceneNode* _getChildNodeByName(Canis::SceneNode* node, std::string name);
 
     public Q_SLOTS:
+        void initialize();
+        void setActiveScene(Canis::Scene* scene);
+        
         void selectObject(QString name, QString type);
         void updateView(QString item);
         void setInitialPoseButtonClicked();
+        
+        void setViewPerspective();
+        void setViewTop();
+        void setViewFront();
+        void setViewSide();
         
         void addSceneNode(QString name);
         
     Q_SIGNALS:
         void contextCreated();
         void sceneChanged();
-
+        void viewportChanged(int type);
     };
 
 }
