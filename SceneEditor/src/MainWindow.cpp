@@ -49,6 +49,8 @@ namespace SceneEditor
     void MainWindow::initialize(){
         _engine = new Canis::Engine();
         _engine->setDynamicsEnabled(false);
+        _engine->setRenderer(new Canis::Renderer());
+        
         ui.pauseSimulationButton->setText("Play");
 
         //---Build test scene programmatically---//

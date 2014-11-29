@@ -17,16 +17,20 @@ namespace Canis
     }
 
     void RenderTarget::set(){
-        RenderManager::getSingleton().setViewMatrix(_camera->getTransform());
-        RenderManager::getSingleton().setViewVector(glm::vec4(_camera->getViewVector(), 1.0f));
-        RenderManager::getSingleton().setProjectionMatrix(RenderManager::getSingleton().getProjectionMatrix());
-        RenderManager::getSingleton().calculateFrustum(glm::mat4(1));
+        //RenderManager::getSingleton().setViewMatrix(_camera->getTransform());
+        //RenderManager::getSingleton().setViewVector(glm::vec4(_camera->getViewVector(), 1.0f));
+        //RenderManager::getSingleton().setProjectionMatrix(RenderManager::getSingleton().getProjectionMatrix());
+        //RenderManager::getSingleton().calculateFrustum(glm::mat4(1));
 
         _fbo->use();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
+    }
+    
+    Camera* RenderTarget::getCamera(){
+        return _camera;
     }
 
 }

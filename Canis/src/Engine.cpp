@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "GlShaderManager.h"
 #include "TextureManager.h"
 #include "MaterialManager.h"
@@ -12,7 +12,8 @@ namespace Canis
 {
 
     Engine::Engine(){
-        _renderManager = new RenderManager();
+        _renderer = nullptr;
+        
         _shaderManager = new GlShaderManager();
         _textureManager = new TextureManager();
         _materialManager = new MaterialManager();
@@ -28,11 +29,22 @@ namespace Canis
         delete _materialManager;
         delete _textureManager;
         delete _shaderManager;
-        delete _renderManager;
+        
+        if(_renderer != nullptr){
+            delete _renderer;
+        }
 
 #ifdef CANIS_PLATFORM_WIN32
         _CrtDumpMemoryLeaks();
 #endif
+    }
+    
+    void Engine::setRenderer(Renderer* renderer){
+        _renderer = renderer;
+    }
+    
+    Renderer* Engine::getRenderer(){
+        return _renderer;
     }
 
     void Engine::setDynamicsEnabled(bool enabled){

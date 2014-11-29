@@ -144,7 +144,7 @@ namespace Canis
 
         for(size_t i=0; i<_groups.size(); i++){
             if(_groups[i].vertexObjects.size()){
-                glm::vec4* frustum = RenderManager::getSingleton().getFrustum();
+                //glm::vec4* frustum = RenderManager::getSingleton().getFrustum();
                 int k=0;
 
                 glm::vec4 absCenter = _transform*glm::vec4(_groups[i].boundingBox.getCenter(), 1.0);

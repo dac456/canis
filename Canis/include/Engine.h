@@ -9,7 +9,8 @@ namespace Canis
 
     class CSAPI Engine : public Singleton<Engine>{
     private:
-        RenderManager* _renderManager;
+        Renderer* _renderer;
+        
         GlShaderManager* _shaderManager;
         TextureManager* _textureManager;
         MaterialManager* _materialManager;
@@ -25,6 +26,9 @@ namespace Canis
     public:
         Engine();
         ~Engine();
+        
+        void setRenderer(Renderer* renderer);
+        Renderer* getRenderer();
 
         void setDynamicsEnabled(bool enabled);
         bool isDynamicsEnabled();

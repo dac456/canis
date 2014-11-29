@@ -17,6 +17,8 @@ namespace Canis
         ~RenderTarget();
 
         void set();
+        
+        Camera* getCamera();
     };
 
 }

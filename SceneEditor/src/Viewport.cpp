@@ -53,6 +53,10 @@ namespace SceneEditor
         delete _nodeMarker;
         delete _selectionBox;
         
+        if(_activeScene != nullptr){
+            delete _activeScene;
+        }
+        
         if(_cam != nullptr){
             delete _cam;
         }
@@ -75,8 +79,7 @@ namespace SceneEditor
         glClearColor(0.5f, 0.5f, 0.5, 1.0f);
         
         _setView(_viewType);
-        if(underMouse())
-            setFocus(Qt::MouseFocusReason);        
+        if(underMouse()) setFocus(Qt::MouseFocusReason);        
         
         if(_activeScene != nullptr && _cam != nullptr && _initialized && this->isVisible()){
             _activeScene->render(_cam, _projMatrix);
@@ -94,7 +97,7 @@ namespace SceneEditor
     void Viewport::resize(int w, int h){
         glViewport(0, 0, w, h);
         
-        if(_viewType == 0){
+        if(_viewType == PERSP){
             _projMatrix = glm::perspective(glm::radians(45.0f), (float)w/(float)h, 0.1f, 10000.0f);
         }
         else{

@@ -124,71 +124,16 @@ namespace Canis
     }
 
     void VertexObject::render(){
-        //
-        //
+        //glBlendFunc(GL_ONE, GL_ONE);
+        glBindVertexArray(_arrayId);
+        if(_isIndexed)
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
 
-        glm::vec4* frustum = RenderManager::getSingleton().getFrustum();
-        int k = 0;
-        /*for(size_t i=0; i<_numVertices; i++){
-            if((_vertices[i].vertex[0]*frustum[0].x + _vertices[i].vertex[1]*frustum[0].y + _vertices[i].vertex[2]*frustum[0].z + frustum[0].w <= 0) ||
-                (_vertices[i].vertex[0]*frustum[1].x + _vertices[i].vertex[1]*frustum[1].y + _vertices[i].vertex[2]*frustum[1].z + frustum[1].w <= 0) ||
-                (_vertices[i].vertex[0]*frustum[2].x + _vertices[i].vertex[1]*frustum[2].y + _vertices[i].vertex[2]*frustum[2].z + frustum[2].w <= 0) ||
-                (_vertices[i].vertex[0]*frustum[3].x + _vertices[i].vertex[1]*frustum[3].y + _vertices[i].vertex[2]*frustum[3].z + frustum[3].w <= 0) ||
-                (_vertices[i].vertex[0]*frustum[4].x + _vertices[i].vertex[1]*frustum[4].y + _vertices[i].vertex[2]*frustum[4].z + frustum[4].w <= 0) ||
-                (_vertices[i].vertex[0]*frustum[5].x + _vertices[i].vertex[1]*frustum[5].y + _vertices[i].vertex[2]*frustum[5].z + frustum[5].w <= 0))
-                k++;
-        }*/
-
-        //_center = RenderManager::getSingleton().getProjectionMatrix()*RenderManager::getSingleton().getViewMatrix()*_center;
-        for(size_t i=0; i<6; i++){
-            if(_aabb.getCenter().x*frustum[i].x + _aabb.getCenter().y*frustum[i].y + _aabb.getCenter().z*frustum[i].z + frustum[i].w <= 0)
-                k++;
-        }
-
-        //if(k == 0/*k != _numVertices*/){
-            //fprintf(stdout, "Drawing VO\n");
-
-            //glBlendFunc(GL_ONE, GL_ONE);
-            glBindVertexArray(_arrayId);
-            if(_isIndexed)
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-
-            /*if(_material != nullptr){
-                Technique t = _material->getTechniques()[0];
-                for(size_t i=0; i<t.passes.size(); i++){
-                    GLuint shd = t.passes[i].shader->getProgramId();
-                    t.passes[i].shader->setUniformMat4f("cs_ViewMatrix", RenderManager::getSingleton().getViewMatrix());
-                    t.passes[i].shader->setUniformMat4f("cs_ProjectionMatrix", RenderManager::getSingleton().getProjectionMatrix());
-                    t.passes[i].shader->setUniformMat4f("cs_ModelMatrix", _transform);
-                    t.passes[i].shader->setUniformMat4f("cs_NormalMatrix", glm::transpose(glm::inverse(glm::mat4(_transform*RenderManager::getSingleton().getViewMatrix()))));
-                    t.passes[i].shader->use();
-                    for(size_t j=0; j<t.passes[i].textures.size(); j++)
-                        t.passes[i].textures[j]->use(shd);
-
-                    if(_lightmap != nullptr)
-                        _lightmap->use(shd);*/
-
-                    //fprintf(stdout, "%i\n", t.passes[i].textures.size());
-
-                    /*if(i == 0){
-                        glBlendFunc(GL_ONE, GL_ZERO);
-                        glDepthMask(GL_TRUE);
-                        glDepthFunc(GL_LEQUAL);
-                    }
-                    else{
-                        t.passes[i].shader->setUniformMat4f("modelMatrix", glm::scale(glm::mat4(1.0f), glm::vec3(2.0, 2.0, 2.0)));
-                        glEnable(GL_BLEND);
-                        glBlendFunc(GL_ONE, GL_ONE);
-                        glDepthMask(GL_FALSE);
-                    }*/
-                    if(!_isIndexed)
-                        glDrawArrays(_drawMode, 0, _numVertices);
-                    else
-                        glDrawElements(_drawMode, _numIndices, GL_UNSIGNED_INT, NULL);
-                    glDisable(GL_BLEND);
-                //}
-            //}
-        //}
+        if(!_isIndexed)
+            glDrawArrays(_drawMode, 0, _numVertices);
+        else
+            glDrawElements(_drawMode, _numIndices, GL_UNSIGNED_INT, NULL);
+        glDisable(GL_BLEND);
     }
 
     void VertexObject::scale(Real s){

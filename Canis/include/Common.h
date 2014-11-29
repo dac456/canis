@@ -129,6 +129,7 @@ namespace Canis
     class SceneNode;
     class StaticMesh;
     class StaticMeshFactory;
+    class Renderer;
     class RenderManager;
     class RenderTarget;
     template <class T> class Singleton;

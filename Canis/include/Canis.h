@@ -32,6 +32,7 @@
 #include "SceneNode.h"
 #include "StaticMesh.h"
 #include "StaticMeshFactory.h"
+#include "Renderer.h"
 #include "RenderManager.h"
 #include "RenderTarget.h"
 #include "SkyBox.h"
