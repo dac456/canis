@@ -112,6 +112,7 @@ namespace SceneEditor
         void contextCreated();
         void sceneChanged();
         void viewportChanged(int type);
+        void renderOnce();
     };
 
 }

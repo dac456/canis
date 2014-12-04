@@ -22,7 +22,7 @@ namespace SceneEditor
         ui.canisVersionLabel->setText(QString(canisVersion.str().c_str()));
 
         std::stringstream editorVersion;
-        editorVersion << WE_MAJOR_REVISION << "." << WE_MINOR_REVISION << "." << WE_BUILD_REVISION;
+        editorVersion << CS_MAJOR_REVISION << "." << CS_MINOR_REVISION << "." << CS_BUILD_REVISION;
         ui.editorVersionLabel->setText(QString(editorVersion.str().c_str()));
 
         ui.infoText->setText(supportedExtensions);

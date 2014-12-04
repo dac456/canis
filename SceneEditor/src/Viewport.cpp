@@ -66,6 +66,7 @@ namespace SceneEditor
         //connect(this, SIGNAL(contextCreated()), main, SLOT(initialize()));
         connect(this, SIGNAL(sceneChanged()), main, SLOT(updateSceneGraphTree()));
         connect(this, SIGNAL(viewportChanged(int)), main, SLOT(viewportChanged(int)));  
+        connect(this, SIGNAL(renderOnce()), main, SLOT(updateFpsCounter()));
     }        
 
     /*
@@ -92,6 +93,8 @@ namespace SceneEditor
         }
         
         swapBuffers();
+        
+        Q_EMIT renderOnce();
     }
     
     void Viewport::resize(int w, int h){

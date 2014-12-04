@@ -12,6 +12,13 @@ namespace SceneEditor
 
         showMaximized();
         menuBar()->setNativeMenuBar(false);
+        statusBar()->addWidget(new QLabel("FPS: "));
+        
+        _fpsLabel = new QLabel("");
+        _fpsTimer.start();
+        _fpsCounter.frameCount = 0;
+        _fpsCounter.lastTime = _fpsTimer.elapsed();
+        statusBar()->addWidget(_fpsLabel);
 
         ui.viewList->addItem("Perspective");
         ui.viewList->addItem("Top");
@@ -254,7 +261,20 @@ namespace SceneEditor
         }
 
         ui.sceneGraphView->expandAll();
-    }    
+    } 
+    
+    void MainWindow::updateFpsCounter(){
+        _fpsCounter.frameCount++;
+        
+        qint64 currentTime = _fpsTimer.elapsed();
+        if(currentTime - _fpsCounter.lastTime > 1000){
+            std::stringstream ss;
+            ss << _fpsCounter.frameCount*1000.0/(currentTime - _fpsCounter.lastTime);
+            _fpsLabel->setText(ss.str().c_str());
+            _fpsCounter.lastTime = currentTime;
+            _fpsCounter.frameCount = 0;
+        }
+    }   
     
     /*
      * Slots: Actions

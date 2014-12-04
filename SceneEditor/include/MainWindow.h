@@ -2,6 +2,7 @@
 #define __MAINWINDOW_H
 
 #include <QtWidgets/QMainWindow>
+#include <QElapsedTimer>
 #include "ui_MainWindow.h"
 #include "AboutWindow.h"
 #include "AddNodeDialog.h"
@@ -13,6 +14,11 @@
 
 namespace SceneEditor
 {
+    
+    typedef struct{
+        qint64 lastTime;
+        size_t frameCount;
+    } FrameRate;
 
     class MainWindow : public QMainWindow
     {
@@ -23,6 +29,11 @@ namespace SceneEditor
         EntityDialogManager* _entityDialogManager;
 
         QTreeWidgetItem* _rootItem;
+        
+        QElapsedTimer _fpsTimer;
+        QLabel* _fpsLabel;
+        
+        FrameRate _fpsCounter;
 
     public:
         MainWindow(QWidget *parent = 0);
@@ -45,6 +56,7 @@ namespace SceneEditor
         void resetSimulationButtonClicked();
         
         void updateSceneGraphTree();
+        void updateFpsCounter();
         
         void about();
         void exit();
