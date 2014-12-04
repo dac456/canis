@@ -32,6 +32,7 @@ namespace SceneEditor
         connect(ui.viewList, SIGNAL(activated(QString)), ui.viewport, SLOT(updateView(QString)));
         connect(ui.sceneGraphView, SIGNAL(itemSelectionChanged()), this, SLOT(sceneGraphSelectionChanged()));
         connect(ui.addNodeButton, SIGNAL(clicked()), this, SLOT(addNodeButtonClicked()));
+        connect(ui.addLightButton, SIGNAL(clicked()), this, SLOT(addLightButtonClicked()));
         connect(ui.addEntityButton, SIGNAL(clicked()), this, SLOT(addEntityButtonClicked()));
         connect(ui.pauseSimulationButton, SIGNAL(clicked()), this, SLOT(pauseSimulationButtonClicked()));
         connect(ui.resetButton, SIGNAL(clicked()), this, SLOT(resetSimulationButtonClicked()));
@@ -39,6 +40,7 @@ namespace SceneEditor
         
         connect(this, SIGNAL(objectSelected(QString, QString)), ui.viewport, SLOT(selectObject(QString, QString)));
         connect(this, SIGNAL(sceneNodeAdded(QString)), ui.viewport, SLOT(addSceneNode(QString)));
+        connect(this, SIGNAL(lightAdded(QString, float, QColor)), ui.viewport, SLOT(addLight(QString, float, QColor)));
         connect(this, SIGNAL(initialized()), ui.viewport, SLOT(initialize()));
         connect(this, SIGNAL(sceneLoaded(Canis::Scene*)), ui.viewport, SLOT(setActiveScene(Canis::Scene*)));
         
@@ -208,6 +210,13 @@ namespace SceneEditor
     void MainWindow::addNodeButtonClicked(){
         if(addNodeDialog.exec() == QDialog::Accepted){
             Q_EMIT sceneNodeAdded(addNodeDialog.getNodeName());
+        }
+    }
+    
+    void MainWindow::addLightButtonClicked(){
+        if(addLightDialog.exec() == QDialog::Accepted){
+            Q_EMIT lightAdded(addLightDialog.getName(), addLightDialog.getRadius(), addLightDialog.getColor());
+            addLightDialog.close();
         }
     }
 

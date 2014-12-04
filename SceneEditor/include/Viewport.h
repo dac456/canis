@@ -107,6 +107,7 @@ namespace SceneEditor
         void setViewSide();
         
         void addSceneNode(QString name);
+        void addLight(QString name, float radius, QColor diffuse);
         
     Q_SIGNALS:
         void contextCreated();
