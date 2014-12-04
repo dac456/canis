@@ -39,6 +39,7 @@ namespace SceneEditor
         
         connect(this, SIGNAL(objectSelected(QString, QString)), ui.viewport, SLOT(selectObject(QString, QString)));
         connect(this, SIGNAL(sceneNodeAdded(QString)), ui.viewport, SLOT(addSceneNode(QString)));
+        connect(this, SIGNAL(entityAdded(QString, Canis::StringMap)), ui.viewport, SLOT(addEntity(QString, Canis::StringMap)));
         connect(this, SIGNAL(initialized()), ui.viewport, SLOT(initialize()));
         connect(this, SIGNAL(sceneLoaded(Canis::Scene*)), ui.viewport, SLOT(setActiveScene(Canis::Scene*)));
         
@@ -208,6 +209,7 @@ namespace SceneEditor
     void MainWindow::addNodeButtonClicked(){
         if(addNodeDialog.exec() == QDialog::Accepted){
             Q_EMIT sceneNodeAdded(addNodeDialog.getNodeName());
+            addNodeDialog.close();
         }
     }
 
@@ -217,6 +219,7 @@ namespace SceneEditor
         AddEntityDialog addEntityDialog;
         addEntityDialog.setDialog(entity->text().toStdString());
         if(addEntityDialog.exec() == QDialog::Accepted){
+            Q_EMIT entityAdded(entity->text(), addEntityDialog.getEntityParams());
             addEntityDialog.close();
         }
         else{

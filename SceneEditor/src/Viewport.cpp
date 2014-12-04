@@ -551,6 +551,13 @@ namespace SceneEditor
         _activeScene->addSceneNode(new Canis::SceneNode(name.toStdString(), glm::translate(pos))); 
         
         Q_EMIT sceneChanged();
+    }
+    
+    void Viewport::addEntity(QString type, Canis::StringMap args){
+        if(_selectedObjectType == "node"){
+            Canis::IEntity* ent = Canis::EntityManager::getSingleton().getEntityFactory(type.toStdString())->createEntity(args["name"], glm::mat4(1.0f), args);
+            _getNodeByName(_selectedObjectName.toStdString())->attachEntity(ent);
+        }
     }       
 
 }

@@ -18,7 +18,12 @@ namespace Canis
         StringMap params = userParams; //TODO: should userParams be const?
 
         float mass = std::stof(params["mass"]);
-        COLLISION_SHAPE shape = static_cast<COLLISION_SHAPE>(std::stoi(params["shape"]));
+        
+        COLLISION_SHAPE shape = BOX_SHAPE;
+        if(params.count("shape") == 1){
+            shape = static_cast<COLLISION_SHAPE>(std::stoi(params["shape"]));
+        }
+        
         std::string mesh = params["mesh"];
 
         return new Prop(name, new Mesh(new AssimpLoader(mesh)), shape, mass);

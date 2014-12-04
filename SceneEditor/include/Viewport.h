@@ -107,6 +107,7 @@ namespace SceneEditor
         void setViewSide();
         
         void addSceneNode(QString name);
+        void addEntity(QString type, Canis::StringMap args);
         
     Q_SIGNALS:
         void contextCreated();

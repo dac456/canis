@@ -64,6 +64,7 @@ namespace SceneEditor
     Q_SIGNALS:
         void objectSelected(QString name, QString type);
         void sceneNodeAdded(QString name);
+        void entityAdded(QString type, Canis::StringMap args);
         void initialized();
         void sceneLoaded(Canis::Scene* scene);
 

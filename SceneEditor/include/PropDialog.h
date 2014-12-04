@@ -16,6 +16,7 @@ namespace SceneEditor
         QPushButton* _meshBrowse;
         QLineEdit* _nameInput;
         QLineEdit* _meshInput;
+        QLineEdit* _massInput;
 
     public:
         PropDialog(QWidget* parent = (QWidget*)0);
