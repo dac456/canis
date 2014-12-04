@@ -7,6 +7,7 @@
 #include "AboutWindow.h"
 #include "AddNodeDialog.h"
 #include "AddEntityDialog.h"
+#include "AddLightDialog.h"
 
 #include "EntityDialogManager.h"
 
@@ -51,6 +52,7 @@ namespace SceneEditor
         void viewportChanged(int);
         void sceneGraphSelectionChanged();
         void addNodeButtonClicked();
+        void addLightButtonClicked();
         void addEntityButtonClicked();
         void pauseSimulationButtonClicked();
         void resetSimulationButtonClicked();
@@ -65,6 +67,7 @@ namespace SceneEditor
         void objectSelected(QString name, QString type);
         void sceneNodeAdded(QString name);
         void entityAdded(QString type, Canis::StringMap args);
+        void lightAdded(QString name, float radius, QColor diffuse);
         void initialized();
         void sceneLoaded(Canis::Scene* scene);
 
@@ -73,6 +76,7 @@ namespace SceneEditor
 
         AboutWindow aboutWindow;
         AddNodeDialog addNodeDialog;
+        AddLightDialog addLightDialog;
 
         friend class AddNodeDialog;
     };

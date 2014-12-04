@@ -108,6 +108,7 @@ namespace SceneEditor
         
         void addSceneNode(QString name);
         void addEntity(QString type, Canis::StringMap args);
+        void addLight(QString name, float radius, QColor diffuse);
         
     Q_SIGNALS:
         void contextCreated();

@@ -560,6 +560,14 @@ namespace SceneEditor
             
             Q_EMIT sceneChanged();
         }
-    }       
+    }
+
+    void Viewport::addLight(QString name, float radius, QColor diffuse){
+        if(_selectedObjectType == "node"){
+            _getNodeByName(_selectedObjectName.toStdString())->attachLight(new Canis::Light(name.toStdString(), glm::vec3(diffuse.redF(), diffuse.greenF(), diffuse.blueF()), radius, glm::mat4(1.0f)));
+        
+            Q_EMIT sceneChanged();
+        }
+    }         
 
 }
