@@ -88,8 +88,8 @@ namespace Canis
 {
     typedef enum
     {
-        SPHERE_SHAPE,
         BOX_SHAPE,
+        SPHERE_SHAPE,
         CAPSULE_SHAPE
     } COLLISION_SHAPE;
 

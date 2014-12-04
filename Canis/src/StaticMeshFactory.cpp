@@ -1,8 +1,12 @@
+#include <boost/filesystem.hpp>
 #include "StaticMeshFactory.h"
 #include "StaticMesh.h"
 #include "EntityManager.h"
 #include "Mesh.h"
 #include "AssimpLoader.h"
+#include "LW14Loader.h"
+
+using namespace boost;
 
 namespace Canis
 {
@@ -15,7 +19,14 @@ namespace Canis
         StringMap params = userParams;
 
         std::string mesh = params["mesh"];
-        return new StaticMesh(name, new Mesh(new AssimpLoader(mesh)), transform);
+        filesystem::path p(mesh);
+        
+        if(p.extension().string() == ".3dw"){
+            return new StaticMesh(name, new Mesh(new LW14Loader(mesh)), transform);
+        }
+        else{
+            return new StaticMesh(name, new Mesh(new AssimpLoader(mesh)), transform);
+        }
     }
 
 

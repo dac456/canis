@@ -15,7 +15,6 @@ namespace Canis
     AssimpLoader::AssimpLoader(std::string fileName){
         Assimp::Importer imp;
         _scene = imp.ReadFile(fileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
-        std::cout << fileName << std::endl;
 
         if(!_scene){
             _loaded = false;

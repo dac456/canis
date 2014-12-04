@@ -18,7 +18,7 @@ namespace SceneEditor
         EntityDialogManager();
         ~EntityDialogManager();
 
-        void addEntityDialogFactory(std::string entityType, IEntityDialogFactory* factory);
+        void addEntityDialogFactory(IEntityDialogFactory* factory);
         IEntityDialogFactory* getEntityDialogFactory(std::string entityType);
     };
 

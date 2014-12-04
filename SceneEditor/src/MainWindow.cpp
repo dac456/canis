@@ -62,7 +62,7 @@ namespace SceneEditor
         ui.pauseSimulationButton->setText("Play");
 
         //---Build test scene programmatically---//
-        Canis::StringMap args;
+        /*Canis::StringMap args;
         args["mass"] = "50.0f";
         args["shape"] = std::to_string((long long)Canis::SPHERE_SHAPE);
         args["mesh"] = "./Media/Models/sphere.ms3d";
@@ -70,18 +70,18 @@ namespace SceneEditor
 
         args.clear();
         args["mesh"] = "./Media/Models/terrain2.ms3d";
-        Canis::IEntity* ent2 = Canis::EntityManager::getSingleton().getEntityFactory("Static Mesh")->createEntity("Terrain", glm::mat4(1.0f), args);
+        Canis::IEntity* ent2 = Canis::EntityManager::getSingleton().getEntityFactory("Static Mesh")->createEntity("Terrain", glm::mat4(1.0f), args);*/
 
         Canis::Scene* defaultScene = new Canis::Scene("untitled", glm::mat4(1.0f));
 
         Canis::SceneNode* root = new Canis::SceneNode("Root");
-        Canis::SceneNode* ball = new Canis::SceneNode("BallNode", glm::translate(glm::vec3(0.0f, 1000.0f, 0.0f)));
+        //Canis::SceneNode* ball = new Canis::SceneNode("BallNode", glm::translate(glm::vec3(0.0f, 1000.0f, 0.0f)));
         defaultScene->addSceneNode(root);
-        defaultScene->addSceneNode(ball);
+        /*defaultScene->addSceneNode(ball);
 
         root->attachEntity(ent2);
         ball->attachEntity(ent);
-        ball->attachSceneNode(new Canis::SceneNode("TestNode", glm::translate(glm::vec3(500.0f, 0.0f, 0.0f))));
+        ball->attachSceneNode(new Canis::SceneNode("TestNode", glm::translate(glm::vec3(500.0f, 0.0f, 0.0f))));*/
 
         Canis::Light* light = new Canis::Light("Light0", glm::vec3(1.0f, 1.0f, 1.0f), 10000.0f, glm::translate(glm::vec3(0.0f, 200.0f, 0.0f)));
         root->attachLight(light);
@@ -122,7 +122,7 @@ namespace SceneEditor
             if(plugin){
                 IEntityDialogFactory* entityDialogFactory = qobject_cast<IEntityDialogFactory*>(plugin);
                 if(entityDialogFactory){
-                    EntityDialogManager::getSingleton().addEntityDialogFactory(entityDialogFactory->getEntityName().toStdString(), entityDialogFactory);
+                    EntityDialogManager::getSingleton().addEntityDialogFactory(entityDialogFactory);
                 }
             }
         }

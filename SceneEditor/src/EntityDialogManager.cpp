@@ -1,12 +1,14 @@
 #include "EntityDialogManager.h"
 #include "PropDialogFactory.h"
+#include "StaticMeshDialogFactory.h"
 
 namespace SceneEditor
 {
 
     EntityDialogManager::EntityDialogManager(){
-        PropDialogFactory* propDialog = new PropDialogFactory();
-        addEntityDialogFactory(propDialog->getEntityName().toStdString(), propDialog);
+        //PropDialogFactory* propDialog = new PropDialogFactory();
+        addEntityDialogFactory(new PropDialogFactory());
+        addEntityDialogFactory(new StaticMeshDialogFactory());
     }
 
     EntityDialogManager::~EntityDialogManager(){
@@ -16,8 +18,10 @@ namespace SceneEditor
         }
     }
 
-    void EntityDialogManager::addEntityDialogFactory(std::string entityType, IEntityDialogFactory* factory){
-        _factories[entityType] = factory;
+    void EntityDialogManager::addEntityDialogFactory(IEntityDialogFactory* factory){
+        if(factory != nullptr){
+            _factories[factory->getEntityName().toStdString()] = factory;
+        }
     }
 
     IEntityDialogFactory* EntityDialogManager::getEntityDialogFactory(std::string entityType){
