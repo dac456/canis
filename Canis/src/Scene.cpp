@@ -84,8 +84,8 @@ namespace Canis
         //TODO: we will eventually only want to sort lights that we can see
         for(size_t i=0; i<_lights.size(); i++){
             glm::vec4 lightPos = glm::vec4(_lights[i]->getAbsolutePosition(), 1.0f);
-            glm::vec4 lightDir = glm::normalize(lightPos - point);
-            glm::vec4 eyeDir = glm::normalize(glm::vec4(_activeCamera->getAbsolutePosition(), 1.0f) - point);
+            //glm::vec4 lightDir = glm::normalize(lightPos - point);
+            //glm::vec4 eyeDir = glm::normalize(glm::vec4(_activeCamera->getAbsolutePosition(), 1.0f) - point);
 
             //_lights[i]->_brightness = glm::dot(lightDir, eyeDir);
             //_lights[i]->_brightness = glm::length(point - lightPos);
