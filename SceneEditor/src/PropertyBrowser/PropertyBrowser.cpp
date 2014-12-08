@@ -19,20 +19,15 @@ namespace SceneEditor
         for(auto key : _properties.keys()){
             delete _properties.value(key);
         }
-        
         _properties.clear();
         
-        if(this->children().size() > 0){
-             qDeleteAll(this->children());
-        }
-        
-        if(_layout != nullptr){
-            _layout->deleteLater();
+        qDeleteAll(children());
+        if(layout() != 0){
+            delete layout();
         }
         
         _layout = new QVBoxLayout();
         setLayout(_layout);       
-        
     }
     
     void PropertyBrowser::addProperty(IProperty* property){
