@@ -210,9 +210,8 @@ namespace SceneEditor
     }
     
     void MainWindow::setPropertySheetNode(Canis::SceneNode* node){
-        ui.propertyBrowser->addProperty(new StringProperty(QString("Name"), QString(node->getName().c_str()), [&](QVariant data){
-            //node->setName(data.toString().toStdString());
-            std::cout << node->getName() << std::endl;
+        ui.propertyBrowser->addProperty(new StringProperty(QString("Name"), QString(node->getName().c_str()), [this, node](QVariant data){
+            node->setName(data.toString().toStdString());
             updateSceneGraphTree();
         }));
     }
