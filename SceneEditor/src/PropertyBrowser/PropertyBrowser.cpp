@@ -1,6 +1,5 @@
 #include "PropertyBrowser.h"
 
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QGroupBox>
@@ -10,9 +9,30 @@ namespace SceneEditor
     
     PropertyBrowser::PropertyBrowser(QWidget* parent)
         : QWidget(parent){
+            _layout = nullptr;
     }
     
     PropertyBrowser::~PropertyBrowser(){
+    }
+    
+    void PropertyBrowser::reset(){
+        for(auto key : _properties.keys()){
+            delete _properties.value(key);
+        }
+        
+        _properties.clear();
+        
+        if(this->children().size() > 0){
+             qDeleteAll(this->children());
+        }
+        
+        if(_layout != nullptr){
+            _layout->deleteLater();
+        }
+        
+        _layout = new QVBoxLayout();
+        setLayout(_layout);       
+        
     }
     
     void PropertyBrowser::addProperty(IProperty* property){
@@ -21,8 +41,7 @@ namespace SceneEditor
     }
     
     void PropertyBrowser::_update(){
-        QVBoxLayout* layout = new QVBoxLayout();
-        layout->setAlignment(Qt::AlignTop);
+        _layout->setAlignment(Qt::AlignTop);
         
         for(auto key : _properties.keys()){
             QVBoxLayout* prop = new QVBoxLayout();
@@ -47,10 +66,10 @@ namespace SceneEditor
             group->setLayout(groupLayout);
             prop->addWidget(group);
             
-            layout->addLayout(prop);
+            _layout->addLayout(prop);
         }
         
-        setLayout(layout);
+        setLayout(_layout);
     }
     
 }

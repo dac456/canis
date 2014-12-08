@@ -177,6 +177,8 @@ namespace SceneEditor
     }
 
     void MainWindow::sceneGraphSelectionChanged(){
+        ui.propertyBrowser->reset(); //should be signal
+        
         if(!ui.sceneGraphView->selectedItems().empty()){
             QTreeWidgetItem* sel = ui.sceneGraphView->selectedItems()[0];
 

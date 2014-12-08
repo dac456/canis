@@ -2,6 +2,7 @@
 #define __PROPERTYBROWSER_H
 
 #include <QtWidgets/QWidget>
+#include <QVBoxLayout>
 #include "IProperty.h"
 
 namespace SceneEditor
@@ -12,11 +13,13 @@ namespace SceneEditor
         
     private:
         QMap<QString, IProperty*> _properties;
+        QVBoxLayout* _layout;
         
     public:
         PropertyBrowser(QWidget* parent = (QWidget*)0);
         ~PropertyBrowser();
         
+        void reset();
         void addProperty(IProperty* property);
         
     private:
