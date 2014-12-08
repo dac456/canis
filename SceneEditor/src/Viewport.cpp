@@ -67,6 +67,7 @@ namespace SceneEditor
         connect(this, SIGNAL(sceneChanged()), main, SLOT(updateSceneGraphTree()));
         connect(this, SIGNAL(viewportChanged(int)), main, SLOT(viewportChanged(int)));  
         connect(this, SIGNAL(renderOnce()), main, SLOT(updateFpsCounter()));
+        connect(this, SIGNAL(setPropertySheetNode(Canis::SceneNode*)), main, SLOT(setPropertySheetNode(Canis::SceneNode*)));
     }        
 
     /*
@@ -486,6 +487,11 @@ namespace SceneEditor
         _selectedObjectType = type;
         
         //Should eventually select by calling node->select();
+        
+        if(type == "node"){
+            Canis::SceneNode* n = _getNodeByName(name.toStdString());
+            Q_EMIT setPropertySheetNode(n);
+        }
     }        
 
     void Viewport::updateView(QString item){

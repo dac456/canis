@@ -68,6 +68,10 @@ namespace Canis
         camera->_parent = this;
         _cameras.push_back(camera);
     }
+    
+    void SceneNode::setName(std::string name){
+        _name = name;
+    }
 
     std::string SceneNode::getName(){
         return _name;

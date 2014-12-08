@@ -115,6 +115,7 @@ namespace SceneEditor
         void sceneChanged();
         void viewportChanged(int type);
         void renderOnce();
+        void setPropertySheetNode(Canis::SceneNode* node);
     };
 
 }

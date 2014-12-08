@@ -32,6 +32,7 @@ namespace Canis
         void attachLight(Light* light);
         void attachCamera(Camera* camera);
 
+        void setName(std::string name);
         std::string getName();
         std::vector<SceneNode*> getChildren();
         std::vector<IEntity*> getEntities();

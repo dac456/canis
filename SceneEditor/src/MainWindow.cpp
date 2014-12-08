@@ -1,6 +1,7 @@
 #include <QtCore/QtCore>
 #include "MainWindow.h"
 #include "IEntityDialogFactory.h"
+#include "StringProperty.h"
 
 namespace SceneEditor
 {
@@ -206,6 +207,14 @@ namespace SceneEditor
                 Q_EMIT objectSelected("", "");
             }
         }
+    }
+    
+    void MainWindow::setPropertySheetNode(Canis::SceneNode* node){
+        ui.propertyBrowser->addProperty(new StringProperty(QString("Name"), QString(node->getName().c_str()), [&](QVariant data){
+            //node->setName(data.toString().toStdString());
+            std::cout << node->getName() << std::endl;
+            updateSceneGraphTree();
+        }));
     }
 
     void MainWindow::addNodeButtonClicked(){

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>744</width>
-    <height>574</height>
+    <width>942</width>
+    <height>576</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -237,7 +237,7 @@
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="../res/MainWindow.qrc">
+                 <iconset>
                   <normaloff>:/MainWindow/res/Node-128.png</normaloff>:/MainWindow/res/Node-128.png</iconset>
                 </property>
                </widget>
@@ -258,7 +258,7 @@
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="../res/MainWindow.qrc">
+                 <iconset>
                   <normaloff>:/MainWindow/res/video_camera.png</normaloff>:/MainWindow/res/video_camera.png</iconset>
                 </property>
                </widget>
@@ -289,7 +289,7 @@
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="../res/MainWindow.qrc">
+                 <iconset>
                   <normaloff>:/MainWindow/res/light-bulb-icon.png</normaloff>:/MainWindow/res/light-bulb-icon.png</iconset>
                 </property>
                </widget>
@@ -322,6 +322,22 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="SceneEditor::PropertyBrowser" name="propertyBrowser" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>192</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
@@ -331,7 +347,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>744</width>
+     <width>942</width>
      <height>20</height>
     </rect>
    </property>
@@ -395,6 +411,12 @@
    <class>SceneEditor::Viewport</class>
    <extends>QWidget</extends>
    <header>Viewport.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SceneEditor::PropertyBrowser</class>
+   <extends>QWidget</extends>
+   <header>PropertyBrowser.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

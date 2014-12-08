@@ -3,6 +3,8 @@ project(SceneEditor)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules")
+#set(CMAKE_AUTOMOC TRUE)
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_definitions( -DGLM_FORCE_RADIANS )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -23,9 +25,9 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 file(GLOB QT_FORMS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS ui/*.ui)
 file(GLOB QT_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS res/*.qrc)
-file(GLOB QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS include/*.h)
+file(GLOB QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS include/*.h include/PropertyBrowser/*.h)
 
-set(CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles) #little hack to control output of generated Qt files
+#set(CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles) #little hack to control output of generated Qt files
 QT5_ADD_RESOURCES(QT_RESOURCES_CPP ${QT_RESOURCES})
 QT5_WRAP_UI(QT_FORMS_HPP ${QT_FORMS})
 QT5_WRAP_CPP(QT_MOC_HPP ${QT_MOC})
@@ -44,7 +46,8 @@ find_package(Bullet REQUIRED)
 
 include_directories(${CanisSDK_SOURCE_DIR}/Canis/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/PropertyBrowser)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/TinyXML)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/SOIL)
 include_directories(${GLEW_INCLUDE_DIRS})
@@ -54,10 +57,12 @@ include_directories(${ASSIMP_INCLUDE_DIR})
 include_directories(${BOOST_INCLUDE_DIR})
 
 file(GLOB_RECURSE SOURCE RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp)
-file(GLOB_RECURSE QT_SOURCE RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS GeneratedFiles/include/*.cpp)
+file(GLOB_RECURSE PB_SOURCE RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/PropertyBrowser/*.cpp)
+#file(GLOB_RECURSE QT_SOURCE RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS GeneratedFiles/include/*.cpp)
+#file(GLOB_RECURSE QT_PB_SOURCE RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS GeneratedFiles/*.cpp)
 
 link_directories(${CANIS_BINARY_DIR})
-add_executable(SceneEditor ${SOURCE} ${QT_SOURCE} ${QT_RESOURCES_CPP} ${QT_FORMS_HPP} ${QT_MOC_HPP})
+add_executable(SceneEditor ${SOURCE} ${PB_SOURCE} ${QT_RESOURCES_CPP} ${QT_FORMS_HPP} ${QT_MOC_HPP})
 
 message("${ASSIMP_LIBRARY}")
 
