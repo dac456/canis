@@ -4,7 +4,7 @@
 namespace SceneEditor
 {
     
-    StringProperty::StringProperty(QString name, QString value, std::function<void(QVariant)> callback)
+    StringProperty::StringProperty(QString name, QString value, PropCB callback)
         : IProperty(name, "String", callback){
             _fields["value"] = value;
             

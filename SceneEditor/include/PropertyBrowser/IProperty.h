@@ -11,6 +11,7 @@ namespace SceneEditor
 {
     
     typedef QMap<QString, QVariant> FieldMap;
+    typedef std::function<void(QVariant)> PropCB;
 
     class IProperty : public QObject{
         Q_OBJECT
@@ -18,13 +19,13 @@ namespace SceneEditor
     protected:
         QString _name;
         QString _type;
-        std::function<void(QVariant)> _callback;
+        PropCB _callback;
         FieldMap _fields;
         
         QVector<IProperty*> _children;
         
     public:
-        IProperty(QString name, QString type, std::function<void(QVariant)> callback){
+        IProperty(QString name, QString type, PropCB callback){
             _name = name;
             _type = type;
             _callback = callback;

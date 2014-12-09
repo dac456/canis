@@ -450,6 +450,10 @@ namespace SceneEditor
         return nullptr;
     }
     
+    Canis::Light* Light::_getLightByName(QString name){
+        
+    }
+    
     /*
      * Slots
      */
@@ -491,6 +495,9 @@ namespace SceneEditor
         if(type == "node"){
             Canis::SceneNode* n = _getNodeByName(name.toStdString());
             Q_EMIT setPropertySheetNode(n);
+        }
+        else if(type == "light"){
+            Canis::Light* l = _getLightByName(name);
         }
     }        
 

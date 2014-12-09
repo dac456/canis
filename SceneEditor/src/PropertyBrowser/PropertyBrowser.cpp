@@ -9,10 +9,15 @@ namespace SceneEditor
     
     PropertyBrowser::PropertyBrowser(QWidget* parent)
         : QWidget(parent){
-            _layout = nullptr;
+            _layout = new QVBoxLayout();
+            setLayout(_layout);
     }
     
     PropertyBrowser::~PropertyBrowser(){
+        for(auto key : _properties.keys()){
+            delete _properties.value(key);
+        }
+        _properties.clear();        
     }
     
     void PropertyBrowser::reset(){
@@ -36,6 +41,16 @@ namespace SceneEditor
     }
     
     void PropertyBrowser::_update(){
+        //TODO: new method?
+        qDeleteAll(children());
+        if(layout() != 0){
+            delete layout();
+        }
+        
+        _layout = new QVBoxLayout();
+        setLayout(_layout); 
+        //--//
+                
         _layout->setAlignment(Qt::AlignTop);
         
         for(auto key : _properties.keys()){
@@ -64,7 +79,7 @@ namespace SceneEditor
             _layout->addLayout(prop);
         }
         
-        setLayout(_layout);
+        //setLayout(_layout);
     }
     
 }

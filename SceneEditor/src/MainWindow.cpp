@@ -2,6 +2,7 @@
 #include "MainWindow.h"
 #include "IEntityDialogFactory.h"
 #include "StringProperty.h"
+#include "ColorProperty.h"
 
 namespace SceneEditor
 {
@@ -177,12 +178,12 @@ namespace SceneEditor
     }
 
     void MainWindow::sceneGraphSelectionChanged(){
-        ui.propertyBrowser->reset(); //should be signal
-        
         if(!ui.sceneGraphView->selectedItems().empty()){
             QTreeWidgetItem* sel = ui.sceneGraphView->selectedItems()[0];
 
             if(sel->text(0).contains("<Node>")){
+                ui.propertyBrowser->reset(); //should be signal
+                
                 ui.addEntityButton->setEnabled(true);
                 ui.addLightButton->setEnabled(true);
                 ui.addCameraButton->setEnabled(true);
@@ -192,6 +193,8 @@ namespace SceneEditor
                 Q_EMIT objectSelected(name, "node");
             }
             else if(sel->text(0).contains("<Entity>")){
+                ui.propertyBrowser->reset(); //should be signal
+                
                 ui.addEntityButton->setEnabled(false);
                 ui.addLightButton->setEnabled(false);
                 ui.addCameraButton->setEnabled(false);
@@ -201,6 +204,8 @@ namespace SceneEditor
                 Q_EMIT objectSelected(name, "entity");
             }
             else{
+                ui.propertyBrowser->reset(); //should be signal
+                
                 ui.addEntityButton->setEnabled(false);
                 ui.addLightButton->setEnabled(false);
                 ui.addCameraButton->setEnabled(false);
@@ -215,6 +220,9 @@ namespace SceneEditor
         ui.propertyBrowser->addProperty(new StringProperty(QString("Name"), QString(node->getName().c_str()), [this, node](QVariant data){
             node->setName(data.toString().toStdString());
             updateSceneGraphTree();
+        }));
+        
+        ui.propertyBrowser->addProperty(new ColorProperty("Diffuse", QColor(255, 255, 255), [this](QVariant data){
         }));
     }
 
