@@ -10,7 +10,7 @@ namespace SceneEditor
         Q_OBJECT
         
     public:
-        StringProperty(QString name, QString value, PropCB callback);
+        StringProperty(QString name, QString value, bool readOnly, PropCB callback);
         ~StringProperty();
         
         QWidget* getWidget(QString field);

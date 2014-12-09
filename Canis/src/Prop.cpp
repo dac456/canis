@@ -17,6 +17,12 @@ namespace Canis
             _paramTypes["mesh"] = PARAM_PATH;
             _paramTypes["shape"] = PARAM_SHAPE;
             _paramTypes["mass"] = PARAM_REAL;
+            
+            _params["name"] = name;
+            
+            std::stringstream ss;
+            ss << mass;
+            _params["mass"] = ss.str();
 
             if(shape == SPHERE_SHAPE)
                 _collisionShape = new btSphereShape(_mesh->getBoundingBox().getRadius());
@@ -63,6 +69,23 @@ namespace Canis
         }
         _mesh->render(projectionMatrix, viewMatrix, lights);
         //_mesh->setTransform(localTransform);
+        
+        //Update parameters
+        for(auto p : _paramUpdateList){
+            if(p == "mass"){
+                if(_params["mass"] != ""){
+                    _mass = std::stof(_params["mass"]);
+                }
+                else{
+                    _mass = 0.000001f;
+                }
+                
+                btVector3 inertia(0,0,0);
+                _collisionShape->calculateLocalInertia(_mass, inertia);                
+                _rigidBody->setMassProps(_mass, inertia);
+                _paramUpdateList.pop_back();
+            }
+        }
     }
 
     void Prop::reset(){

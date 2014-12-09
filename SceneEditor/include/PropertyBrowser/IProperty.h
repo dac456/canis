@@ -21,14 +21,16 @@ namespace SceneEditor
         QString _type;
         PropCB _callback;
         FieldMap _fields;
+        bool _readOnly;
         
         QVector<IProperty*> _children;
         
     public:
-        IProperty(QString name, QString type, PropCB callback){
+        IProperty(QString name, QString type, bool readOnly, PropCB callback){
             _name = name;
             _type = type;
             _callback = callback;
+            _readOnly = readOnly;
             
             connect(this, SIGNAL(modified(QVariant)), this, SLOT(_callbackImpl(QVariant)));
         }

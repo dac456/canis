@@ -228,14 +228,14 @@ namespace SceneEditor
     }
     
     void MainWindow::setPropertySheetNode(Canis::SceneNode* node){
-        ui.propertyBrowser->addProperty(new StringProperty(QString("Name"), QString(node->getName().c_str()), [this, node](QVariant data){
+        ui.propertyBrowser->addProperty(new StringProperty(QString("Name"), QString(node->getName().c_str()), false, [this, node](QVariant data){
             node->setName(data.toString().toStdString());
             updateSceneGraphTree();
         }));
     }
     
     void MainWindow::setPropertySheetLight(Canis::Light* light){
-        ui.propertyBrowser->addProperty(new StringProperty("Name", QString(light->getName().c_str()), [this, light](QVariant data){
+        ui.propertyBrowser->addProperty(new StringProperty("Name", QString(light->getName().c_str()), false, [this, light](QVariant data){
             light->setName(data.toString().toStdString());
             updateSceneGraphTree();
         }));         
@@ -248,17 +248,21 @@ namespace SceneEditor
     }
     
     void MainWindow::setPropertySheetEntity(Canis::IEntity* entity){
-        ui.propertyBrowser->addProperty(new StringProperty("Name", QString(entity->getName().c_str()), [this, entity](QVariant data){
+        ui.propertyBrowser->addProperty(new StringProperty("Name", QString(entity->getName().c_str()), false, [this, entity](QVariant data){
             entity->setName(data.toString().toStdString());
             updateSceneGraphTree();
         }));
         
         for(auto pair : entity->getParamTypes()){
             if(pair.second == Canis::PARAM_REAL){
-                ui.propertyBrowser->addProperty(new StringProperty(QString(pair.first.c_str()), QString(entity->getParam(pair.first).c_str()), [pair, entity](QVariant data){
+                ui.propertyBrowser->addProperty(new StringProperty(QString(pair.first.c_str()), QString(entity->getParam(pair.first).c_str()), false, [pair, entity](QVariant data){
                     entity->setParam(pair.first, data.toString().toStdString());
                 })); 
             }
+            else if(pair.second == Canis::PARAM_PATH){
+                 ui.propertyBrowser->addProperty(new StringProperty(QString(pair.first.c_str()), QString(entity->getParam(pair.first).c_str()), true, [pair, entity](QVariant data){
+                })); 
+            }               
         }                       
     }
 

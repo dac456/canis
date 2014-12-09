@@ -25,7 +25,10 @@ namespace Canis
             return new StaticMesh(name, new Mesh(new LW14Loader(mesh)), transform);
         }
         else{
-            return new StaticMesh(name, new Mesh(new AssimpLoader(mesh)), transform);
+            StaticMesh* sm = new StaticMesh(name, new Mesh(new AssimpLoader(mesh)), transform);
+            sm->setParam("mesh", mesh);
+            
+            return sm;
         }
     }
 

@@ -27,6 +27,7 @@ namespace Canis
         
         typedef std::map<std::string, PARAM_TYPES> ParameterMap;
         ParameterMap _paramTypes;
+        std::vector<std::string> _paramUpdateList;
 
     public:
         IEntity(std::string type, std::string name, glm::mat4 transform = glm::mat4(1.0f), bool renderable = false)
@@ -50,11 +51,13 @@ namespace Canis
         
         void setParam(std::string name, std::string value){
             _params[name] = value;
+            _paramUpdateList.push_back(name);
         }
         
         void setParams(StringMap params){
             for(auto pair : params){
                 _params[pair.first] = pair.second;
+                _paramUpdateList.push_back(pair.first);
             }
         }
         

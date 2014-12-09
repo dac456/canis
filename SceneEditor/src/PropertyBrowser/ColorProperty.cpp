@@ -4,7 +4,7 @@ namespace SceneEditor
 {
     
     ColorProperty::ColorProperty(QString name, QColor value, PropCB callback)
-        : IProperty(name, "Color", callback){
+        : IProperty(name, "Color", false, callback){
             _fields["value"] = value;
             
             connect(this, SIGNAL(colorChangedNotify(QVariant)), this, SLOT(_modified(QVariant)));

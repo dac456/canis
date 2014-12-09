@@ -27,8 +27,9 @@ namespace Canis
         std::string mesh = params["mesh"];
 
         Prop* prop = new Prop(name, new Mesh(new AssimpLoader(mesh)), shape, mass);
-        prop->setParam("name", name);
-        prop->setParams(params);
+        prop->setParam("mesh", mesh);
+        
+        return prop;
     }
 
 }
