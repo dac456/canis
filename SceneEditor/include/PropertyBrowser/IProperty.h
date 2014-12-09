@@ -3,14 +3,14 @@
 
 #include <iostream>
 #include <functional>
-#include <QtCore/QMap>
+#include <QtCore/QHash>
 #include <QtCore/QVector>
 #include <QtCore/QVariant>
 
 namespace SceneEditor
 {
     
-    typedef QMap<QString, QVariant> FieldMap;
+    typedef QHash<QString, QVariant> FieldMap;
     typedef std::function<void(QVariant)> PropCB;
 
     class IProperty : public QObject{

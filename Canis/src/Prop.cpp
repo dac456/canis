@@ -12,6 +12,11 @@ namespace Canis
             _mesh = mesh;
             _mesh->setTransform(glm::mat4(1.0f));
             _mass = mass;
+            
+            _paramTypes["name"] = PARAM_STRING;
+            _paramTypes["mesh"] = PARAM_PATH;
+            _paramTypes["shape"] = PARAM_SHAPE;
+            _paramTypes["mass"] = PARAM_REAL;
 
             if(shape == SPHERE_SHAPE)
                 _collisionShape = new btSphereShape(_mesh->getBoundingBox().getRadius());

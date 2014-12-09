@@ -12,7 +12,7 @@ namespace SceneEditor
         Q_OBJECT
         
     private:
-        QMap<QString, IProperty*> _properties;
+        QHash<QString, IProperty*> _properties;
         QVBoxLayout* _layout;
         
     public:

@@ -11,7 +11,9 @@ namespace Canis
         : IEntity("staticmesh", name, transform, true){
             _mesh = mesh;
             _mesh->setTransform(transform);
-            printf("Entity %s\n", name.c_str());
+            
+            _paramTypes["name"] = PARAM_STRING;
+            _paramTypes["mesh"] = PARAM_PATH;
 
             //--Bullet--//
             _triangleMesh = nullptr;

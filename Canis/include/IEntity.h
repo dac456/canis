@@ -7,6 +7,14 @@
 
 namespace Canis
 {
+    
+    typedef enum{
+        PARAM_STRING,
+        PARAM_PATH,
+        PARAM_SHAPE,
+        PARAM_REAL,
+        PARAM_INT
+    } PARAM_TYPES;
 
     class CSAPI IEntity : public IObject{
     private:
@@ -16,6 +24,9 @@ namespace Canis
 
     protected:
         StringMap _userParams;
+        
+        typedef std::map<std::string, PARAM_TYPES> ParameterMap;
+        ParameterMap _paramTypes;
 
     public:
         IEntity(std::string type, std::string name, glm::mat4 transform = glm::mat4(1.0f), bool renderable = false, const StringMap& userParams = StringMap())
@@ -30,6 +41,14 @@ namespace Canis
         virtual ~IEntity(){}
 
         virtual void update(glm::mat4 projectionMatrix, glm::mat4 viewMatrix) = 0;
+        
+        ParameterMap getParamTypes(){
+            if(_paramTypes.empty()){
+                std::cout << "WARNING: entity " << _type << " does not specify it's parameter types" << std::endl;
+            }
+            
+            return _paramTypes;
+        }
 
         std::string getType(){
             return _type;
