@@ -3,6 +3,7 @@
 #include "IEntityDialogFactory.h"
 #include "StringProperty.h"
 #include "ColorProperty.h"
+#include "Mat4Property.h"
 
 namespace SceneEditor
 {
@@ -232,6 +233,12 @@ namespace SceneEditor
             node->setName(data.toString().toStdString());
             updateSceneGraphTree();
         }));
+        
+        glm::mat4 trans = node->getTransform();
+        QMatrix4x4 mat;
+        mat.setToIdentity();
+        ui.propertyBrowser->addProperty(new Mat4Property("Transform", mat, [this, node](QVariant data){
+        }));           
     }
     
     void MainWindow::setPropertySheetLight(Canis::Light* light){
@@ -245,6 +252,12 @@ namespace SceneEditor
             QColor diffuse = data.value<QColor>();
             light->setDiffuse(glm::vec3(diffuse.redF(), diffuse.greenF(), diffuse.blueF()));
         }));
+        
+        glm::mat4 trans = light->getTransform();
+        QMatrix4x4 mat;
+        mat.setToIdentity();
+        ui.propertyBrowser->addProperty(new Mat4Property("Transform", mat, [this, light](QVariant data){
+        }));        
     }
     
     void MainWindow::setPropertySheetEntity(Canis::IEntity* entity){
