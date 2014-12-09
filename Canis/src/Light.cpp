@@ -28,9 +28,17 @@ namespace Canis
         else
             return getPosition();
     }
+    
+    void Light::setName(std::string name){
+        _name = name;
+    }
 
     std::string Light::getName(){
         return _name;
+    }
+
+    void Light::setDiffuse(glm::vec3 diffuse){
+        _diffuse = diffuse;
     }
 
     glm::vec3 Light::getDiffuse(){

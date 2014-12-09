@@ -15,6 +15,7 @@ namespace SceneEditor
     
     QWidget* ColorProperty::getWidget(QString field){
         Color_Wheel* wheel = new Color_Wheel();
+        wheel->setColor(_fields["value"].value<QColor>());
         
         connect(wheel, SIGNAL(colorChanged(QColor)), this, SLOT(colorChanged(QColor)));
         

@@ -52,6 +52,7 @@ namespace SceneEditor
         void viewportChanged(int);
         void sceneGraphSelectionChanged();
         void setPropertySheetNode(Canis::SceneNode* node);
+        void setPropertySheetLight(Canis::Light* light);
         void addNodeButtonClicked();
         void addLightButtonClicked();
         void addEntityButtonClicked();

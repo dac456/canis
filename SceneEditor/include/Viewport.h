@@ -93,6 +93,7 @@ namespace SceneEditor
         Canis::SceneNode* _getNodeByName(std::string name);
         Canis::SceneNode* _getChildNodeByName(Canis::SceneNode* node, std::string name);
         Canis::Light* _getLightByName(QString name);
+        Canis::Light* _getLightInNode(Canis::SceneNode* node, QString name);
 
     public Q_SLOTS:
         void initialize();

@@ -27,8 +27,12 @@ namespace Canis
         glm::vec3 getPosition();
         glm::vec3 getAbsolutePosition();
 
+        void setName(std::string name);
         std::string getName();
+        
+        void setDiffuse(glm::vec3 diffuse);
         glm::vec3 getDiffuse();
+        
         float getRadius();
 
         void reset();

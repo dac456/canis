@@ -203,6 +203,17 @@ namespace SceneEditor
                 QString name = sel->text(0).remove(" <Entity>");
                 Q_EMIT objectSelected(name, "entity");
             }
+            else if(sel->text(0).contains("<Light>")){
+                ui.propertyBrowser->reset(); //should be signal
+                
+                ui.addEntityButton->setEnabled(false);
+                ui.addLightButton->setEnabled(false);
+                ui.addCameraButton->setEnabled(false);
+                ui.setPoseButton->setEnabled(false);
+
+                QString name = sel->text(0).remove(" <Light>");
+                Q_EMIT objectSelected(name, "light");                
+            }
             else{
                 ui.propertyBrowser->reset(); //should be signal
                 
@@ -221,8 +232,18 @@ namespace SceneEditor
             node->setName(data.toString().toStdString());
             updateSceneGraphTree();
         }));
+    }
+    
+    void MainWindow::setPropertySheetLight(Canis::Light* light){
+        ui.propertyBrowser->addProperty(new StringProperty("Name", QString(light->getName().c_str()), [this, light](QVariant data){
+            light->setName(data.toString().toStdString());
+            updateSceneGraphTree();
+        }));         
         
-        ui.propertyBrowser->addProperty(new ColorProperty("Diffuse", QColor(255, 255, 255), [this](QVariant data){
+        glm::vec3 color = light->getDiffuse();
+        ui.propertyBrowser->addProperty(new ColorProperty("Diffuse", QColor(color.x*255, color.y*255, color.z*255), [this, light](QVariant data){
+            QColor diffuse = data.value<QColor>();
+            light->setDiffuse(glm::vec3(diffuse.redF(), diffuse.greenF(), diffuse.blueF()));
         }));
     }
 

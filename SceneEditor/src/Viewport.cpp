@@ -68,6 +68,7 @@ namespace SceneEditor
         connect(this, SIGNAL(viewportChanged(int)), main, SLOT(viewportChanged(int)));  
         connect(this, SIGNAL(renderOnce()), main, SLOT(updateFpsCounter()));
         connect(this, SIGNAL(setPropertySheetNode(Canis::SceneNode*)), main, SLOT(setPropertySheetNode(Canis::SceneNode*)));
+        connect(this, SIGNAL(setPropertySheetLight(Canis::Light*)), main, SLOT(setPropertySheetLight(Canis::Light*)));
     }        
 
     /*
@@ -450,8 +451,36 @@ namespace SceneEditor
         return nullptr;
     }
     
-    Canis::Light* Light::_getLightByName(QString name){
+    Canis::Light* Viewport::_getLightByName(QString name){
+        Canis::Scene* sc = _activeScene;
         
+        Canis::Light* ret = nullptr;
+        for(auto n : sc->getNodes()){
+            ret =  _getLightInNode(n, name);
+            
+            if(ret != nullptr){
+                return ret;
+            }
+            else{
+                continue;
+            }
+        }
+        
+        return nullptr;
+    }
+    
+    Canis::Light* Viewport::_getLightInNode(Canis::SceneNode* node, QString name){
+        for(auto l : node->getLights()){
+            if(l->getName() == name.toStdString()){
+                return l;
+            }
+        }
+        
+        for(auto c : node->getChildren()){
+            return _getLightInNode(c, name);
+        }
+        
+        return nullptr;
     }
     
     /*
@@ -498,6 +527,7 @@ namespace SceneEditor
         }
         else if(type == "light"){
             Canis::Light* l = _getLightByName(name);
+            Q_EMIT setPropertySheetLight(l);
         }
     }        
 
