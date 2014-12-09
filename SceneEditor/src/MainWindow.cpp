@@ -246,6 +246,21 @@ namespace SceneEditor
             light->setDiffuse(glm::vec3(diffuse.redF(), diffuse.greenF(), diffuse.blueF()));
         }));
     }
+    
+    void MainWindow::setPropertySheetEntity(Canis::IEntity* entity){
+        ui.propertyBrowser->addProperty(new StringProperty("Name", QString(entity->getName().c_str()), [this, entity](QVariant data){
+            entity->setName(data.toString().toStdString());
+            updateSceneGraphTree();
+        }));
+        
+        for(auto pair : entity->getParamTypes()){
+            if(pair.second == Canis::PARAM_REAL){
+                ui.propertyBrowser->addProperty(new StringProperty(QString(pair.first.c_str()), QString(entity->getParam(pair.first).c_str()), [pair, entity](QVariant data){
+                    entity->setParam(pair.first, data.toString().toStdString());
+                })); 
+            }
+        }                       
+    }
 
     void MainWindow::addNodeButtonClicked(){
         if(addNodeDialog.exec() == QDialog::Accepted){

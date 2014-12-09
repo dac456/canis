@@ -69,6 +69,7 @@ namespace SceneEditor
         connect(this, SIGNAL(renderOnce()), main, SLOT(updateFpsCounter()));
         connect(this, SIGNAL(setPropertySheetNode(Canis::SceneNode*)), main, SLOT(setPropertySheetNode(Canis::SceneNode*)));
         connect(this, SIGNAL(setPropertySheetLight(Canis::Light*)), main, SLOT(setPropertySheetLight(Canis::Light*)));
+        connect(this, SIGNAL(setPropertySheetEntity(Canis::IEntity*)), main, SLOT(setPropertySheetEntity(Canis::IEntity*)));
     }        
 
     /*
@@ -456,7 +457,7 @@ namespace SceneEditor
         
         Canis::Light* ret = nullptr;
         for(auto n : sc->getNodes()){
-            ret =  _getLightInNode(n, name);
+            ret =  _getLightFromNode(n, name);
             
             if(ret != nullptr){
                 return ret;
@@ -469,7 +470,7 @@ namespace SceneEditor
         return nullptr;
     }
     
-    Canis::Light* Viewport::_getLightInNode(Canis::SceneNode* node, QString name){
+    Canis::Light* Viewport::_getLightFromNode(Canis::SceneNode* node, QString name){
         for(auto l : node->getLights()){
             if(l->getName() == name.toStdString()){
                 return l;
@@ -477,7 +478,39 @@ namespace SceneEditor
         }
         
         for(auto c : node->getChildren()){
-            return _getLightInNode(c, name);
+            return _getLightFromNode(c, name);
+        }
+        
+        return nullptr;
+    }
+    
+    Canis::IEntity* Viewport::_getEntityByName(QString name){
+        Canis::Scene* sc = _activeScene;
+        
+        Canis::IEntity* ret = nullptr;
+        for(auto n : sc->getNodes()){
+            ret = _getEntityFromNode(n, name);
+            
+            if(ret != nullptr){
+                return ret;
+            }
+            else{
+                continue;
+            }
+        }
+        
+        return nullptr;
+    }
+    
+    Canis::IEntity* Viewport::_getEntityFromNode(Canis::SceneNode* node, QString name){
+        for(auto e : node->getEntities()){
+            if(e->getName() == name.toStdString()){
+                return e;
+            }
+        }
+        
+        for(auto c : node->getChildren()){
+            return _getEntityFromNode(c, name);
         }
         
         return nullptr;
@@ -528,6 +561,10 @@ namespace SceneEditor
         else if(type == "light"){
             Canis::Light* l = _getLightByName(name);
             Q_EMIT setPropertySheetLight(l);
+        }
+        else if(type == "entity"){
+            Canis::IEntity* e = _getEntityByName(name);
+            Q_EMIT setPropertySheetEntity(e);
         }
     }        
 

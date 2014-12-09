@@ -93,7 +93,9 @@ namespace SceneEditor
         Canis::SceneNode* _getNodeByName(std::string name);
         Canis::SceneNode* _getChildNodeByName(Canis::SceneNode* node, std::string name);
         Canis::Light* _getLightByName(QString name);
-        Canis::Light* _getLightInNode(Canis::SceneNode* node, QString name);
+        Canis::Light* _getLightFromNode(Canis::SceneNode* node, QString name);
+        Canis::IEntity* _getEntityByName(QString name);
+        Canis::IEntity* _getEntityFromNode(Canis::SceneNode* node, QString name);
 
     public Q_SLOTS:
         void initialize();
@@ -119,6 +121,7 @@ namespace SceneEditor
         void renderOnce();
         void setPropertySheetNode(Canis::SceneNode* node);
         void setPropertySheetLight(Canis::Light* light);
+        void setPropertySheetEntity(Canis::IEntity* entity);
     };
 
 }

@@ -23,20 +23,18 @@ namespace Canis
         bool _renderable;
 
     protected:
-        StringMap _userParams;
+        StringMap _params;
         
         typedef std::map<std::string, PARAM_TYPES> ParameterMap;
         ParameterMap _paramTypes;
 
     public:
-        IEntity(std::string type, std::string name, glm::mat4 transform = glm::mat4(1.0f), bool renderable = false, const StringMap& userParams = StringMap())
+        IEntity(std::string type, std::string name, glm::mat4 transform = glm::mat4(1.0f), bool renderable = false)
             : IObject("entity", transform){
             _type = type;
             _name = name;
             _transform = transform;
             _renderable = renderable;
-
-            _userParams = userParams;
         }
         virtual ~IEntity(){}
 
@@ -49,9 +47,27 @@ namespace Canis
             
             return _paramTypes;
         }
+        
+        void setParam(std::string name, std::string value){
+            _params[name] = value;
+        }
+        
+        void setParams(StringMap params){
+            for(auto pair : params){
+                _params[pair.first] = pair.second;
+            }
+        }
+        
+        std::string getParam(std::string name){
+            return _params[name];
+        }
 
         std::string getType(){
             return _type;
+        }
+        
+        void setName(std::string name){
+            _name = name;
         }
 
         std::string getName(){
