@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>999</width>
-    <height>589</height>
+    <width>1366</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -523,7 +523,7 @@ QComboBox::drop-down
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>999</width>
+     <width>1366</width>
      <height>23</height>
     </rect>
    </property>

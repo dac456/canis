@@ -31,8 +31,6 @@ namespace SceneEditor
             _type = type;
             _callback = callback;
             _readOnly = readOnly;
-            
-            connect(this, SIGNAL(modified(QVariant)), this, SLOT(_callbackImpl(QVariant)));
         }
         virtual ~IProperty(){}
         
@@ -58,9 +56,6 @@ namespace SceneEditor
             return (_fields.size() > 1);
         }
         
-    Q_SIGNALS:
-        void modified(QVariant data);
-        
     protected:
         void _addProperty(IProperty* property){
             _children.push_back(property);
@@ -68,10 +63,7 @@ namespace SceneEditor
         
     protected Q_SLOTS:
         void _modified(QVariant data){
-            Q_EMIT modified(data);
-        }
-        
-        void _callbackImpl(QVariant data){
+            //Q_EMIT modified(data);
             _callback(data);
         }
         
