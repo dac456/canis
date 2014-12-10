@@ -91,58 +91,45 @@ namespace Canis
 
             aiString matName;
             aiMat->Get(AI_MATKEY_NAME, matName);
+            
+            Material* mat = MaterialManager::getSingleton().getMaterial(std::string(matName.C_Str()));
+            if(mat == nullptr){
+                Technique t;
+                Pass p;
+                
+                aiColor4D diffuse;
+                aiGetMaterialColor(aiMat, AI_MATKEY_COLOR_DIFFUSE, &diffuse);
 
-            if(aiMat->GetTextureCount(aiTextureType_DIFFUSE) > 0){
-                /*aiString fileName;
-                aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
+                p.diffuse.r = diffuse.r;
+                p.diffuse.g = diffuse.g;
+                p.diffuse.b = diffuse.b;
+                p.diffuse.a = diffuse.a;
+                p.blend = false;
 
-                std::string fname = filesystem::path(fileName.C_Str()).stem().string();
-                algorithm::to_lower(fname);*/
+                p.shader = GlShaderManager::getSingleton().getShader("basic");
 
-                Material* mat = MaterialManager::getSingleton().getMaterial(std::string(matName.C_Str()));
-                if(mat == nullptr){
-                    /*mat = new Material(new MaterialLoader(std::string(matName.C_Str())+".material"));
-                    if(!mat->getTechniques().empty())
-                        _data[i].second = MaterialManager::getSingleton().addMaterial(mat);*/
-                    mat = MaterialManager::getSingleton().getMaterial("system");
-                }
-                else
-                    _data[i].second = mat->getId();
-
-                //fprintf(stdout, "Texture: %s, Material: %i\n", fname.c_str(), mat->getId());
-            }
-            else{
-                Material* mat = MaterialManager::getSingleton().getMaterial(std::string(matName.C_Str()));
-                if(mat == nullptr){
-                    Technique t;
-                    Pass p;
-
-                    aiColor4D diffuse;
-                    aiGetMaterialColor(aiMat, AI_MATKEY_COLOR_DIFFUSE, &diffuse);
-
-                    p.diffuse.r = diffuse.r;
-                    p.diffuse.g = diffuse.g;
-                    p.diffuse.b = diffuse.b;
-                    p.diffuse.a = diffuse.a;
-                    p.blend = false;
-
-                    p.shader = GlShaderManager::getSingleton().getShader("basic");
-
-                    Texture* white = TextureManager::getSingleton().getTexture("white.png");
-                    if(white == nullptr){
-                        white = new Texture("white.png", "Colours\\white.png", 0);
-                        TextureManager::getSingleton().addTexture(white);
+                if(aiMat->GetTextureCount(aiTextureType_DIFFUSE) > 0){
+                    aiString fileName;
+                    aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
+                    std::string fname = filesystem::path(fileName.C_Str()).stem().string();
+                    
+                    Texture* tex = TextureManager::getSingleton().getTexture(fname);
+                    if(tex == nullptr){
+                        tex = new Texture(fname, std::string(fileName.C_Str()), 0);
+                        TextureManager::getSingleton().addTexture(tex);
                     }
 
-                    p.textures.push_back(white->getId());
-
-                    t.passes.push_back(p);
-
-                    mat = new Material(std::string(matName.C_Str()), t);
-                    _data[i].second = MaterialManager::getSingleton().addMaterial(mat);
+                    p.textures.push_back(tex->getId());
                 }
-                //fprintf(stdout, "Texture: %s, Material: %i\n", matName.C_Str(), mat->getId());
+
+                t.passes.push_back(p);
+
+                mat = new Material(std::string(matName.C_Str()), t);
+                _data[i].second = MaterialManager::getSingleton().addMaterial(mat);
             }
+            else{
+                _data[i].second = mat->getId();
+            }                
         }
 
         _loaded = true;

@@ -395,7 +395,7 @@ namespace SceneEditor
         if(_viewType == 0){
             glm::vec3 nodePosition = glm::vec3(trans[3][0], trans[3][1], trans[3][2]);
             float dist = glm::length(nodePosition - _cam->getPosition());
-            markerScale = glm::max(dist/32.0f, 16.0f);
+            markerScale = glm::min(dist/64.0f, 4.0f);
         }
         else
             markerScale = 4.0f;

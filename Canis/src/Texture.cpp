@@ -11,7 +11,6 @@ namespace Canis
 
         std::string path = std::string("./Media/Textures/")+file;
 
-        //TODO: texture's should be reused if they've already been loaded
         _textureId = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y|SOIL_FLAG_MIPMAPS);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
