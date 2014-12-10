@@ -236,8 +236,22 @@ namespace SceneEditor
         
         glm::mat4 trans = node->getTransform();
         QMatrix4x4 mat;
-        mat.setToIdentity();
+        for(int i=0; i<4; i++){
+            for(int j=0; j<4; j++){
+                mat(i,j) = trans[i][j];
+            }
+        }
+        
         ui.propertyBrowser->addProperty(new Mat4Property("Transform", mat, [this, node](QVariant data){
+            QMatrix4x4 mat = data.value<QMatrix4x4>();
+            glm::mat4 trans;
+            for(int i=0; i<4; i++){
+                for(int j=0; j<4; j++){
+                    trans[i][j] = mat(i,j);
+                }
+            }
+            
+            node->setTransform(trans);            
         }));           
     }
     
