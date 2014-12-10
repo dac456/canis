@@ -13,6 +13,169 @@
   <property name="windowTitle">
    <string>Add Light</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#centralWidget
+{
+	background-color: #303030;
+}
+
+QDialog
+{
+	background-color: #303030;
+}
+
+QSplitter
+{
+	background-color: #303030;
+}
+
+QMenuBar
+{
+	background-color: #303030;
+	color: #CCCCCC;
+}
+
+QMenu
+{
+	background-color: #303030;
+	color: #CCCCCC;
+}
+
+QStatusBar
+{
+	background-color: #303030;
+}
+
+QStatusBar::item
+{
+	color: #CCCCCC;
+	border-radius: 1px;
+}
+
+QToolBar
+{
+	background-color: #505050;
+}
+
+QMenuBar::item
+{
+	background-color: #303030;
+}
+
+QMenuBar::item::selected
+{
+	background-color: #909090;
+}
+
+QMenu::item::selected
+{
+	background-color: #909090;
+}
+
+QPushButton
+{
+	color: #CCCCCC;
+	background-color: #606060;
+	border-bottom-left-radius: 5px;
+	padding: 5px;
+}
+
+QPushButton:hover
+{
+	background-color: #707070;
+}
+
+QPushButton:disabled
+{
+	color: #606060;
+	background-color: #202020;
+}
+
+QFrame#frame
+{
+	background-color: #303030;
+	border-bottom-left-radius: 5px;
+}
+
+QFrame#frame_2
+{
+	background-color: #303030;
+	border-bottom-left-radius: 5px;
+}
+
+QFrame#frame_3
+{
+	background-color: #303030;
+	border-bottom-left-radius: 5px;
+}
+
+QLabel
+{
+	color: #CCCCCC;
+}
+
+QListWidget
+{
+	background-color: #606060;
+	color: #CCCCCC;
+	border-radius: 1px;
+}
+
+QListWidget::item:selected
+{
+	background-color: #808080;
+	color: #CCCCCC;
+	border-radius: 1px;
+}
+
+QTreeWidget
+{
+	background-color: #606060;
+	color: #CCCCCC;
+	border-radius: 1px;
+}
+
+QLineEdit
+{
+	background-color: #606060;
+	color: #CCCCCC;
+	border-radius: 1px;
+}
+
+QGroupBox
+{
+	color: #CCCCCC;
+}
+
+QComboBox
+{
+  background-color: #606060;
+  border-radius: 2px;
+
+  selection-color: #AAAAAA;
+  selection-background-color: #606060;
+  show-decoration-selected: 0;
+}
+
+QComboBox:on
+{
+  padding-top: -10px;
+  padding-left: 2px;
+}
+
+QComboBox::drop-down
+{
+   subcontrol-origin: padding;
+   subcontrol-position: top right;
+   width: 7px;
+
+   border-left-width: 0px;
+   border-left-color: #000000;
+   border-left-style: solid;
+   border-top-right-radius: 3px;
+   border-bottom-right-radius: 3px;
+}</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="1">
     <widget class="QLabel" name="label_2">

@@ -25,6 +25,16 @@
 	background-color: #303030;
 }
 
+QSplitter
+{
+	background-color: #303030;
+}
+
+QSplitter::handle
+{
+	background-color: #303030;
+}
+
 QMenuBar
 {
 	background-color: #303030;
@@ -170,7 +180,7 @@ QComboBox::drop-down
    border-left-style: solid;
    border-top-right-radius: 3px;
    border-bottom-right-radius: 3px;
-}</string>
+}s</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -217,7 +227,16 @@ QComboBox::drop-down
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -309,7 +328,16 @@ QComboBox::drop-down
         <number>0</number>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item row="2" column="0">
@@ -349,7 +377,16 @@ QComboBox::drop-down
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <property name="margin">
+           <property name="leftMargin">
+            <number>2</number>
+           </property>
+           <property name="topMargin">
+            <number>2</number>
+           </property>
+           <property name="rightMargin">
+            <number>2</number>
+           </property>
+           <property name="bottomMargin">
             <number>2</number>
            </property>
            <property name="spacing">
@@ -524,7 +561,7 @@ QComboBox::drop-down
      <x>0</x>
      <y>0</y>
      <width>1366</width>
-     <height>23</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
