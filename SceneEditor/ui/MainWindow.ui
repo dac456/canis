@@ -415,7 +415,7 @@ QComboBox::drop-down
              </property>
             </widget>
            </item>
-           <item row="0" column="12">
+           <item row="0" column="16">
             <spacer name="horizontalSpacer">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -427,6 +427,13 @@ QComboBox::drop-down
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="0" column="12">
+            <widget class="Line" name="line_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+            </widget>
            </item>
            <item row="0" column="5">
             <widget class="QPushButton" name="addNodeButton">
@@ -514,6 +521,36 @@ QComboBox::drop-down
              </property>
              <property name="shortcut">
               <string>Space</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="13">
+            <widget class="QPushButton" name="xLockButton">
+             <property name="text">
+              <string>X</string>
+             </property>
+             <property name="shortcut">
+              <string>X</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="14">
+            <widget class="QPushButton" name="yLockButton">
+             <property name="text">
+              <string>Y</string>
+             </property>
+             <property name="shortcut">
+              <string>Y</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="15">
+            <widget class="QPushButton" name="zLockButton">
+             <property name="text">
+              <string>Z</string>
+             </property>
+             <property name="shortcut">
+              <string>Z</string>
              </property>
             </widget>
            </item>
