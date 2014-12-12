@@ -10,6 +10,7 @@ namespace Canis
     class CSAPI StaticMesh : public IEntity{
     private:
         Mesh* _mesh;
+        bool _needsRebuild;
 
         //--Bullet--//
         btCollisionShape* _collisionShape;
@@ -23,6 +24,7 @@ namespace Canis
         ~StaticMesh();
 
         void update(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
+        void reset();
 
         void setTransform(glm::mat4 transform);
         void setDynamicsWorld(btDiscreteDynamicsWorld* dynamicsWorld);
@@ -31,6 +33,7 @@ namespace Canis
 
     private:
         void _entityAttached();
+        void _rebuildCollisionMesh();
     };
 
 }

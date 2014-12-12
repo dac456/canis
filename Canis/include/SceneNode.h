@@ -40,7 +40,7 @@ namespace Canis
         std::vector<Camera*> getCameras();
 
         void translate(glm::vec3 translation);
-        void scale(glm::vec3 scale);
+        void scale(glm::vec3 scale); //Scale signal to trigger collision rebuild?
         
     //protected:
         Scene* getParentScene();    

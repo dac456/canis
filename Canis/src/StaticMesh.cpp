@@ -19,47 +19,7 @@ namespace Canis
             _triangleMesh = nullptr;
             _compoundShape = nullptr;
 
-            std::vector<MeshGroup> groups = _mesh->getMeshGroups();
-            for(size_t i=0; i<groups.size(); i++){
-
-                std::vector<VertexObject*> objects = groups[i].vertexObjects;
-                for(size_t j=0; j<objects.size(); j++){
-                    VertexObject* obj = objects[j];
-
-                    if(obj->isIndexed() && (obj->getNumIndices() >= 3)){
-                        if(_triangleMesh == nullptr)
-                            _triangleMesh = new btTriangleMesh();
-
-                        for(size_t k=0; k<(obj->getNumIndices()-3); k+=3){
-                            btVector3 A(obj->getVertices()[obj->getIndices()[k]].vertex[0], obj->getVertices()[obj->getIndices()[k]].vertex[1], obj->getVertices()[obj->getIndices()[k]].vertex[2]);
-                            btVector3 B(obj->getVertices()[obj->getIndices()[k+1]].vertex[0], obj->getVertices()[obj->getIndices()[k+1]].vertex[1], obj->getVertices()[obj->getIndices()[k+1]].vertex[2]);
-                            btVector3 C(obj->getVertices()[obj->getIndices()[k+2]].vertex[0], obj->getVertices()[obj->getIndices()[k+2]].vertex[1], obj->getVertices()[obj->getIndices()[k+2]].vertex[2]);
-                            
-                            _triangleMesh->addTriangle(A, B, C);
-                        }
-                    }
-                    else{
-                        //TODO: when tested with LW14 meshes, this doesn't work properly
-                        if(_compoundShape == nullptr)
-                            _compoundShape = new btCompoundShape();
-
-                        btConvexHullShape* hull = new btConvexHullShape();
-                        for(size_t k=0; k<obj->getNumVertices(); k++)
-                            hull->addPoint(btVector3(obj->getVertices()[k].vertex[0], obj->getVertices()[k].vertex[1], obj->getVertices()[k].vertex[2]));
-                        //btBoxShape* box = new btBoxShape(btVector3(obj->getBoundingBox().getMax().x-obj->getBoundingBox().getCenter().x, obj->getBoundingBox().getMax().y-obj->getBoundingBox().getCenter().y, obj->getBoundingBox().getMax().z-obj->getBoundingBox().getCenter().z));
-
-                        btTransform local;
-                        local.setIdentity();
-                        _compoundShape->addChildShape(local, hull);
-                    }
-
-                }
-            }
-            
-            if(_triangleMesh != nullptr)
-                _collisionShape = new btBvhTriangleMeshShape(_triangleMesh, true);
-            else if(_compoundShape != nullptr)
-                _collisionShape = _compoundShape;
+            _rebuildCollisionMesh();
 
             _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, this, _collisionShape, btVector3(0, 0, 0)));
     }
@@ -107,18 +67,12 @@ namespace Canis
         //_dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(localTransform));
         //_rigidBody->setWorldTransform(_dynamicsTransform);
     }
-
-    void StaticMesh::_entityAttached(){
-        IObject* next = _parent;
-        while(next != nullptr){
-            if(next->getType() == "scene"){
-                Scene* scene = static_cast<Scene*>(next);
-                setDynamicsWorld(scene->getDynamicsWorld());
-                break;
-            }
-            next = next->getParent();
+    
+    void StaticMesh::reset(){
+        if(_needsRebuild) {
+            _rebuildCollisionMesh();
         }
-    }
+    }    
 
     void StaticMesh::setTransform(glm::mat4 transform){
         _transform = transform;
@@ -137,8 +91,78 @@ namespace Canis
     
     void StaticMesh::scale(glm::vec3 scale){
         std::cout << scale.x << " " << scale.y << " " << scale.z << std::endl;
-        _collisionShape->setLocalScaling(btVector3(scale.x, scale.y, scale.z));
+        //_collisionShape->setLocalScaling(btVector3(scale.x, scale.y, scale.z));
+        _needsRebuild = true;
+    }
+    
+    void StaticMesh::_entityAttached(){
+        IObject* next = _parent;
+        while(next != nullptr){
+            if(next->getType() == "scene"){
+                Scene* scene = static_cast<Scene*>(next);
+                setDynamicsWorld(scene->getDynamicsWorld());
+                break;
+            }
+            next = next->getParent();
+        }
+    }
+    
+    void StaticMesh::_rebuildCollisionMesh(){
+        if(_collisionShape != nullptr){
+            delete _collisionShape;
+            _collisionShape = nullptr;
+        }
+        
+        _triangleMesh = nullptr;
+        _compoundShape = nullptr;
 
-    }        
+        std::vector<MeshGroup> groups = _mesh->getMeshGroups();
+        for(size_t i=0; i<groups.size(); i++){
+
+            std::vector<VertexObject*> objects = groups[i].vertexObjects;
+            for(size_t j=0; j<objects.size(); j++){
+                VertexObject* obj = objects[j];
+
+                if(obj->isIndexed() && (obj->getNumIndices() >= 3)){
+                    if(_triangleMesh == nullptr){
+                        _triangleMesh = new btTriangleMesh();
+                        _triangleMesh->setScaling(btVector3(_scale.x, _scale.y, _scale.z));
+                    }
+
+                    for(size_t k=0; k<(obj->getNumIndices()-3); k+=3){
+                        btVector3 A(obj->getVertices()[obj->getIndices()[k]].vertex[0], obj->getVertices()[obj->getIndices()[k]].vertex[1], obj->getVertices()[obj->getIndices()[k]].vertex[2]);
+                        btVector3 B(obj->getVertices()[obj->getIndices()[k+1]].vertex[0], obj->getVertices()[obj->getIndices()[k+1]].vertex[1], obj->getVertices()[obj->getIndices()[k+1]].vertex[2]);
+                        btVector3 C(obj->getVertices()[obj->getIndices()[k+2]].vertex[0], obj->getVertices()[obj->getIndices()[k+2]].vertex[1], obj->getVertices()[obj->getIndices()[k+2]].vertex[2]);
+                        
+                        _triangleMesh->addTriangle(A, B, C);
+                    }
+                }
+                else{
+                    //TODO: when tested with LW14 meshes, this doesn't work properly
+                    if(_compoundShape == nullptr){
+                        _compoundShape = new btCompoundShape();
+                        //_compoundShape->setScaling(btVector3(_scale.x, _scale.y, _scale.z));
+                    }
+
+                    btConvexHullShape* hull = new btConvexHullShape();
+                    for(size_t k=0; k<obj->getNumVertices(); k++)
+                        hull->addPoint(btVector3(obj->getVertices()[k].vertex[0], obj->getVertices()[k].vertex[1], obj->getVertices()[k].vertex[2]));
+                    //btBoxShape* box = new btBoxShape(btVector3(obj->getBoundingBox().getMax().x-obj->getBoundingBox().getCenter().x, obj->getBoundingBox().getMax().y-obj->getBoundingBox().getCenter().y, obj->getBoundingBox().getMax().z-obj->getBoundingBox().getCenter().z));
+
+                    btTransform local;
+                    local.setIdentity();
+                    _compoundShape->addChildShape(local, hull);
+                }
+
+            }
+        }
+        
+        if(_triangleMesh != nullptr)
+            _collisionShape = new btBvhTriangleMeshShape(_triangleMesh, true);
+        else if(_compoundShape != nullptr)
+            _collisionShape = _compoundShape;        
+        
+        _needsRebuild = false;        
+    }
 
 }
