@@ -157,6 +157,7 @@ namespace SceneEditor
             else if(_mode == SCALE_MODE){
                 float dX = (pX - _lastX) / 1500.0f;
                 float dY = (pY - _lastY) / 1500.0f;
+                std::cout << dX << " " << dY << std::endl;
                 
                 if(e->buttons() & Qt::LeftButton){
                     if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
@@ -164,9 +165,9 @@ namespace SceneEditor
                         
                         if(selectedNode != nullptr){
                             glm::vec3 currentScale = selectedNode->getScale();
-                            if(_xAxisEnabled) selectedNode->scale(glm::vec3(1.0f+dX, 1.0f, 1.0f));
-                            if(_yAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f-dY, 1.0f));
-                            if(_zAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f, 1.0f+dY));
+                            if(_xAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(dX, 0.0f, 0.0f));
+                            if(_yAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(0.0f, -dY, 0.0f));
+                            if(_zAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(0.0f, 0.0f, dY));
                         }
                     }                  
                 }                 
@@ -216,8 +217,8 @@ namespace SceneEditor
                                 
                                 if(selectedNode != nullptr){
                                     glm::vec3 currentScale = selectedNode->getScale();
-                                    if(_xAxisEnabled) selectedNode->scale(glm::vec3(1.0f+dX, 1.0f, 1.0f));
-                                    if(_zAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f, 1.0f-dY));
+                                    if(_xAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(dX, 0.0f, 0.0f));
+                                    if(_zAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(0.0f, 0.0f, -dY));
                                 }
                             }                  
                         }                 
@@ -254,8 +255,8 @@ namespace SceneEditor
                                 
                                 if(selectedNode != nullptr){
                                     glm::vec3 currentScale = selectedNode->getScale();
-                                    if(_xAxisEnabled) selectedNode->scale(glm::vec3(1.0f+dX, 1.0f, 1.0f));
-                                    if(_yAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f+dY, 1.0f));
+                                    if(_xAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(dX, 0.0f, 0.0f));
+                                    if(_yAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(0.0f, dY, 0.0f));
                                 }
                             }                  
                         }                 
@@ -292,8 +293,8 @@ namespace SceneEditor
                                 
                                 if(selectedNode != nullptr){
                                     glm::vec3 currentScale = selectedNode->getScale();
-                                    if(_zAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f, 1.0f+dX));
-                                    if(_yAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f+dY, 1.0f));
+                                    if(_zAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(0.0f, 0.0f, dX));
+                                    if(_yAxisEnabled) selectedNode->setScale(selectedNode->getScale() + glm::vec3(0.0f, dY, 0.0f));
                                 }
                             }                  
                         }                 

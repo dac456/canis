@@ -78,8 +78,8 @@ namespace Canis
             return _initialTransform;
         }
         
-        virtual void scale(glm::vec3 scale){
-            _transform = glm::scale(scale)*_transform;
+        virtual void setScale(glm::vec3 scale){
+            //_transform = glm::scale(scale)*_transform;
             _scale = scale;
         }        
         

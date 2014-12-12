@@ -99,13 +99,13 @@ namespace Canis
     }
 
     //Move to IObject?
-    void SceneNode::scale(glm::vec3 scale){
+    void SceneNode::setScale(glm::vec3 scale){
         for(auto e : _entities){
-            e->scale(_scale * scale);
+            e->setScale(scale);
         }
                 
-        _transform = glm::scale(scale)*_transform;
-        _scale *= scale;
+        //_transform = glm::scale(scale)*_transform;
+        _scale = scale;
     }
     
     Scene* SceneNode::getParentScene(){

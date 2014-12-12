@@ -41,6 +41,7 @@ namespace Canis
 
     void Prop::update(glm::mat4 projectionMatrix, glm::mat4 viewMatrix){
         glm::mat4 localTransform = _transform;
+        //glm::mat4 meshTransform = _mesh->getTransform();
 
         if(_parent != nullptr){
             glm::mat4 absTransform = _parent->getTransform()*_transform;
@@ -49,12 +50,12 @@ namespace Canis
                 absTransform = next->getTransform()*absTransform;
                 next = next->getParent();
             }
-            _mesh->setTransform(absTransform);
+            _mesh->setTransform(absTransform*glm::scale(_scale));
             _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTransform));
             //_rigidBody->setWorldTransform(_dynamicsTransform);
         }
         else{
-            _mesh->setTransform(localTransform);
+            _mesh->setTransform(localTransform*glm::scale(_scale));
             _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(localTransform));
             //_rigidBody->setWorldTransform(_dynamicsTransform);
         }
@@ -68,7 +69,7 @@ namespace Canis
             }
         }
         _mesh->render(projectionMatrix, viewMatrix, lights);
-        //_mesh->setTransform(localTransform);
+        //_mesh->setTransform(meshTransform);
         
         //Update parameters
         for(auto p : _paramUpdateList){
@@ -126,5 +127,12 @@ namespace Canis
         else
             printf("Warning: Prop::setDynamicsWorld(): entity not attached to SceneNode\n");
     }
+    
+    void Prop::setScale(glm::vec3 scale){
+        _scale = scale;
+        
+        //_mesh->setTransform(glm::scale(_scale)/*_mesh->getTransform()*/); //TODO: separate scale matrix?
+        _collisionShape->setLocalScaling(btVector3(_scale.x, _scale.y, _scale.z));
+    }          
 
 }

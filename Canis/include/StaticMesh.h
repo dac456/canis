@@ -29,7 +29,7 @@ namespace Canis
         void setTransform(glm::mat4 transform);
         void setDynamicsWorld(btDiscreteDynamicsWorld* dynamicsWorld);
         
-        void scale(glm::vec3 scale);
+        void setScale(glm::vec3 scale);
 
     private:
         void _entityAttached();
