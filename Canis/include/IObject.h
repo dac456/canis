@@ -16,6 +16,7 @@ namespace Canis
     protected:
         IObject* _parent;
         glm::mat4 _transform, _initialTransform;
+        glm::vec3 _scale;
 
         btTransform _dynamicsTransform;
 
@@ -26,6 +27,7 @@ namespace Canis
             _parent = nullptr;
             _transform = transform;
             _initialTransform = _transform;
+            _scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
             _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(_transform));
 
@@ -74,6 +76,15 @@ namespace Canis
 
         glm::mat4 getInitialTransform(){
             return _initialTransform;
+        }
+        
+        virtual void scale(glm::vec3 scale){
+            _transform = glm::scale(scale)*_transform;
+            _scale = scale;
+        }        
+        
+        glm::vec3 getScale(){
+            return _scale;
         }
 
         virtual void reset() = 0; //Should be pure virtual?

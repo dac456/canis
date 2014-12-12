@@ -41,6 +41,13 @@ namespace SceneEditor
         connect(ui.resetButton, SIGNAL(clicked()), this, SLOT(resetSimulationButtonClicked()));
         connect(ui.setPoseButton, SIGNAL(clicked()), ui.viewport, SLOT(setInitialPoseButtonClicked()));
         
+        connect(ui.xLockButton, SIGNAL(clicked()), this, SLOT(xLockButtonClicked()));
+        connect(ui.yLockButton, SIGNAL(clicked()), this, SLOT(yLockButtonClicked()));
+        connect(ui.zLockButton, SIGNAL(clicked()), this, SLOT(zLockButtonClicked()));
+        connect(this, SIGNAL(enableXAxis(int)), ui.viewport, SLOT(setXAxisEnabled(int)));
+        connect(this, SIGNAL(enableYAxis(int)), ui.viewport, SLOT(setYAxisEnabled(int)));
+        connect(this, SIGNAL(enableZAxis(int)), ui.viewport, SLOT(setZAxisEnabled(int)));
+        
         connect(this, SIGNAL(objectSelected(QString, QString)), ui.viewport, SLOT(selectObject(QString, QString)));
         connect(this, SIGNAL(sceneNodeAdded(QString)), ui.viewport, SLOT(addSceneNode(QString)));
         connect(this, SIGNAL(entityAdded(QString, Canis::StringMap)), ui.viewport, SLOT(addEntity(QString, Canis::StringMap)));
@@ -336,6 +343,18 @@ namespace SceneEditor
         Canis::Engine::getSingleton().reset();
         Canis::Engine::getSingleton().setDynamicsEnabled(false);
         ui.pauseSimulationButton->setText("Play");
+    }
+    
+    void MainWindow::xLockButtonClicked(){
+        Q_EMIT enableXAxis(ui.xLockButton->isChecked());
+    }
+    
+    void MainWindow::yLockButtonClicked(){
+        Q_EMIT enableYAxis(ui.yLockButton->isChecked());
+    }
+    
+    void MainWindow::zLockButtonClicked(){
+        Q_EMIT enableZAxis(ui.zLockButton->isChecked());
     }
     
     //TODO: this can probably be faster; deleting the whole tree will be dangerous for large scenes

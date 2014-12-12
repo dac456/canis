@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>768</height>
+    <width>1200</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -95,6 +95,20 @@ QPushButton:disabled
 {
 	color: #606060;
 	background-color: #202020;
+}
+
+QPushButton:checked
+{
+	color: #606060;
+	background-color: #404040;
+	border: 1px solid white;
+}
+
+QPushButton:pressed
+{
+	color: #606060;
+	background-color: #404040;
+	border: 1px solid white;
 }
 
 QFrame#frame
@@ -532,6 +546,12 @@ QComboBox::drop-down
              <property name="shortcut">
               <string>X</string>
              </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="0" column="14">
@@ -542,6 +562,12 @@ QComboBox::drop-down
              <property name="shortcut">
               <string>Y</string>
              </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="0" column="15">
@@ -551,6 +577,12 @@ QComboBox::drop-down
              </property>
              <property name="shortcut">
               <string>Z</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -597,7 +629,7 @@ QComboBox::drop-down
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1366</width>
+     <width>1200</width>
      <height>20</height>
     </rect>
    </property>

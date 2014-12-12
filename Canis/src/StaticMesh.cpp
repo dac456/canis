@@ -127,10 +127,18 @@ namespace Canis
     }
 
     void StaticMesh::setDynamicsWorld(btDiscreteDynamicsWorld* dynamicsWorld){
-        if(_rigidBody != nullptr)
+        if(_rigidBody != nullptr){
             dynamicsWorld->addRigidBody(_rigidBody);
+            _dynamicsWorld = dynamicsWorld;
+        }
         else
             printf("Warning: StaticMesh::setDynamicsWorld(): entity not attached to SceneNode\n");
     }
+    
+    void StaticMesh::scale(glm::vec3 scale){
+        std::cout << scale.x << " " << scale.y << " " << scale.z << std::endl;
+        _collisionShape->setLocalScaling(btVector3(scale.x, scale.y, scale.z));
+
+    }        
 
 }

@@ -37,6 +37,10 @@ namespace SceneEditor
         _orthoOffsetY = 0.0f;
 
         _scrollDivisor = 32.0f;
+        
+        _xAxisEnabled = true;
+        _yAxisEnabled = true;
+        _zAxisEnabled = true;
 
         _mode = VIEW_MODE;
         
@@ -126,17 +130,55 @@ namespace SceneEditor
 
     void Viewport::mouseMoveEvent(QMouseEvent* e){
         if(_viewType == PERSP){
+            int pX = e->pos().x();
+            int pY = e->pos().y();
+                 
             if(_mode == VIEW_MODE){
-                int pX = e->globalPos().x();
-                int pY = e->globalPos().y();
-
-                _rotateFirstPerson(pX, pY);
+                _rotateFirstPerson(e->globalPos().x(), e->globalPos().y());
+            }
+            else if(_mode == ROTATE_MODE){
+                float dX = (pX - _lastX) / 750.0f;
+                float dY = (pY - _lastY) / 750.0f;
+                
+                if(e->buttons() & Qt::LeftButton){
+                    if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                        Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                        
+                        if(selectedNode != nullptr){
+                            glm::mat4 t = selectedNode->getTransform();
+                            if(_xAxisEnabled) t = glm::rotate(t, dY/2.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+                            if(_yAxisEnabled) t = glm::rotate(t, dX/2.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+                            if(_zAxisEnabled) t = glm::rotate(t, dY/2.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+                            selectedNode->setTransform(t);
+                        }
+                    }                  
+                } 
+            }
+            else if(_mode == SCALE_MODE){
+                float dX = (pX - _lastX) / 1500.0f;
+                float dY = (pY - _lastY) / 1500.0f;
+                
+                if(e->buttons() & Qt::LeftButton){
+                    if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                        Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                        
+                        if(selectedNode != nullptr){
+                            glm::vec3 currentScale = selectedNode->getScale();
+                            if(_xAxisEnabled) selectedNode->scale(glm::vec3(1.0f+dX, 1.0f, 1.0f));
+                            if(_yAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f-dY, 1.0f));
+                            if(_zAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f, 1.0f+dY));
+                        }
+                    }                  
+                }                 
             }
         }
         else{
             if(e->buttons() & Qt::LeftButton){
                 int pX = e->pos().x();
                 int pY = static_cast<int>(abs(e->pos().y() - this->height())); //Flip our Y coordinate in screen space
+                
+                float dX = (pX - _lastX) / 750.0f;
+                float dY = (pY - _lastY) / 750.0f;
 
                 float pZ;
                 glReadPixels(pX, pY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &pZ);
@@ -150,12 +192,36 @@ namespace SceneEditor
 
                             if(selectedNode != nullptr){
                                 glm::mat4 oldTrans = selectedNode->getTransform();
-                                oldTrans[3][0] = pos.x;
-                                oldTrans[3][2] = pos.z;
+                                if(_xAxisEnabled) oldTrans[3][0] = pos.x;
+                                if(_zAxisEnabled) oldTrans[3][2] = pos.z;
                                 selectedNode->setTransform(oldTrans);
                             }
                         }
                     }
+                    else if(_mode == ROTATE_MODE){
+                        if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                            Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+
+                            if(selectedNode != nullptr){
+                                glm::mat4 t = selectedNode->getTransform();
+                                if(_yAxisEnabled) t = glm::rotate(t, -dX/2.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+                                selectedNode->setTransform(t);
+                            }
+                        }                        
+                    }
+                    else if(_mode == SCALE_MODE){
+                        if(e->buttons() & Qt::LeftButton){
+                            if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                                Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                                
+                                if(selectedNode != nullptr){
+                                    glm::vec3 currentScale = selectedNode->getScale();
+                                    if(_xAxisEnabled) selectedNode->scale(glm::vec3(1.0f+dX, 1.0f, 1.0f));
+                                    if(_zAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f, 1.0f-dY));
+                                }
+                            }                  
+                        }                 
+                    }                    
                 }
                 else if(_viewType == FRONT){
                     if(_mode == MOVE_MODE){
@@ -164,12 +230,36 @@ namespace SceneEditor
 
                             if(selectedNode != nullptr){
                                 glm::mat4 oldTrans = selectedNode->getTransform();
-                                oldTrans[3][0] = pos.x;
-                                oldTrans[3][1] = pos.y;
+                                if(_xAxisEnabled) oldTrans[3][0] = pos.x;
+                                if(_yAxisEnabled) oldTrans[3][1] = pos.y;
                                 selectedNode->setTransform(oldTrans);
                             }
                         }
                     }
+                    else if(_mode == ROTATE_MODE){
+                        if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                            Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+
+                            if(selectedNode != nullptr){
+                                glm::mat4 t = selectedNode->getTransform();
+                                if(_zAxisEnabled) t = glm::rotate(t, -dX/2.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+                                selectedNode->setTransform(t);
+                            }
+                        }                        
+                    }
+                    else if(_mode == SCALE_MODE){
+                        if(e->buttons() & Qt::LeftButton){
+                            if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                                Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                                
+                                if(selectedNode != nullptr){
+                                    glm::vec3 currentScale = selectedNode->getScale();
+                                    if(_xAxisEnabled) selectedNode->scale(glm::vec3(1.0f+dX, 1.0f, 1.0f));
+                                    if(_yAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f+dY, 1.0f));
+                                }
+                            }                  
+                        }                 
+                    }                                          
                 }
                 else if(_viewType == SIDE){
                     if(_mode == MOVE_MODE){
@@ -178,12 +268,36 @@ namespace SceneEditor
 
                             if(selectedNode != nullptr){
                                 glm::mat4 oldTrans = selectedNode->getTransform();
-                                oldTrans[3][2] = pos.z;
-                                oldTrans[3][1] = pos.y;
+                                if(_zAxisEnabled) oldTrans[3][2] = pos.z;
+                                if(_yAxisEnabled) oldTrans[3][1] = pos.y;
                                 selectedNode->setTransform(oldTrans);
                             }
                         }
                     }
+                    else if(_mode == ROTATE_MODE){
+                        if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                            Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+
+                            if(selectedNode != nullptr){
+                                glm::mat4 t = selectedNode->getTransform();
+                                if(_xAxisEnabled) t = glm::rotate(t, -dX/2.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+                                selectedNode->setTransform(t);
+                            }
+                        }                        
+                    }
+                    else if(_mode == SCALE_MODE){
+                        if(e->buttons() & Qt::LeftButton){
+                            if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                                Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                                
+                                if(selectedNode != nullptr){
+                                    glm::vec3 currentScale = selectedNode->getScale();
+                                    if(_zAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f, 1.0f+dX));
+                                    if(_yAxisEnabled) selectedNode->scale(glm::vec3(1.0f, 1.0f+dY, 1.0f));
+                                }
+                            }                  
+                        }                 
+                    }                                          
                 }
             }
             else if(e->buttons() & Qt::RightButton){
@@ -241,10 +355,10 @@ namespace SceneEditor
     }
 
     void Viewport::mousePressEvent(QMouseEvent* e){
-        if(e->buttons() & Qt::RightButton){
+        //if(e->buttons() & Qt::RightButton){
             _lastX = e->pos().x();
             _lastY = e->pos().y();
-        }
+        //}
     }
 
     void Viewport::wheelEvent(QWheelEvent* e){
@@ -268,6 +382,10 @@ namespace SceneEditor
             _mode = VIEW_MODE;
         if(e->key() == Qt::Key_W)
             _mode = MOVE_MODE;
+        if(e->key() == Qt::Key_R)
+            _mode = ROTATE_MODE;
+        if(e->key() == Qt::Key_S)
+            _mode = SCALE_MODE;
 
         if(e->key() == Qt::Key_Left)
             if(_viewType != 0)
@@ -400,14 +518,17 @@ namespace SceneEditor
         else
             markerScale = 4.0f;
 
-        _nodeMarker->setTransform(trans*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
+        //glm::vec3 nodeScale = node->getScale();
+        //_nodeMarker->setTransform(trans*glm::scale(glm::vec3(1.0f/nodeScale.x, 1.0f/nodeScale.y, 1.0f/nodeScale.z))*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
+        _nodeMarker->setTransform(glm::translate(glm::vec3(trans[3][0], trans[3][1], trans[3][2]))*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
         
         _nodeMarker->render(_projMatrix, _cam->getTransform(), std::vector<Canis::Light*>());
 
         if(_selectedObjectType.compare("node") == 0){
             if(node->getName().compare(_selectedObjectName.toStdString()) == 0){
                 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-                _selectionBox->setTransform(trans*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
+                //_selectionBox->setTransform(trans*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
+                _selectionBox->setTransform(glm::translate(glm::vec3(trans[3][0], trans[3][1], trans[3][2]))*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
                 _selectionBox->render(_projMatrix, _cam->getTransform(), std::vector<Canis::Light*>());
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             }
@@ -625,6 +746,18 @@ namespace SceneEditor
         _viewType = SIDE;
         Q_EMIT viewportChanged(_viewType);
     }
+    
+    void Viewport::setXAxisEnabled(int enabled){
+        _xAxisEnabled = enabled;
+    }
+    
+    void Viewport::setYAxisEnabled(int enabled){
+        _yAxisEnabled = enabled;
+    }
+    
+    void Viewport::setZAxisEnabled(int enabled){
+        _zAxisEnabled = enabled;
+    }        
     
     void Viewport::addSceneNode(QString name){
         glm::vec3 pos = _cam->getPosition();

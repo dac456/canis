@@ -65,6 +65,9 @@ namespace SceneEditor
         int _viewType;
         QString _selectedObjectName;
         QString _selectedObjectType;
+        bool _xAxisEnabled;
+        bool _yAxisEnabled;
+        bool _zAxisEnabled;
 
     public:
         Viewport(QWidget* parent = 0);
@@ -109,6 +112,10 @@ namespace SceneEditor
         void setViewTop();
         void setViewFront();
         void setViewSide();
+        
+        void setXAxisEnabled(int enabled); //MOC complains about bool here, for some reason
+        void setYAxisEnabled(int enabled);
+        void setZAxisEnabled(int enabled);
         
         void addSceneNode(QString name);
         void addEntity(QString type, Canis::StringMap args);

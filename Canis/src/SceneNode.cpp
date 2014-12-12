@@ -92,13 +92,20 @@ namespace Canis
     std::vector<Camera*> SceneNode::getCameras(){
         return _cameras;
     }
-
+    
+    //Move to IObject?
     void SceneNode::translate(glm::vec3 translation){
         _transform = glm::translate(translation)*_transform;
     }
 
+    //Move to IObject?
     void SceneNode::scale(glm::vec3 scale){
+        for(auto e : _entities){
+            e->scale(_scale * scale);
+        }
+                
         _transform = glm::scale(scale)*_transform;
+        _scale *= scale;
     }
     
     Scene* SceneNode::getParentScene(){

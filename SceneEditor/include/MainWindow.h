@@ -60,6 +60,10 @@ namespace SceneEditor
         void pauseSimulationButtonClicked();
         void resetSimulationButtonClicked();
         
+        void xLockButtonClicked();
+        void yLockButtonClicked();
+        void zLockButtonClicked();
+        
         void updateSceneGraphTree();
         void updateFpsCounter();
         
@@ -73,6 +77,10 @@ namespace SceneEditor
         void lightAdded(QString name, float radius, QColor diffuse);
         void initialized();
         void sceneLoaded(Canis::Scene* scene);
+        
+        void enableXAxis(int enable); //MOC complains about bool
+        void enableYAxis(int enable);
+        void enableZAxis(int enable);
 
     private:
         Ui::MainWindowClass ui;

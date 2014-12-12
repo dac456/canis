@@ -16,6 +16,7 @@ namespace Canis
         btRigidBody* _rigidBody;
         btTriangleMesh* _triangleMesh;
         btCompoundShape* _compoundShape;
+        btDiscreteDynamicsWorld* _dynamicsWorld;
 
     public:
         StaticMesh(std::string name, Mesh* mesh, glm::mat4 transform = glm::mat4(1.0f));
@@ -25,6 +26,8 @@ namespace Canis
 
         void setTransform(glm::mat4 transform);
         void setDynamicsWorld(btDiscreteDynamicsWorld* dynamicsWorld);
+        
+        void scale(glm::vec3 scale);
 
     private:
         void _entityAttached();
