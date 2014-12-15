@@ -23,8 +23,11 @@ namespace Canis
             
             _shape = shape;
 
-            if(shape == SPHERE_SHAPE)
-                _collisionShape = new btSphereShape(_mesh->getBoundingBox().getRadius());
+            if(shape == SPHERE_SHAPE){
+                btVector3* p = new btVector3(0.0f, 0.0f, 0.0f);
+                btScalar* r = new btScalar(_mesh->getBoundingBox().getRadius());
+                _collisionShape = new btMultiSphereShape(p, r, 1);
+            }
             else if(shape == BOX_SHAPE)
                 _collisionShape = new btBoxShape(btVector3(_mesh->getBoundingBox().getMax().x, _mesh->getBoundingBox().getMax().y, _mesh->getBoundingBox().getMax().z));
 
@@ -103,10 +106,14 @@ namespace Canis
                delete _rigidBody->getCollisionShape();
                delete _rigidBody;
                
-                if(_shape == SPHERE_SHAPE)
-                    _collisionShape = new btSphereShape(_mesh->getBoundingBox().getRadius());
-                else if(_shape == BOX_SHAPE)
-                    _collisionShape = new btBoxShape(btVector3(_mesh->getBoundingBox().getMax().x, _mesh->getBoundingBox().getMax().y, _mesh->getBoundingBox().getMax().z));               
+                if(_shape == SPHERE_SHAPE){
+                    btVector3* p = new btVector3(0.0f, 0.0f, 0.0f);
+                    btScalar* r = new btScalar(_mesh->getBoundingBox().getRadius());
+                    _collisionShape = new btMultiSphereShape(p, r, 1);
+                }
+                else if(_shape == BOX_SHAPE){
+                    _collisionShape = new btBoxShape(btVector3(_mesh->getBoundingBox().getMax().x, _mesh->getBoundingBox().getMax().y, _mesh->getBoundingBox().getMax().z));   
+                }            
                _collisionShape->setLocalScaling(btVector3(_scale.x, _scale.y, _scale.z));
                
                 btVector3 inertia(0,0,0);

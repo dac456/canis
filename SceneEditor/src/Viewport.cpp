@@ -157,7 +157,6 @@ namespace SceneEditor
             else if(_mode == SCALE_MODE){
                 float dX = (pX - _lastX) / 1500.0f;
                 float dY = (pY - _lastY) / 1500.0f;
-                std::cout << dX << " " << dY << std::endl;
                 
                 if(e->buttons() & Qt::LeftButton){
                     if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
