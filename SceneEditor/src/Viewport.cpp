@@ -363,14 +363,14 @@ namespace SceneEditor
 
     void Viewport::wheelEvent(QWheelEvent* e){
         if(_viewType != 0){
-            _orthoScale -= (float)e->delta()/(_scrollDivisor*8.0f);
+            _orthoScale -= (float)e->delta()/(_scrollDivisor*16.0f);
             if(_orthoScale <= 0.0f)
                 _orthoScale = 0.1f;
 
             _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
         }
         else{
-            float delta = (float)(e->delta()/_scrollDivisor);
+            float delta = (float)(e->delta()/(_scrollDivisor*64.0f));
             _cam->move(glm::vec3(delta, delta, delta));
         }
     }
