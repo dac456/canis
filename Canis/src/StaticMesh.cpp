@@ -40,37 +40,15 @@ namespace Canis
                             _triangleMesh->addTriangle(A, B, C);
                         }
                     }
-                    else{
-                        //TODO: when tested with LW14 meshes, this doesn't work properly
-                        if(_compoundShape == nullptr){
-                            _compoundShape = new btCompoundShape();
-                        }
-
-                        btConvexHullShape* hull = new btConvexHullShape();
-                        for(size_t k=0; k<obj->getNumVertices(); k++)
-                            hull->addPoint(btVector3(obj->getVertices()[k].vertex[0], obj->getVertices()[k].vertex[1], obj->getVertices()[k].vertex[2]));
-                        //btBoxShape* box = new btBoxShape(btVector3(obj->getBoundingBox().getMax().x-obj->getBoundingBox().getCenter().x, obj->getBoundingBox().getMax().y-obj->getBoundingBox().getCenter().y, obj->getBoundingBox().getMax().z-obj->getBoundingBox().getCenter().z));
-
-                        btTransform local;
-                        local.setIdentity();
-                        _compoundShape->addChildShape(local, hull);
-                    }
-
                 }
             }
             
-            if(_triangleMesh != nullptr)
+            if(_triangleMesh != nullptr){
                 _collisionShape = new btBvhTriangleMeshShape(_triangleMesh, true);
-            else if(_compoundShape != nullptr)
-                _collisionShape = _compoundShape;
-                
-           btTransform trans;
-           btVector3 min, max;
-           _collisionShape->getAabb(trans, min, max);
-           std::cout << min.x() << " " << min.y() << " " << min.z() << std::endl;
-           std::cout << max.x() << " " << max.y() << " " << max.z() << std::endl;      
-                     
-            _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, this, _collisionShape, btVector3(0, 0, 0)));
+            }
+            
+            btCollisionShape* scaledShape = new btScaledBvhTriangleMeshShape(static_cast<btBvhTriangleMeshShape*>(_collisionShape), btVector3(1.0f, 1.0f, 1.0f));
+            _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, this, scaledShape, btVector3(0, 0, 0)));
     }
 
     StaticMesh::~StaticMesh(){
@@ -160,18 +138,14 @@ namespace Canis
     }
     
     void StaticMesh::_rebuildCollisionMesh(){
-        std::cout << _scale.x << " " << _scale.y << " " << _scale.z << std::endl;
-       _collisionShape = new btScaledBvhTriangleMeshShape(static_cast<btBvhTriangleMeshShape*>(_collisionShape), btVector3(_scale.x, _scale.y, _scale.z)); //TODO: actually deal with memory management
+       btCollisionShape* scaledShape = new btScaledBvhTriangleMeshShape(static_cast<btBvhTriangleMeshShape*>(_collisionShape), btVector3(_scale.x, _scale.y, _scale.z));
        
        if(_dynamicsWorld && _rigidBody){
            _dynamicsWorld->removeRigidBody(_rigidBody);
+           delete _rigidBody->getCollisionShape();
            delete _rigidBody;
-           _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, this, _collisionShape, btVector3(0, 0, 0)));
+           _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, this, scaledShape, btVector3(0, 0, 0)));
            _dynamicsWorld->addRigidBody(_rigidBody);
-           
-           btTransform trans;
-           btVector3 min, max;
-           _collisionShape->getAabb(trans, min, max);
        }
        
        _needsRebuild = false;

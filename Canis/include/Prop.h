@@ -10,10 +10,13 @@ namespace Canis
     class CSAPI Prop : public IEntity{
     private:
         Mesh* _mesh;
+        bool _needsRebuild;
 
         btCollisionShape* _collisionShape;
         btRigidBody* _rigidBody;
+        btDiscreteDynamicsWorld* _dynamicsWorld;
         float _mass;
+        COLLISION_SHAPE _shape;
 
     public:
         Prop(std::string name, Mesh* mesh, COLLISION_SHAPE shape, float mass);

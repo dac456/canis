@@ -19,10 +19,9 @@ namespace Canis
             _paramTypes["mass"] = PARAM_REAL;
             
             _params["name"] = name;
+            _params["mass"] = std::to_string(mass);
             
-            std::stringstream ss;
-            ss << mass;
-            _params["mass"] = ss.str();
+            _shape = shape;
 
             if(shape == SPHERE_SHAPE)
                 _collisionShape = new btSphereShape(_mesh->getBoundingBox().getRadius());
@@ -97,6 +96,27 @@ namespace Canis
             _rigidBody->setAngularVelocity(btVector3(0,0,0));
             _rigidBody->setWorldTransform(_dynamicsTransform);
         }
+        
+        if(_needsRebuild){
+           if(_dynamicsWorld && _rigidBody){
+               _dynamicsWorld->removeRigidBody(_rigidBody);
+               delete _rigidBody->getCollisionShape();
+               delete _rigidBody;
+               
+                if(_shape == SPHERE_SHAPE)
+                    _collisionShape = new btSphereShape(_mesh->getBoundingBox().getRadius());
+                else if(_shape == BOX_SHAPE)
+                    _collisionShape = new btBoxShape(btVector3(_mesh->getBoundingBox().getMax().x, _mesh->getBoundingBox().getMax().y, _mesh->getBoundingBox().getMax().z));               
+               _collisionShape->setLocalScaling(btVector3(_scale.x, _scale.y, _scale.z));
+               
+                btVector3 inertia(0,0,0);
+                _collisionShape->calculateLocalInertia(_mass, inertia);               
+               _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, _parent, _collisionShape, inertia));
+               _dynamicsWorld->addRigidBody(_rigidBody);
+           }
+           
+           _needsRebuild = false;            
+        }
     }
 
     void Prop::_entityAttached(){
@@ -122,17 +142,20 @@ namespace Canis
     }
 
     void Prop::setDynamicsWorld(btDiscreteDynamicsWorld* dynamicsWorld){
-        if(_rigidBody != nullptr)
+        if(_rigidBody != nullptr){
+            _dynamicsWorld = dynamicsWorld;
             dynamicsWorld->addRigidBody(_rigidBody);
+        }
         else
             printf("Warning: Prop::setDynamicsWorld(): entity not attached to SceneNode\n");
     }
     
     void Prop::setScale(glm::vec3 scale){
         _scale = scale;
+        _needsRebuild = true;
         
         //_mesh->setTransform(glm::scale(_scale)/*_mesh->getTransform()*/); //TODO: separate scale matrix?
-        _collisionShape->setLocalScaling(btVector3(_scale.x, _scale.y, _scale.z));
+        //_collisionShape->setLocalScaling(btVector3(_scale.x, _scale.y, _scale.z));
     }          
 
 }
