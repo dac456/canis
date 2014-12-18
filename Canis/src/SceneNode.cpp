@@ -103,6 +103,10 @@ namespace Canis
         for(auto e : _entities){
             e->setScale(scale);
         }
+        
+        for(auto n : _children){
+            n->setScale(scale);
+        }
                 
         //_transform = glm::scale(scale)*_transform;
         _scale = scale;

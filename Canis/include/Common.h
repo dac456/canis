@@ -2,6 +2,8 @@
 #define __COMMON_H
 
 #include <stdio.h>
+#include <time.h>
+
 #include <string>
 #include <sstream>
 #include <iostream>

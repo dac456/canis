@@ -19,6 +19,9 @@ namespace Canis
         _solver = new btSequentialImpulseConstraintSolver();
         _dynamicsWorld = new btDiscreteDynamicsWorld(_collisionDispatcher, _broadphase, _solver, _collisionConfiguration);
         _dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f)); //TODO: move elsewhere
+        
+        _timer = new Timer();
+        _lastTime = _timer->millis();
     }
 
     Scene::~Scene(){
@@ -42,7 +45,8 @@ namespace Canis
 
     void Scene::render(Camera* activeCamera, glm::mat4 projectionMatrix){
         if(Engine::getSingleton().isDynamicsEnabled())
-            _dynamicsWorld->stepSimulation(1.0f/60.0f);
+            _dynamicsWorld->stepSimulation((float)(_timer->millis() - _lastTime)/1000.0f, 7);
+            _lastTime = _timer->millis();
 
         for(size_t i=0; i<_nodes.size(); i++){
             if(activeCamera != nullptr){

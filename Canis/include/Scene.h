@@ -5,6 +5,7 @@
 #include "IObject.h"
 
 #include "SceneNode.h"
+#include "Timer.h"
 
 namespace Canis
 {
@@ -17,11 +18,14 @@ namespace Canis
         Camera* _activeCamera;
 
         //--Physics--//
+        Timer* _timer;
         btBroadphaseInterface* _broadphase;
         btDefaultCollisionConfiguration* _collisionConfiguration;
         btCollisionDispatcher* _collisionDispatcher;
         btSequentialImpulseConstraintSolver* _solver;
         btDiscreteDynamicsWorld* _dynamicsWorld;
+        
+        uint64_t _lastTime;
 
     public:
         Scene(std::string name, glm::mat4 transform = glm::mat4(1.0f));
