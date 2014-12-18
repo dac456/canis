@@ -93,11 +93,17 @@ namespace Canis
 
     void Prop::reset(){
         if(_parent != nullptr){
+            //_rigidBody->setActivationState(DISABLE_DEACTIVATION);
+            
+            _dynamicsWorld->removeRigidBody(_rigidBody);
             _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(_parent->getInitialTransform()));
             _rigidBody->clearForces();
             _rigidBody->setLinearVelocity(btVector3(0,0,0));
             _rigidBody->setAngularVelocity(btVector3(0,0,0));
             _rigidBody->setWorldTransform(_dynamicsTransform);
+            _dynamicsWorld->addRigidBody(_rigidBody);
+            
+            //_rigidBody->setActivationState(ENABLE_DEACTIVATION);
         }
         
         if(_needsRebuild){
@@ -130,6 +136,7 @@ namespace Canis
         btVector3 inertia(0,0,0);
         _collisionShape->calculateLocalInertia(_mass, inertia);
         _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, _parent, _collisionShape, inertia));
+        _rigidBody->setActivationState(DISABLE_DEACTIVATION);
 
         IObject* next = _parent;
         while(next != nullptr){

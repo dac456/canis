@@ -711,11 +711,12 @@ namespace SceneEditor
 
             if(selectedNode != nullptr){
                 selectedNode->setInitialTransform(selectedNode->getTransform());
-                selectedNode->reset();
+                //selectedNode->reset();
+                Canis::Engine::getSingleton().reset();
 
-                for(size_t j=0; j<selectedNode->getEntities().size(); j++){
-                    selectedNode->getEntities()[j]->reset();
-                }
+                //for(size_t j=0; j<selectedNode->getEntities().size(); j++){
+                //    selectedNode->getEntities()[j]->reset();
+                //}
             }
         }
     }

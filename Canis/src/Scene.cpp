@@ -57,6 +57,15 @@ namespace Canis
     }
 
     void Scene::reset(){
+        _solver->reset();
+        _dynamicsWorld->clearForces();
+        _broadphase->resetPool(_collisionDispatcher);
+        
+        btOverlappingPairCache* pairCache = _broadphase->getOverlappingPairCache();
+        btBroadphasePairArray& pairArray = pairCache->getOverlappingPairArray();
+        for(size_t i=0; i<pairArray.size(); i++){
+            pairCache->cleanOverlappingPair(pairArray[i], _collisionDispatcher);
+        }
     }
 
     void Scene::addSceneNode(SceneNode* node){

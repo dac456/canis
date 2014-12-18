@@ -340,8 +340,8 @@ namespace SceneEditor
     }
 
     void MainWindow::resetSimulationButtonClicked(){
-        Canis::Engine::getSingleton().reset();
         Canis::Engine::getSingleton().setDynamicsEnabled(false);
+        Canis::Engine::getSingleton().reset();
         ui.pauseSimulationButton->setText("Play");
     }
     
