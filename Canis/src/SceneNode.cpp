@@ -69,6 +69,23 @@ namespace Canis
         _cameras.push_back(camera);
     }
     
+    void SceneNode::removeEntity(IEntity* entity){
+        if(std::find(_entities.begin(), _entities.end(), entity) != _entities.end()){
+            _entities.erase(std::remove(_entities.begin(), _entities.end(), entity), _entities.end());
+        }
+    }
+    
+    void SceneNode::removeLight(Light* light){
+        if(std::find(_lights.begin(), _lights.end(), light) != _lights.end()){
+            _lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
+        }
+        
+        Scene* parentScene = this->getParentScene();
+        if(parentScene){
+            parentScene->_removeLight(light);
+        }
+    }
+    
     void SceneNode::setName(std::string name){
         _name = name;
     }

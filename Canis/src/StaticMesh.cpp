@@ -54,8 +54,9 @@ namespace Canis
     StaticMesh::~StaticMesh(){
         delete _mesh;
 
-        delete _rigidBody;
+        _dynamicsWorld->removeRigidBody(_rigidBody);
         delete _collisionShape;
+        delete _rigidBody;
 
         if(_triangleMesh != nullptr)
             delete _triangleMesh;

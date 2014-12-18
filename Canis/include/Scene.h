@@ -35,6 +35,7 @@ namespace Canis
         void reset(); //Override
 
         void addSceneNode(SceneNode* node);
+        void removeSceneNode(SceneNode* node);
         
         void setActiveCamera(Camera* camera);
         Camera* getActiveCamera();
@@ -47,8 +48,10 @@ namespace Canis
         
     private:
         void _addLight(Light* light);
+        void _removeLight(Light* light);
         
         friend void SceneNode::attachLight(Light* light);
+        friend void SceneNode::removeLight(Light* light);
         //friend SceneNode; //TODO: this is currently just for addLight. right idea?
         
     };

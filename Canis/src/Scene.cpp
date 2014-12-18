@@ -73,6 +73,10 @@ namespace Canis
         _nodes.push_back(node);
     }
     
+    void Scene::removeSceneNode(SceneNode* node){
+        _nodes.erase(std::remove(_nodes.begin(), _nodes.end(), node), _nodes.end());
+    }
+    
     void Scene::setActiveCamera(Camera* camera){
         _activeCamera = camera;
     }
@@ -91,6 +95,10 @@ namespace Canis
     
     void Scene::_addLight(Light* light){
         _lights.push_back(light);
+    }
+    
+    void Scene::_removeLight(Light* light){
+        _lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
     }
     
     std::vector<Light*> Scene::getLightsClosestToPoint(glm::vec4 point){

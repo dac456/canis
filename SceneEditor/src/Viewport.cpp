@@ -402,6 +402,18 @@ namespace SceneEditor
         if(e->key() == Qt::Key_Down)
             if(_viewType != 0)
                 _orthoOffsetY += 32;
+                
+        if(e->key() == Qt::Key_Delete){
+            if(_selectedObjectType == "node"){
+                _removeSceneNode(_selectedObjectName);
+            }
+            else if(_selectedObjectType == "entity"){
+                _removeEntity(_selectedObjectName);
+            }
+            else if(_selectedObjectType == "light"){
+                _removeLight(_selectedObjectName);
+            }
+        }
 
         if(_viewType != 0){
             _projMatrix = glm::ortho((_orthoOrgX*_orthoScale), (_orthoMaxX*_orthoScale), (_orthoOrgY*_orthoScale), (_orthoMaxY*_orthoScale), -10000.0f, 10000.0f);
@@ -635,6 +647,34 @@ namespace SceneEditor
         }
         
         return nullptr;
+    }
+    
+    void Viewport::_removeSceneNode(QString name){
+        Canis::SceneNode* node = _getNodeByName(name.toStdString());
+        _activeScene->removeSceneNode(node);
+        delete node;
+        
+        Q_EMIT sceneChanged();
+    }
+    
+    void Viewport::_removeEntity(QString name){
+        Canis::IEntity* ent = _getEntityByName(name);
+        for(auto n : _activeScene->getNodes()){
+            n->removeEntity(ent); //TODO: this should return if the entity was found/removed so we can break the loop
+        }
+        delete ent;
+        
+        Q_EMIT sceneChanged();
+    }
+    
+    void Viewport::_removeLight(QString name){
+        Canis::Light* light = _getLightByName(name);
+        for(auto n : _activeScene->getNodes()){
+            n->removeLight(light);
+        }
+        delete light;
+        
+        Q_EMIT sceneChanged();
     }
     
     /*

@@ -31,6 +31,9 @@ namespace Canis
         void attachEntity(IEntity* entity);
         void attachLight(Light* light);
         void attachCamera(Camera* camera);
+        
+        void removeEntity(IEntity* entity);
+        void removeLight(Light* light);
 
         void setName(std::string name);
         std::string getName();

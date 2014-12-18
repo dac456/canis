@@ -99,6 +99,10 @@ namespace SceneEditor
         Canis::Light* _getLightFromNode(Canis::SceneNode* node, QString name);
         Canis::IEntity* _getEntityByName(QString name);
         Canis::IEntity* _getEntityFromNode(Canis::SceneNode* node, QString name);
+        
+        void _removeSceneNode(QString name);
+        void _removeEntity(QString name);
+        void _removeLight(QString name);
 
     public Q_SLOTS:
         void initialize();
