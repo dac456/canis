@@ -39,7 +39,7 @@ namespace SceneEditor
         _scrollDivisor = 32.0f;
         
         _xAxisEnabled = true;
-        _yAxisEnabled = true;
+        _yAxisEnabled = false;
         _zAxisEnabled = true;
 
         _mode = VIEW_MODE;
@@ -135,6 +135,37 @@ namespace SceneEditor
                  
             if(_mode == VIEW_MODE){
                 _rotateFirstPerson(e->globalPos().x(), e->globalPos().y());
+            }
+            else if(_mode == MOVE_MODE){
+                int pX = e->pos().x();
+                int pY = static_cast<int>(abs(e->pos().y() - this->height())); //Flip our Y coordinate in screen space
+
+                float pZ;
+                glReadPixels(pX, pY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &pZ);
+                
+                glm::vec3 pos = glm::unProject(glm::vec3(pX, pY, pZ), _cam->getTransform(), _projMatrix, glm::vec4(this->geometry().x(), this->geometry().y(), this->width(), this->height()));
+                
+                //Plane intersection
+                glm::vec4 up = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+                glm::vec4 o = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+                glm::vec4 qp = o - glm::vec4(pos, 1.0f);
+                float t = glm::dot(up, qp) / glm::dot(up, up);
+                
+                glm::vec4 P = glm::vec4(pos, 1.0f) + (t * up);
+                
+                if(e->buttons() & Qt::LeftButton){
+                    if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
+                        Canis::SceneNode* selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                        
+                        if(selectedNode != nullptr){
+                            glm::mat4 trans = selectedNode->getTransform();
+                            if(_xAxisEnabled) trans[3][0] = P.x;
+                            if((QApplication::keyboardModifiers() & Qt::ControlModifier) || _yAxisEnabled) trans[3][1] = P.y;
+                            if(_zAxisEnabled) trans[3][2] = P.z;
+                            selectedNode->setTransform(trans);
+                        }
+                    }                  
+                }                                   
             }
             else if(_mode == ROTATE_MODE){
                 float dX = (pX - _lastX) / 750.0f;
