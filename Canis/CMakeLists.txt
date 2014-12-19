@@ -4,10 +4,14 @@ project(Canis)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules")
 
+add_definitions( -DCS_API_EXPORT )
 add_definitions( -DGLM_FORCE_RADIANS )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+unset(Boost_INCLUDE_DIR CACHE)
+unset(Boost_LIBRARY_DIRS CACHE)
 find_package(Boost REQUIRED system filesystem)
+link_directories(${Boost_LIBRARY_DIRS})
 
 # Qt/OpenGL
 find_package(OpenGL REQUIRED)
@@ -31,9 +35,12 @@ include_directories(${BULLET_INCLUDE_DIR})
 include_directories(${ASSIMP_INCLUDE_DIR})
 include_directories(${BOOST_INCLUDE_DIR})
 
+file(GLOB_RECURSE CS_HEADER RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS include/*.h)
 file(GLOB_RECURSE CS_SOURCE RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp src/SOIL/*.c src/TinyXML/*.cpp)
+source_group("Headers" FILES ${CS_HEADER})
+source_group("Source" FILES ${CS_SOURCE})
 
-add_library(Canis SHARED ${CS_SOURCE})
+add_library(Canis SHARED ${CS_SOURCE} ${CS_HEADER})
 
 target_link_libraries(Canis
    ${Boost_FILESYSTEM_LIBRARY}

@@ -16,6 +16,8 @@ set(_assimp_INCLUDE_SEARCH_DIRS_SYSTEM
     "$ENV{ProgramFiles}/assimp/include"
     "$ENV{ProgramFiles}/assimp"
     /sw/local/include
+	${ASSIMP_ROOT}/include
+	${ASSIMP_ROOT}/include/assimp
   )
 
 set(_assimp_LIB_SEARCH_DIRS_SYSTEM
@@ -24,6 +26,9 @@ set(_assimp_LIB_SEARCH_DIRS_SYSTEM
     "$ENV{ProgramFiles}/assimp/lib"
     "$ENV{ProgramFiles}/assimp"
     /sw/local/lib
+	${ASSIMP_ROOT}/lib
+	${ASSIMP_ROOT}/lib/x64
+	${ASSIMP_ROOT}/lib/win32
   )
 
 FIND_PATH(ASSIMP_INCLUDE_DIR assimp/ai_assert.h

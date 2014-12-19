@@ -56,7 +56,7 @@ namespace SceneEditor
 
         virtual QPaintEngine* paintEngine() const;
 
-    private:
+    public:
         void createContext(bool glewInitialized);
         QWindow* windowFromWidget(const QWidget* widget);
     };

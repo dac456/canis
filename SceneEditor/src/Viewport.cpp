@@ -6,6 +6,10 @@
 #include "Viewport.h"
 //#include <Canis.h>
 
+#ifdef CANIS_PLATFORM_WIN32
+#define M_PI 3.14159265358979323846
+#endif
+
 namespace SceneEditor
 {
 
@@ -713,6 +717,8 @@ namespace SceneEditor
      */
      
     void Viewport::initialize(){
+		//createContext(false);
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
         

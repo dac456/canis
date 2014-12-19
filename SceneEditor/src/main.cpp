@@ -1,8 +1,3 @@
-#if defined(__WIN32__) || defined(_WIN32)
-#pragma comment (lib, "Canis.lib")
-#pragma comment (lib, "glew32.lib")
-#endif
-
 #include "MainWindow.h"
 #include <QtWidgets/QApplication>
 

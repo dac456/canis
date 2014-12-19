@@ -67,6 +67,8 @@ namespace SceneEditor
     }
 
     void MainWindow::initialize(){
+		ui.viewport->createContext(false); //Ugly, but the only way this will work it seems for WGL
+
         _engine = new Canis::Engine();
         _engine->setDynamicsEnabled(false);
         _engine->setRenderer(new Canis::Renderer());

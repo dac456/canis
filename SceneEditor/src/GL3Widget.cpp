@@ -91,7 +91,7 @@ namespace SceneEditor
             std::cout << "called create() " << std::endl;
         #endif
         
-        createContext(false);
+        //createContext(false);
     }
 
     void GL3Widget::createContext(bool glewInitialized){
@@ -106,7 +106,7 @@ namespace SceneEditor
             _pfd.dwFlags = PFD_DOUBLEBUFFER | PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW; // Enable double buffering, opengl support and drawing to a window
             _pfd.iPixelType = PFD_TYPE_RGBA; // Set our application to use RGBA pixels
             _pfd.cColorBits = 32; // Give us 32 bits of color information (the higher, the more colors)
-            _pfd.cDepthBits = 32; // Give us 32 bits of depth information (the higher, the more depth levels)
+            _pfd.cDepthBits = 24; // Give us 32 bits of depth information (the higher, the more depth levels)
             _pfd.iLayerType = PFD_MAIN_PLANE; // Set the layer of the PFD
 
             int nPixelFormat = ChoosePixelFormat(_dc, &_pfd); // Check if our PFD is valid and get a pixel format back
@@ -139,7 +139,6 @@ namespace SceneEditor
                 wglMakeCurrent(_dc, _rc);
             }
             
-            QT_EMIT contextCreated();
         #elif defined(CANIS_PLATFORM_GNU)
             std::cout << "Begin create context GNU" << std::endl;
 
