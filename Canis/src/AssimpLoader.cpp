@@ -111,11 +111,21 @@ namespace Canis
                 if(aiMat->GetTextureCount(aiTextureType_DIFFUSE) > 0){
                     aiString fileName;
                     aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
+                    
+                    std::string fullPath = std::string(fileName.C_Str());
                     std::string fname = filesystem::path(fileName.C_Str()).stem().string();
+                    
+                    //TODO: not sure if this is the best solution for texture naming/finding
+                    std::string prefix = "Media/Textures/";
+                    size_t pos = fullPath.rfind(prefix);
+                    if(pos != std::string::npos){
+                        fullPath.erase(fullPath.begin(), fullPath.begin()+pos+prefix.length());
+                    }
+                    std::cout << fullPath << std::endl;
                     
                     Texture* tex = TextureManager::getSingleton().getTexture(fname);
                     if(tex == nullptr){
-                        tex = new Texture(fname, std::string(fileName.C_Str()), 0);
+                        tex = new Texture(fname, fullPath, 0);
                         TextureManager::getSingleton().addTexture(tex);
                     }
 
