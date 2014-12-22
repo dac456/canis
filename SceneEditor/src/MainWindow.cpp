@@ -67,6 +67,8 @@ namespace SceneEditor
     }
 
     void MainWindow::initialize(){
+		//TODO: context is shared for the whole application, should not be responsibility of viewport to create
+		//	Set up context in MainWindow and pass to Viewport as needed
 		ui.viewport->createContext(false); //Ugly, but the only way this will work it seems for WGL
 
         _engine = new Canis::Engine();
