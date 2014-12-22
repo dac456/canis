@@ -83,7 +83,7 @@
 
 #define CS_MAJOR_REVISION 0
 #define CS_MINOR_REVISION 3
-#define CS_BUILD_REVISION 10
+#define CS_BUILD_REVISION 11
 #define CS_CODENAME "Kobayashi Maru"
 
 namespace Canis
@@ -128,7 +128,9 @@ namespace Canis
     class Prop;
     class PropFactory;
     class Scene;
+    class SceneLoader;
     class SceneNode;
+    class SceneWriter;
     class StaticMesh;
     class StaticMeshFactory;
     class Renderer;

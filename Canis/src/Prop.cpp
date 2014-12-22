@@ -8,7 +8,7 @@ namespace Canis
 {
 
     Prop::Prop(std::string name, Mesh* mesh, COLLISION_SHAPE shape, float mass)
-        : IEntity("prop", name, glm::mat4(1.0f), true){
+        : IEntity("Prop", name, glm::mat4(1.0f), true){
             _mesh = mesh;
             _mesh->setTransform(glm::mat4(1.0f));
             _mass = mass;

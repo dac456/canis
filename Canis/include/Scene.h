@@ -40,6 +40,8 @@ namespace Canis
         void setActiveCamera(Camera* camera);
         Camera* getActiveCamera();
 
+        void setName(std::string name);
+        std::string getName();
         std::vector<SceneNode*> getNodes();
 
         btDiscreteDynamicsWorld* getDynamicsWorld();

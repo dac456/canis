@@ -22,4 +22,16 @@ namespace Canis
         return ret;
     }
 
+    std::vector<std::string> Utility::split(std::string str, const char delim){
+        std::vector<std::string> ret;
+        
+        while(str.find_first_of(delim) != std::string::npos){
+            std::string tok = str.substr(0, str.find_first_of(delim)+1);
+            ret.push_back(tok);
+            str = str.erase(0, str.find_first_of(delim)+1);
+        }
+        ret.push_back(str);
+        
+        return ret;
+    }
 }

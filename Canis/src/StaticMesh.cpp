@@ -8,7 +8,7 @@ namespace Canis
 {
 
     StaticMesh::StaticMesh(std::string name, Mesh* mesh, glm::mat4 transform)
-        : IEntity("staticmesh", name, transform, true){
+        : IEntity("Static Mesh", name, transform, true){
             _mesh = mesh;
             _mesh->setTransform(transform);
             

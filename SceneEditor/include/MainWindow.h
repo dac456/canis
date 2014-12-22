@@ -67,6 +67,9 @@ namespace SceneEditor
         void updateSceneGraphTree();
         void updateFpsCounter();
         
+        void newScene();
+        void save();
+        void open();
         void about();
         void exit();
         

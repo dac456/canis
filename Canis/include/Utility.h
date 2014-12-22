@@ -10,6 +10,7 @@ namespace Canis
     public:
         static void log(std::string message);
         static std::string findAndReplace(const std::string& str, const std::string& find, const std::string& replace);
+        static std::vector<std::string> split(std::string str, const char delim);
     };
 
 }

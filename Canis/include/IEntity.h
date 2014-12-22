@@ -64,6 +64,10 @@ namespace Canis
         std::string getParam(std::string name){
             return _params[name];
         }
+        
+        StringMap getParams(){
+            return _params;
+        }
 
         std::string getType(){
             return _type;

@@ -1,4 +1,6 @@
 #include <QtCore/QtCore>
+#include <QFileDialog>
+
 #include "MainWindow.h"
 #include "IEntityDialogFactory.h"
 #include "StringProperty.h"
@@ -30,7 +32,10 @@ namespace SceneEditor
         
         //Connect actions
         connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(exit()));
-        connect(ui.actionAbout, SIGNAL(triggered()), this, SLOT(about()));        
+        connect(ui.actionAbout, SIGNAL(triggered()), this, SLOT(about()));
+        connect(ui.actionSave, SIGNAL(triggered()), this, SLOT(save()));  
+        connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(open()));   
+        connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newScene()));   
 
         connect(ui.viewList, SIGNAL(activated(QString)), ui.viewport, SLOT(updateView(QString)));
         connect(ui.sceneGraphView, SIGNAL(itemSelectionChanged()), this, SLOT(sceneGraphSelectionChanged()));
@@ -369,7 +374,10 @@ namespace SceneEditor
         if(_rootItem != nullptr)
             delete _rootItem;
 
-        _rootItem = new QTreeWidgetItem(QStringList("untitled <Scene>"));
+        std::stringstream ss;
+        ss << currentScene->getName() << " <Scene>";
+        
+        _rootItem = new QTreeWidgetItem(QStringList(QString(ss.str().c_str())));
         ui.sceneGraphView->addTopLevelItem(_rootItem);
 
         for(size_t i=0; i<currentScene->getNodes().size(); i++){
@@ -387,7 +395,7 @@ namespace SceneEditor
         _fpsCounter.frameCount++;
         
         qint64 currentTime = _fpsTimer.elapsed();
-        if(currentTime - _fpsCounter.lastTime > 1000){
+        if(currentTime - _fpsCounter.lastTime > 1000){ 
             std::stringstream ss;
             ss << _fpsCounter.frameCount*1000.0/(currentTime - _fpsCounter.lastTime);
             _fpsLabel->setText(ss.str().c_str());
@@ -399,6 +407,46 @@ namespace SceneEditor
     /*
      * Slots: Actions
      */
+     
+     void MainWindow::newScene(){
+         Canis::Scene* sc = ui.viewport->getActiveScene();
+         Q_EMIT sceneLoaded(new Canis::Scene("untitled"));
+         delete sc;
+         
+         updateSceneGraphTree();
+     }
+     
+     void MainWindow::save(){
+         Canis::Scene* sc = ui.viewport->getActiveScene();
+         
+         QFileDialog saveDialog(this, "Open Scene", "./Media/Scenes");(this, "Save Scene", "./Media/Scenes", ".scene");
+         saveDialog.setAcceptMode(QFileDialog::AcceptSave);
+         
+         if(saveDialog.exec()){
+            QStringList files;
+            files = saveDialog.selectedFiles();             
+             
+            Canis::SceneWriter sw(sc);
+            sw.save(files.at(0).toStdString());
+        }
+     }
+     
+     void MainWindow::open(){
+        QFileDialog openDialog(this, "Open Scene", "./Media/Scenes");
+        if(openDialog.exec()){
+            QStringList files;
+            files = openDialog.selectedFiles();
+            
+            Canis::SceneLoader sl(files.at(0).toStdString());
+
+            Canis::Scene* sc = ui.viewport->getActiveScene();
+            Q_EMIT sceneLoaded(sl.getScene());
+            delete sc;
+
+            updateSceneGraphTree();
+        }         
+     }
+     
      void MainWindow::about(){
         aboutWindow.show();
 
