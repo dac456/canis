@@ -6,7 +6,8 @@
 #include <Canis.h>
 
 #ifdef CANIS_PLATFORM_GNU
-#include <QtX11Extras/QX11Info>
+//#include <QtX11Extras/QX11Info>
+#include <GL/glxew.h>
 #endif
 
 namespace SceneEditor

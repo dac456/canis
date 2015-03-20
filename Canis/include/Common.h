@@ -56,7 +56,7 @@
 #ifdef CANIS_PLATFORM_WIN32
 #include <GL/wglew.h>
 #elif defined(CANIS_PLATFORM_GNU)
-#include <GL/glxew.h>
+//#include <GL/glxew.h>
 #endif
 #include <GL/gl.h>
 #include <GL/freeglut.h>
@@ -128,11 +128,13 @@ namespace Canis
     class ProgramLoader;
     class Prop;
     class PropFactory;
+    class PythonProvider;
     class Scene;
     class SceneLoader;
     class SceneNode;
     class SceneWriter;
     class Script;
+    class ScriptManager;
     class StaticMesh;
     class StaticMeshFactory;
     class Renderer;

@@ -18,6 +18,8 @@ namespace Canis
         ScriptManager();
         ~ScriptManager();
         
+        void registerProvider(IScriptProvider* provider);
+        
         void addScript(Script* script);
         void execute(std::string name);
         

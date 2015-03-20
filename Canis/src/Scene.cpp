@@ -44,9 +44,10 @@ namespace Canis
     }
 
     void Scene::render(Camera* activeCamera, glm::mat4 projectionMatrix){
-        if(Engine::getSingleton().isDynamicsEnabled())
+        if(Engine::getSingleton().isDynamicsEnabled()){
             _dynamicsWorld->stepSimulation((float)(_timer->millis() - _lastTime)/1000.0f, 7);
-            _lastTime = _timer->millis();
+        }
+        _lastTime = _timer->millis();
 
         for(size_t i=0; i<_nodes.size(); i++){
             if(activeCamera != nullptr){

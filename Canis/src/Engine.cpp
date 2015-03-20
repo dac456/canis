@@ -5,6 +5,7 @@
 #include "MaterialManager.h"
 #include "EntityManager.h"
 #include "PluginManager.h"
+#include "ScriptManager.h"
 
 #include "IObject.h"
 
@@ -19,11 +20,13 @@ namespace Canis
         _materialManager = new MaterialManager();
         _entityManager = new EntityManager();
         _pluginManager = new PluginManager();
+        _scriptManager = new ScriptManager();
 
         _dynamicsEnabled = true;
     }
 
     Engine::~Engine(){
+        delete _scriptManager;
         delete _pluginManager;
         delete _entityManager;
         delete _materialManager;

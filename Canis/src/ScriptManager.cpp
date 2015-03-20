@@ -1,15 +1,23 @@
 #include "ScriptManager.h"
 #include "Script.h"
 #include "IScriptProvider.h"
+#include "PythonProvider.h"
 
 namespace Canis
 {
     
     ScriptManager::ScriptManager(){
         _lastAccessed = nullptr;
+        
+        new PythonProvider();
     }
     
     ScriptManager::~ScriptManager(){
+    }
+    
+    void ScriptManager::registerProvider(IScriptProvider* provider){
+        _providers[provider->getType()] = provider;
+        std::cout << "Registered Script Provider: " << provider->getType() << std::endl;
     }
     
     void ScriptManager::addScript(Script* script){

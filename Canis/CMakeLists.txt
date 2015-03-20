@@ -10,8 +10,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 unset(Boost_INCLUDE_DIR CACHE)
 unset(Boost_LIBRARY_DIRS CACHE)
-find_package(Boost REQUIRED system filesystem)
+find_package(Boost REQUIRED system filesystem python)
 link_directories(${Boost_LIBRARY_DIRS})
+
+# Python
+find_package(PythonLibs REQUIRED)
+include_directories(${PYTHON_INCLUDE_DIRS})
+link_directories(${PYTHON_LIBRARIES})
 
 # Qt/OpenGL
 find_package(OpenGL REQUIRED)
@@ -43,10 +48,11 @@ source_group("Source" FILES ${CS_SOURCE})
 add_library(Canis SHARED ${CS_SOURCE} ${CS_HEADER})
 
 target_link_libraries(Canis
-   ${Boost_FILESYSTEM_LIBRARY}
+   ${Boost_LIBRARIES}
    ${OPENGL_LIBRARIES} 
    ${GLEW_LIBRARIES}
    ${GLUT_LIBRARIES}
    ${BULLET_LIBRARIES} 
    ${ASSIMP_LIBRARY}
+   ${PYTHON_LIBRARIES}
 )

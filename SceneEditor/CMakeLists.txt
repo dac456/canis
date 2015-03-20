@@ -9,7 +9,12 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_definitions( -DGLM_FORCE_RADIANS )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-find_package(Boost REQUIRED system filesystem)
+find_package(Boost REQUIRED system filesystem python)
+
+# Python
+find_package(PythonLibs REQUIRED)
+include_directories(${PYTHON_INCLUDE_DIRS})
+link_directories(${PYTHON_LIBRARIES})
 
 # Qt/OpenGL
 find_package(OpenGL REQUIRED)
@@ -21,7 +26,7 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5OpenGL REQUIRED)
 if(UNIX)
-    find_package(Qt5X11Extras REQUIRED)
+#    find_package(Qt5X11Extras REQUIRED)
 endif(UNIX)
 add_definitions(-DQT_NO_KEYWORDS)
 

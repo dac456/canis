@@ -1,6 +1,6 @@
 #include "AddNodeDialog.h"
-#include "MainWindow.h"
-#include <Canis.h>
+//#include "MainWindow.h"
+//#include <Canis.h>
 
 namespace SceneEditor
 {

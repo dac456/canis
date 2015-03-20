@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 option(INTEL_CC "Use the Intel compiler." OFF)
+option(DIST_CC "Use distcc." OFF)
 
 if (INTEL_CC)
     find_program(CMAKE_C_COMPILER NAMES icc)
@@ -18,6 +19,11 @@ if (INTEL_CC)
         message(FATAL_ERROR "Cannot find Intel compiler.  You may need to run `. /opt/intel/bin/compilervars.sh intel64'")
     endif ()
 endif (INTEL_CC)
+
+if(DIST_CC)
+    set(CMAKE_CXX_COMPILER "distcc g++")
+    set(CMAKE_C_COMPILER "distcc gcc")
+endif(DIST_CC)
 
 message("USING CXX COMPILER: ${CMAKE_CXX_COMPILER}")
 message("USING CXX FLAGS: ${CMAKE_CXX_FLAGS}")

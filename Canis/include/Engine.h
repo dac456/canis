@@ -16,6 +16,7 @@ namespace Canis
         MaterialManager* _materialManager;
         EntityManager* _entityManager;
         PluginManager* _pluginManager;
+        ScriptManager* _scriptManager;
 
         bool _dynamicsEnabled;
 
