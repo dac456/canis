@@ -4,6 +4,8 @@
 #include "Common.h"
 #include "IScriptProvider.h"
 
+#include <boost/python.hpp>
+
 namespace Canis
 {
     
@@ -14,6 +16,11 @@ namespace Canis
         
         void initialize();
         void execute(Script* script);
+        
+        void runStep(Script* script);
+    
+    private:
+		boost::python::object _loadModule(std::string name, const char* buffer);
     };
     
 }

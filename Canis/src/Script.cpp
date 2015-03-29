@@ -11,7 +11,7 @@ namespace Canis
         boost::filesystem::path p(file);
         std::string ext = p.extension().string();
         
-        if(ext == "python"){
+        if(ext == ".py"){
             _type = "python";
         }
         else{

@@ -16,6 +16,7 @@ namespace Canis
     }
     
     void ScriptManager::registerProvider(IScriptProvider* provider){
+		provider->initialize(); //TODO: don't register if this fails
         _providers[provider->getType()] = provider;
         std::cout << "Registered Script Provider: " << provider->getType() << std::endl;
     }
@@ -31,6 +32,12 @@ namespace Canis
             _providers[script->getType()]->execute(script);
         }
     }
+    
+    void ScriptManager::runStep(Script* script){
+		if(script != nullptr){
+			_providers[script->getType()]->runStep(script);
+		}
+	}
     
     Script* ScriptManager::getScript(std::string name){
         if(_lastAccessed->getName() == name){

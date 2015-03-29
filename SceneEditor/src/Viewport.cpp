@@ -10,6 +10,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+Canis::Script* scr;
 namespace SceneEditor
 {
 
@@ -18,6 +19,7 @@ namespace SceneEditor
         connect(_timer, SIGNAL(timeout()), this, SLOT(update()));
         
         _initialized = false;
+        _renderer = new Canis::Renderer();
 
         setFocusPolicy(Qt::ClickFocus);
         
@@ -55,6 +57,7 @@ namespace SceneEditor
         connect(new QShortcut(QKeySequence(Qt::Key_4), this), SIGNAL(activated()), this, SLOT(setViewSide()));
 
         //Q_EMIT contextCreated();
+        scr = new Canis::Script("test", "./Media/Scripts/test.py");
     }
 
     Viewport::~Viewport(){
@@ -68,6 +71,9 @@ namespace SceneEditor
         if(_cam != nullptr){
             delete _cam;
         }
+        
+        delete scr;
+        delete _renderer;
     }
     
     void Viewport::connectToMainWindow(MainWindow* main){
@@ -106,6 +112,8 @@ namespace SceneEditor
         swapBuffers();
         
         Q_EMIT renderOnce();
+        
+        Canis::ScriptManager::getSingleton().runStep(scr);
     }
     
     void Viewport::resize(int w, int h){
@@ -740,10 +748,14 @@ namespace SceneEditor
         
         _timer->start(0);
         _initialized = true;
+        
+        Canis::Engine::getSingleton().setRenderer(_renderer);
     }     
      
     void Viewport::setActiveScene(Canis::Scene* scene){
         _activeScene = scene;
+        //_renderer->addScene(scene);
+        _renderer->setScene(scene);
     }     
      
     void Viewport::selectObject(QString name, QString type){

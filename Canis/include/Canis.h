@@ -32,6 +32,8 @@
 #include "SceneLoader.h"
 #include "SceneNode.h"
 #include "SceneWriter.h"
+#include "Script.h"
+#include "ScriptManager.h"
 #include "StaticMesh.h"
 #include "StaticMeshFactory.h"
 #include "Renderer.h"

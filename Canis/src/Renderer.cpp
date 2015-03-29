@@ -11,13 +11,15 @@ namespace Canis
     }
     
     Renderer::~Renderer(){
-        for(size_t i=0; i<_scenes.size(); i++){
+        /*for(size_t i=0; i<_scenes.size(); i++){
             if(_scenes[i] != nullptr){
                 delete _scenes[i];
             }
         }
         
-        _scenes.clear();
+        _scenes.clear();*/
+        
+        _activeScene = nullptr;
     }
     
     void Renderer::render(Camera* activeCamera, glm::mat4 projectionMatrix){
@@ -42,7 +44,9 @@ namespace Canis
     }
     
     void Renderer::addScene(Scene* scene){
-        _scenes.push_back(scene);
+        if(std::find(_scenes.begin(), _scenes.end(), scene) == _scenes.end()){
+            _scenes.push_back(scene);
+        }
     }
     
     void Renderer::setScene(std::string name){
@@ -50,6 +54,14 @@ namespace Canis
     
     void Renderer::setScene(size_t id){
         _activeScene = _scenes[id];
+    }
+    
+    void Renderer::setScene(Scene* scene){
+        _activeScene = scene;
+    }
+    
+    Scene* Renderer::getActiveScene(){
+        return _activeScene;
     }
     
 }

@@ -19,6 +19,7 @@ namespace Canis
         
         virtual void initialize() = 0;
         virtual void execute(Script* script) = 0;
+        virtual void runStep(Script* script) = 0;
         
         std::string getType(){
             return _type;

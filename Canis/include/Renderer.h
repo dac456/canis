@@ -27,6 +27,9 @@ namespace Canis
         
         void setScene(std::string name);
         void setScene(size_t id);
+        void setScene(Scene* scene);
+        
+        Scene* getActiveScene();
     };
     
 }

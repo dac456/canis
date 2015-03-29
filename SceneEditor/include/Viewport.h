@@ -35,6 +35,7 @@ namespace SceneEditor
         bool _initialized;
 
         //Canis
+        Canis::Renderer* _renderer; //TODO: start offloading to renderer class as much as possible
         Canis::Scene* _activeScene;
         Canis::Camera* _cam;
         Canis::Mesh* _nodeMarker;

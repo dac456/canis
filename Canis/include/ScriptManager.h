@@ -22,6 +22,7 @@ namespace Canis
         
         void addScript(Script* script);
         void execute(std::string name);
+        void runStep(Script* script);
         
         Script* getScript(std::string name);
     };
