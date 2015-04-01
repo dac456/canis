@@ -10,7 +10,6 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-Canis::Script* scr;
 namespace SceneEditor
 {
 
@@ -57,7 +56,6 @@ namespace SceneEditor
         connect(new QShortcut(QKeySequence(Qt::Key_4), this), SIGNAL(activated()), this, SLOT(setViewSide()));
 
         //Q_EMIT contextCreated();
-        scr = new Canis::Script("test", "./Media/Scripts/test.py");
     }
 
     Viewport::~Viewport(){
@@ -72,8 +70,9 @@ namespace SceneEditor
             delete _cam;
         }
         
-        delete scr;
-        delete _renderer;
+        if(_renderer != nullptr){
+            //delete _renderer; //TODO: make this not segfault. try deleting *after* deleting Viewport?
+        }
     }
     
     void Viewport::connectToMainWindow(MainWindow* main){
@@ -112,8 +111,6 @@ namespace SceneEditor
         swapBuffers();
         
         Q_EMIT renderOnce();
-        
-        Canis::ScriptManager::getSingleton().runStep(scr);
     }
     
     void Viewport::resize(int w, int h){

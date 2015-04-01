@@ -96,6 +96,7 @@ namespace SceneEditor
         Canis::Scene* defaultScene = new Canis::Scene("untitled", glm::mat4(1.0f));
 
         Canis::SceneNode* root = new Canis::SceneNode("Root");
+        root->setScript(new Canis::Script("test", "./Media/Scripts/test.py")); //memory leak
         //Canis::SceneNode* ball = new Canis::SceneNode("BallNode", glm::translate(glm::vec3(0.0f, 1000.0f, 0.0f)));
         defaultScene->addSceneNode(root);
         /*defaultScene->addSceneNode(ball);

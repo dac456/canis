@@ -4,6 +4,7 @@
 #include "Light.h"
 #include "Camera.h"
 #include "AssimpLoader.h"
+#include "ScriptManager.h"
 
 namespace Canis
 {
@@ -30,6 +31,10 @@ namespace Canis
         //_marker->setTransform(_parent->getTransform()*localTransform);
         //_marker->render();
         //_marker->setTransform(localTransform);
+        
+        if(this->getScript() != nullptr){
+            ScriptManager::getSingleton().runStep(this->getScript());
+        }
 
         for(size_t i=0; i<_entities.size(); i++){
             _entities[i]->update(projectionMatrix, viewMatrix);

@@ -20,7 +20,7 @@ namespace Canis
         void runStep(Script* script);
     
     private:
-		boost::python::object _loadModule(std::string name, const char* buffer);
+        boost::python::object _loadModule(std::string name, const char* buffer);
     };
     
 }

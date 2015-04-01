@@ -3,6 +3,7 @@
 
 #include "Common.h"
 #include "Engine.h"
+#include "Script.h"
 
 namespace Canis
 {
@@ -12,6 +13,7 @@ namespace Canis
     class CSAPI IObject : public btMotionState {
     private:
         std::string _type;
+        Script* _script; //TODO: multiple?
 
     protected:
         IObject* _parent;
@@ -23,6 +25,7 @@ namespace Canis
     public:
         IObject(std::string type, glm::mat4 transform = glm::mat4(1.0f)){
             _type = type;
+            _script = nullptr;
 
             _parent = nullptr;
             _transform = transform;
@@ -35,6 +38,15 @@ namespace Canis
         }
         virtual ~IObject(){
             _resetConnection.disconnect();
+        }
+        
+        void setScript(Script* script){
+            _script = script;
+            _script->setOwner(this);
+        }
+        
+        Script* getScript(){
+            return _script;
         }
 
         std::string getType(){

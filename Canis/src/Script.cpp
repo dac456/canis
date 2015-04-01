@@ -7,6 +7,7 @@ namespace Canis
     Script::Script(std::string name, std::string file){
         _name = name;
         _id = -1;
+        _owner = nullptr;
         
         boost::filesystem::path p(file);
         std::string ext = p.extension().string();
@@ -34,6 +35,14 @@ namespace Canis
         if(_buffer){
             delete[] _buffer;
         }
+    }
+    
+    void Script::setOwner(IObject* owner){
+        _owner = owner;
+    }
+    
+    IObject* Script::getOwner(){
+        return _owner;
     }
     
     std::string Script::getName(){

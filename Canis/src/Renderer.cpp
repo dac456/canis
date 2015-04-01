@@ -11,13 +11,13 @@ namespace Canis
     }
     
     Renderer::~Renderer(){
-        /*for(size_t i=0; i<_scenes.size(); i++){
+        for(size_t i=0; i<_scenes.size(); i++){
             if(_scenes[i] != nullptr){
                 delete _scenes[i];
             }
         }
         
-        _scenes.clear();*/
+        _scenes.clear();
         
         _activeScene = nullptr;
     }

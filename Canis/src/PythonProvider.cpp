@@ -16,7 +16,7 @@ namespace Canis
     }
     
     PythonProvider::~PythonProvider(){
-		Py_Finalize();
+		//Py_Finalize();
     }
     
     void PythonProvider::initialize(){
@@ -35,10 +35,14 @@ namespace Canis
         py::exec(script->getBuffer().c_str(), mainNamespace, mainNamespace);
     }
     
+    //TODO: change to run() and pass method to run by string - will allow plugins to define their own hooks
     void PythonProvider::runStep(Script* script){
 		try{
 			//TODO: store module if script->isModule() (or something)
 			py::object module = _loadModule(script->getName(), script->getBuffer().c_str());
+            py::dict base_dict = py::extract<py::dict>(module.attr("__dict__"));
+            base_dict["this_object_name"] = py::str(script->getOwner()->getName().c_str());
+            base_dict["this_object_type"] = py::str(script->getOwner()->getType().c_str());
 			module.attr("step")();
 		} catch(const py::error_already_set& e){
 			/* http://strattonbrazil.blogspot.ca/2011/09/adding-python-support-using-boostpython.html */
@@ -106,13 +110,13 @@ namespace Canis
 
 		// init module dict
 		py::dict base_dict = py::extract<py::dict>(module.attr("__dict__"));
-		//base_dict["__builtins__"] = py::import("__builtins__");
+		base_dict["__builtins__"] = py::import("__builtin__");
 		base_dict["__name__"] = name_str;
 		base_dict["__file__"] = file_str;
 
 
-		py::object cpp_module( (py::handle<>(PyImport_ImportModule("canis_scenegraph"))) );
-		base_dict["canis_scenegraph"] = cpp_module;
+		py::object scenegraph_module( (py::handle<>(PyImport_ImportModule("canis_scenegraph"))) );
+		base_dict["canis_scenegraph"] = scenegraph_module;
 
 		// execute module code in module context
 		py::exec(module_source, base_dict, base_dict);
