@@ -18,8 +18,7 @@ namespace Canis
         virtual ~IScriptProvider(){}
         
         virtual void initialize() = 0;
-        virtual void execute(Script* script) = 0;
-        virtual void runStep(Script* script) = 0;
+        virtual void run(Script* script, std::string method) = 0;
         
         std::string getType(){
             return _type;

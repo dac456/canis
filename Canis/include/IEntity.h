@@ -19,7 +19,6 @@ namespace Canis
     class CSAPI IEntity : public IObject{
     private:
         std::string _type;
-        std::string _name;
         bool _renderable;
 
     protected:
@@ -31,9 +30,8 @@ namespace Canis
 
     public:
         IEntity(std::string type, std::string name, glm::mat4 transform = glm::mat4(1.0f), bool renderable = false)
-            : IObject("entity", transform){
+            : IObject(name, "entity", transform){
             _type = type;
-            _name = name;
             _transform = transform;
             _renderable = renderable;
         }
@@ -71,14 +69,6 @@ namespace Canis
 
         std::string getType(){
             return _type;
-        }
-        
-        void setName(std::string name){
-            _name = name;
-        }
-
-        std::string getName(){
-            return _name;
         }
 
         bool isRenderable(){

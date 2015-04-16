@@ -21,8 +21,7 @@ namespace Canis
         void registerProvider(IScriptProvider* provider);
         
         void addScript(Script* script);
-        void execute(std::string name);
-        void runStep(Script* script);
+        void run(Script* script, std::string method);
         
         Script* getScript(std::string name);
     };

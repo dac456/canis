@@ -422,6 +422,7 @@ namespace SceneEditor
          
          QFileDialog saveDialog(this, "Open Scene", "./Media/Scenes");(this, "Save Scene", "./Media/Scenes", ".scene");
          saveDialog.setAcceptMode(QFileDialog::AcceptSave);
+         saveDialog.setOption(QFileDialog::DontUseNativeDialog, true);
          
          if(saveDialog.exec()){
             QStringList files;
@@ -434,6 +435,7 @@ namespace SceneEditor
      
      void MainWindow::open(){
         QFileDialog openDialog(this, "Open Scene", "./Media/Scenes");
+        openDialog.setOption(QFileDialog::DontUseNativeDialog, true);
         if(openDialog.exec()){
             QStringList files;
             files = openDialog.selectedFiles();

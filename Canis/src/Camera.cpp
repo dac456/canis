@@ -4,8 +4,7 @@ namespace Canis
 {
 
     Camera::Camera(std::string name, glm::vec3 pos, glm::vec3 lookAt)
-        : IObject("camera", glm::mat4(1.0)){
-        _name = name;
+        : IObject(name, "camera", glm::mat4(1.0)){
         _view = glm::normalize(lookAt - pos);
         _position = pos;
         _orientation = glm::fquat();
@@ -29,10 +28,6 @@ namespace Canis
         _transform = glm::lookAt(pos, lookAt, glm::vec3(0.0f, 1.0f, 0.0f));
         _orientation = glm::quat_cast(_transform);
         _view = glm::normalize(_orientation*glm::vec3(0.0f, 0.0f, 1.0f));
-    }
-
-    std::string Camera::getName(){
-        return _name;
     }
 
     glm::vec3 Camera::getViewVector(){

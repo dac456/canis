@@ -8,8 +8,7 @@ namespace Canis
 {
 
     Scene::Scene(std::string name, glm::mat4 transform)
-        : IObject("scene", transform){
-        _name = name;
+        : IObject(name, "scene", transform){
         _activeCamera = nullptr;
 
         //--Physics--//
@@ -84,14 +83,6 @@ namespace Canis
     
     Camera* Scene::getActiveCamera(){
         return _activeCamera;
-    }
-    
-    void Scene::setName(std::string name){
-        _name = name;
-    }
-    
-    std::string Scene::getName(){
-        return _name;
     }
 
     std::vector<SceneNode*> Scene::getNodes(){

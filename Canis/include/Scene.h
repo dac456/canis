@@ -12,7 +12,6 @@ namespace Canis
 
     class CSAPI Scene : public IObject{
     private:
-        std::string _name;
         std::vector<SceneNode*> _nodes;
         std::vector<Light*> _lights; //Maintain a list of lights for distance computation
         Camera* _activeCamera;
@@ -40,8 +39,6 @@ namespace Canis
         void setActiveCamera(Camera* camera);
         Camera* getActiveCamera();
 
-        void setName(std::string name);
-        std::string getName();
         std::vector<SceneNode*> getNodes();
 
         btDiscreteDynamicsWorld* getDynamicsWorld();

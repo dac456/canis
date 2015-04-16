@@ -21,14 +21,17 @@ namespace Canis
         
         std::ifstream fin(file, std::ios::in);
         
-        fin.seekg(0, fin.end);
-        int length = fin.tellg();
-        fin.seekg(0, fin.beg);
+        std::stringstream ss;
+        if(fin.is_open()){
+            std::string line;
+            while(std::getline(fin, line)){
+                ss << line << '\n';
+            }
+            fin.close();
+        }
         
-        _buffer = new char[length];
-        fin.read(_buffer, length);
-        
-        fin.close();
+        _buffer = new char[ss.str().length()+1];
+        strcpy(_buffer, ss.str().c_str());
     }
     
     Script::~Script(){

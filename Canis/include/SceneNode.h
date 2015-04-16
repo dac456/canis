@@ -11,7 +11,6 @@ namespace Canis
 
     class CSAPI SceneNode : public IObject{
     private:
-        std::string _name;
         Mesh* _marker;
 
         std::vector<SceneNode*> _children;
@@ -35,8 +34,6 @@ namespace Canis
         void removeEntity(IEntity* entity);
         void removeLight(Light* light);
 
-        void setName(std::string name);
-        std::string getName();
         std::vector<SceneNode*> getChildren();
         std::vector<IEntity*> getEntities();
         std::vector<Light*> getLights();

@@ -12,6 +12,7 @@ namespace Canis
     //TODO: should each IObject define it's type/class by a string?
     class CSAPI IObject : public btMotionState {
     private:
+        std::string _name;
         std::string _type;
         Script* _script; //TODO: multiple?
 
@@ -23,7 +24,8 @@ namespace Canis
         btTransform _dynamicsTransform;
 
     public:
-        IObject(std::string type, glm::mat4 transform = glm::mat4(1.0f)){
+        IObject(std::string name, std::string type, glm::mat4 transform = glm::mat4(1.0f)){
+            _name = name;
             _type = type;
             _script = nullptr;
 
@@ -38,6 +40,9 @@ namespace Canis
         }
         virtual ~IObject(){
             _resetConnection.disconnect();
+            if(_script != nullptr){
+                delete _script;
+            }
         }
         
         void setScript(Script* script){
@@ -47,6 +52,14 @@ namespace Canis
         
         Script* getScript(){
             return _script;
+        }
+        
+        std::string getName(){
+            return _name;
+        }
+        
+        void setName(std::string name){
+            _name = name;
         }
 
         std::string getType(){

@@ -10,9 +10,8 @@ namespace Canis
 {
 
     SceneNode::SceneNode(std::string name, glm::mat4 transform)
-        : IObject("node", transform) {
+        : IObject(name, "node", transform) {
         _parent = nullptr;
-        _name = name;
         //_marker = new Mesh(new AssimpLoader("./Media/Models/marker.ms3d"));
         //_marker->setTransform(transform);
     }
@@ -33,7 +32,7 @@ namespace Canis
         //_marker->setTransform(localTransform);
         
         if(this->getScript() != nullptr){
-            ScriptManager::getSingleton().runStep(this->getScript());
+            ScriptManager::getSingleton().run(this->getScript(), "step");
         }
 
         for(size_t i=0; i<_entities.size(); i++){
@@ -89,14 +88,6 @@ namespace Canis
         if(parentScene){
             parentScene->_removeLight(light);
         }
-    }
-    
-    void SceneNode::setName(std::string name){
-        _name = name;
-    }
-
-    std::string SceneNode::getName(){
-        return _name;
     }
 
     std::vector<SceneNode*> SceneNode::getChildren(){

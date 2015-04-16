@@ -28,22 +28,21 @@ namespace Canis
         py::import("sys").attr("path").attr("append")(boost::filesystem::absolute(p).normalize().string());
     }
     
-    void PythonProvider::execute(Script* script){
+    /*void PythonProvider::execute(Script* script){
 		py::object mainModule = py::import("__main__");
 		py::object mainNamespace = mainModule.attr("__dict__");
 		
         py::exec(script->getBuffer().c_str(), mainNamespace, mainNamespace);
-    }
+    }*/
     
-    //TODO: change to run() and pass method to run by string - will allow plugins to define their own hooks
-    void PythonProvider::runStep(Script* script){
+    void PythonProvider::run(Script* script, std::string method){
 		try{
 			//TODO: store module if script->isModule() (or something)
 			py::object module = _loadModule(script->getName(), script->getBuffer().c_str());
             py::dict base_dict = py::extract<py::dict>(module.attr("__dict__"));
             base_dict["this_object_name"] = py::str(script->getOwner()->getName().c_str());
             base_dict["this_object_type"] = py::str(script->getOwner()->getType().c_str());
-			module.attr("step")();
+			module.attr(method.c_str())();
 		} catch(const py::error_already_set& e){
 			/* http://strattonbrazil.blogspot.ca/2011/09/adding-python-support-using-boostpython.html */
 			
@@ -83,7 +82,7 @@ namespace Canis
 					ret += std::string(": Unparseable Python traceback");
 			}
 			
-			std::cout << ret << std::endl;;			
+			//std::cout << ret << std::endl;;			
 		}
 	}
 	

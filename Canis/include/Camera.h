@@ -9,7 +9,6 @@ namespace Canis
 
     class CSAPI Camera : public IObject{
     private:
-        std::string _name;
         glm::vec3 _view;
         glm::vec3 _position;
         glm::fquat _orientation;
@@ -24,7 +23,6 @@ namespace Canis
 
         void setCamera(glm::vec3 pos, glm::vec3 lookAt);
 
-        std::string getName();
         glm::vec3 getViewVector();
         glm::vec3 getPosition();
         glm::vec3 getAbsolutePosition();

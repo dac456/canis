@@ -26,16 +26,16 @@ namespace Canis
         _scripts.push_back(script);
     }
     
-    void ScriptManager::execute(std::string name){
+    /*void ScriptManager::execute(std::string name){
         Script* script = getScript(name);
         if(script != nullptr && _providers.find(script->getType()) != _providers.end()){
             _providers[script->getType()]->execute(script);
         }
-    }
+    }*/
     
-    void ScriptManager::runStep(Script* script){
+    void ScriptManager::run(Script* script, std::string method){
 		if(script != nullptr){
-			_providers[script->getType()]->runStep(script);
+			_providers[script->getType()]->run(script, method);
 		}
 	}
     

@@ -14,7 +14,6 @@ namespace Canis
 
     class CSAPI Light : public IObject{
     private:
-        std::string _name;
         glm::vec3 _diffuse;
         float _radius;
 
@@ -26,9 +25,6 @@ namespace Canis
 
         glm::vec3 getPosition();
         glm::vec3 getAbsolutePosition();
-
-        void setName(std::string name);
-        std::string getName();
         
         void setDiffuse(glm::vec3 diffuse);
         glm::vec3 getDiffuse();

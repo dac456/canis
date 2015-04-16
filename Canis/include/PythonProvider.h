@@ -15,9 +15,8 @@ namespace Canis
         ~PythonProvider();
         
         void initialize();
-        void execute(Script* script);
         
-        void runStep(Script* script);
+        void run(Script* script, std::string method);
     
     private:
         boost::python::object _loadModule(std::string name, const char* buffer);

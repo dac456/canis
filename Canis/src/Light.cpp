@@ -5,8 +5,7 @@ namespace Canis
 {
 
     Light::Light(std::string name, glm::vec3 diffuse, float radius, glm::mat4 transform)
-        : IObject("light", transform){
-        _name = name;
+        : IObject(name, "light", transform){
         _diffuse = diffuse;
         _radius = radius;
         _scale = glm::vec3(radius, radius, radius);
@@ -28,14 +27,6 @@ namespace Canis
         }
         else
             return getPosition();
-    }
-    
-    void Light::setName(std::string name){
-        _name = name;
-    }
-
-    std::string Light::getName(){
-        return _name;
     }
 
     void Light::setDiffuse(glm::vec3 diffuse){

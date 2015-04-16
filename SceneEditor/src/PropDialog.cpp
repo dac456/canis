@@ -68,6 +68,7 @@ namespace SceneEditor
 
     void PropDialog::meshBrowseClicked(){
         QFileDialog meshDialog(this, "Select Mesh", "./Media/Models");
+        meshDialog.setOption(QFileDialog::DontUseNativeDialog, true);
         if(meshDialog.exec()){
             QStringList files;
             files = meshDialog.selectedFiles();
