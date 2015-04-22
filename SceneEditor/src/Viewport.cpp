@@ -750,8 +750,8 @@ namespace SceneEditor
     }     
      
     void Viewport::setActiveScene(Canis::Scene* scene){
+        //TODO: we don't really need two pointers to the current scene
         _activeScene = scene;
-        //_renderer->addScene(scene);
         _renderer->setScene(scene);
     }     
      
@@ -759,7 +759,7 @@ namespace SceneEditor
         _selectedObjectName = name;
         _selectedObjectType = type;
         
-        //Should eventually select by calling node->select();
+        //TODO: Should eventually select by calling node->select();
         
         if(type == "node"){
             Canis::SceneNode* n = _getNodeByName(name.toStdString());

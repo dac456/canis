@@ -85,6 +85,17 @@ namespace Canis
         return _activeCamera;
     }
 
+    //TODO: deep search?
+    SceneNode* Scene::getNode(std::string name){
+        for(auto n : _nodes){
+            if(n->getName() == name){
+                return n;
+            }
+        }
+        
+        return nullptr;
+    }
+
     std::vector<SceneNode*> Scene::getNodes(){
         return _nodes;
     }

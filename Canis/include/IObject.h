@@ -4,6 +4,7 @@
 #include "Common.h"
 #include "Engine.h"
 #include "Script.h"
+#include "ScriptManager.h"
 
 namespace Canis
 {
@@ -40,14 +41,23 @@ namespace Canis
         }
         virtual ~IObject(){
             _resetConnection.disconnect();
-            if(_script != nullptr){
-                delete _script;
-            }
+            unsetScript();
         }
         
         void setScript(Script* script){
             _script = script;
             _script->setOwner(this);
+            
+            ScriptManager::getSingleton().run(script, "on_set_script");
+        }
+        
+        void unsetScript(){
+            if(_script != nullptr){
+                ScriptManager::getSingleton().run(_script, "on_unset_script");
+                
+                _script->setOwner(nullptr);
+                delete _script;
+            }
         }
         
         Script* getScript(){

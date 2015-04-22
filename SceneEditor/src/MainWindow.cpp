@@ -78,7 +78,7 @@ namespace SceneEditor
 
         _engine = new Canis::Engine();
         _engine->setDynamicsEnabled(false);
-        _engine->setRenderer(new Canis::Renderer());
+        //_engine->setRenderer(new Canis::Renderer());
         
         ui.pauseSimulationButton->setText("Play");
 
@@ -96,7 +96,6 @@ namespace SceneEditor
         Canis::Scene* defaultScene = new Canis::Scene("untitled", glm::mat4(1.0f));
 
         Canis::SceneNode* root = new Canis::SceneNode("Root");
-        root->setScript(new Canis::Script("test", "./Media/Scripts/test.py")); //memory leak
         //Canis::SceneNode* ball = new Canis::SceneNode("BallNode", glm::translate(glm::vec3(0.0f, 1000.0f, 0.0f)));
         defaultScene->addSceneNode(root);
         /*defaultScene->addSceneNode(ball);
@@ -122,7 +121,7 @@ namespace SceneEditor
         std::map<std::string, Canis::IEntityFactory*> entityFactories = Canis::EntityManager::getSingleton().getEntityFactories();
         for(it = entityFactories.begin(); it != entityFactories.end(); it++)
             ui.entityList->addItem(QString(((*it).first).c_str()));
-            
+        
         std::cout << "mainwindow initialized" << std::endl;
             
         Q_EMIT initialized();
@@ -420,7 +419,7 @@ namespace SceneEditor
      void MainWindow::save(){
          Canis::Scene* sc = ui.viewport->getActiveScene();
          
-         QFileDialog saveDialog(this, "Open Scene", "./Media/Scenes");(this, "Save Scene", "./Media/Scenes", ".scene");
+         QFileDialog saveDialog(this, "Save Scene", "./Media/Scenes");(this, "Save Scene", "./Media/Scenes", ".scene");
          saveDialog.setAcceptMode(QFileDialog::AcceptSave);
          saveDialog.setOption(QFileDialog::DontUseNativeDialog, true);
          
@@ -445,7 +444,7 @@ namespace SceneEditor
             Canis::Scene* sc = ui.viewport->getActiveScene();
             Q_EMIT sceneLoaded(sl.getScene());
             delete sc;
-
+            
             updateSceneGraphTree();
         }         
      }

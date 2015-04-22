@@ -58,6 +58,7 @@ namespace Canis
     
     void Renderer::setScene(Scene* scene){
         _activeScene = scene;
+        std::cout << "Active scene: " << _activeScene->getName() << std::endl;
     }
     
     Scene* Renderer::getActiveScene(){

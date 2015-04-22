@@ -3,7 +3,7 @@
 #include "ScriptManager.h"
 #include <boost/filesystem.hpp>
 
-#include "python/python_scenegraph.h"
+#include "python/python_canis.h"
 
 namespace py = boost::python;
 
@@ -82,7 +82,7 @@ namespace Canis
 					ret += std::string(": Unparseable Python traceback");
 			}
 			
-			//std::cout << ret << std::endl;;			
+			std::cout << ret << std::endl;;			
 		}
 	}
 	
@@ -114,8 +114,8 @@ namespace Canis
 		base_dict["__file__"] = file_str;
 
 
-		py::object scenegraph_module( (py::handle<>(PyImport_ImportModule("canis_scenegraph"))) );
-		base_dict["canis_scenegraph"] = scenegraph_module;
+		py::object canis_module( (py::handle<>(PyImport_ImportModule("canis"))) );
+		base_dict["canis"] = canis_module;
 
 		// execute module code in module context
 		py::exec(module_source, base_dict, base_dict);

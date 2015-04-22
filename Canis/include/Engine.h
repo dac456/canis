@@ -11,6 +11,7 @@ namespace Canis
     private:
         Renderer* _renderer;
         
+        //TODO: it may be better to make the managers not singletons, and access them through Engine
         GlShaderManager* _shaderManager;
         TextureManager* _textureManager;
         MaterialManager* _materialManager;
