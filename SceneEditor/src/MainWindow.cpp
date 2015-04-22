@@ -6,6 +6,7 @@
 #include "StringProperty.h"
 #include "ColorProperty.h"
 #include "Mat4Property.h"
+#include "FileProperty.h"
 
 namespace SceneEditor
 {
@@ -250,6 +251,22 @@ namespace SceneEditor
             updateSceneGraphTree();
         }));
         
+        QString scriptName("");
+        if(node->getScript() != nullptr){
+            scriptName = node->getScript()->getName().c_str();
+        }
+        
+        ui.propertyBrowser->addProperty(new FileProperty(QString("Script"), scriptName, [this, node](QVariant data){
+            QFile f(data.toString());
+            QFileInfo fileInfo(f.fileName());
+            QString filename(fileInfo.fileName());
+            
+            node->unsetScript();
+            node->setScript(new Canis::Script(filename.toStdString(), data.toString().toStdString()));
+            
+            updateSceneGraphTree();
+        }));         
+        
         glm::mat4 trans = node->getTransform();
         QMatrix4x4 mat;
         for(int i=0; i<4; i++){
@@ -268,7 +285,8 @@ namespace SceneEditor
             }
             
             node->setTransform(trans);            
-        }));           
+        }));
+                  
     }
     
     void MainWindow::setPropertySheetLight(Canis::Light* light){

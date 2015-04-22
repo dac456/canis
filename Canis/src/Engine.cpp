@@ -15,23 +15,23 @@ namespace Canis
     Engine::Engine(){
         _renderer = nullptr;
         
+        _scriptManager = new ScriptManager();
         _shaderManager = new GlShaderManager();
         _textureManager = new TextureManager();
         _materialManager = new MaterialManager();
         _entityManager = new EntityManager();
         _pluginManager = new PluginManager();
-        _scriptManager = new ScriptManager();
 
         _dynamicsEnabled = true;
     }
 
     Engine::~Engine(){
-        delete _scriptManager;
         delete _pluginManager;
         delete _entityManager;
         delete _materialManager;
         delete _textureManager;
         delete _shaderManager;
+        delete _scriptManager;
         
         if(_renderer != nullptr){
             delete _renderer;
