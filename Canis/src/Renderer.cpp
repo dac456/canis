@@ -19,7 +19,10 @@ namespace Canis
         
         _scenes.clear();
         
-        _activeScene = nullptr;
+        if(_activeScene != nullptr){
+            delete _activeScene;
+            _activeScene = nullptr;
+        }
     }
     
     void Renderer::render(Camera* activeCamera, glm::mat4 projectionMatrix){

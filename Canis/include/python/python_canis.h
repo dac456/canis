@@ -39,6 +39,13 @@ namespace Canis
             n->attachLight(new Light(name, glm::vec3(r, g, b), radius));
         }
     }
+    
+    void removeLight(Scene* scene, std::string node, std::string name){
+        SceneNode* n = scene->getNode(node);
+        if(n != nullptr){
+            n->removeLight(n->getLight(name));
+        }
+    }
 
     BOOST_PYTHON_MODULE(canis){
         py::class_<Scene>("scene", py::no_init)
@@ -47,6 +54,7 @@ namespace Canis
         
         py::def("get_active_scene", &getActiveScene, py::return_value_policy<py::reference_existing_object>());
         py::def("attach_light", &attachLight, "doc string");
+        py::def("remove_light", &removeLight, "doc string");
     }
     
     void registerModuleSceneGraph(){

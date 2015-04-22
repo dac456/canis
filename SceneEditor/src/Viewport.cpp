@@ -62,9 +62,9 @@ namespace SceneEditor
         delete _nodeMarker;
         delete _selectionBox;
         
-        if(_activeScene != nullptr){
-            delete _activeScene;
-        }
+        //if(_activeScene != nullptr){
+        //    delete _activeScene;
+        //}
         
         if(_cam != nullptr){
             delete _cam;
@@ -708,11 +708,14 @@ namespace SceneEditor
     }
     
     void Viewport::_removeLight(QString name){
-        Canis::Light* light = _getLightByName(name);
+        /*Canis::Light* light = _getLightByName(name);
         for(auto n : _activeScene->getNodes()){
             n->removeLight(light);
         }
-        delete light;
+        delete light;*/
+        for(auto n : _activeScene->getNodes()){
+            n->removeLight(n->getLight(name.toStdString()));
+        }        
         
         Q_EMIT sceneChanged();
     }

@@ -59,13 +59,25 @@ namespace Canis
     }
 
     void SceneNode::attachLight(Light* light){
+        auto search = _lights.find(light->getName());
+        if(search != _lights.end()){
+            Scene* parentScene = this->getParentScene();
+            if(parentScene){
+                parentScene->_removeLight(search->second);
+            }            
+            
+            delete search->second;
+            search->second = nullptr;
+        }
+        
         light->_parent = this;
         Scene* parentScene = this->getParentScene();
         if(parentScene != nullptr){
             parentScene->_addLight(light);
         }
         
-        _lights.push_back(light);
+        //_lights.push_back(light);
+        _lights[light->getName()] = light;
     }
 
     void SceneNode::attachCamera(Camera* camera){
@@ -80,14 +92,14 @@ namespace Canis
     }
     
     void SceneNode::removeLight(Light* light){
-        if(std::find(_lights.begin(), _lights.end(), light) != _lights.end()){
-            _lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
-        }
-        
         Scene* parentScene = this->getParentScene();
         if(parentScene){
             parentScene->_removeLight(light);
         }
+        
+        Light* l = _lights[light->getName()];
+        _lights.erase(light->getName());
+        delete l;
     }
 
     std::vector<SceneNode*> SceneNode::getChildren(){
@@ -99,11 +111,26 @@ namespace Canis
     }
 
     std::vector<Light*> SceneNode::getLights(){
-        return _lights;
+        //return _lights;
+        std::vector<Light*> lights;
+        std::transform( _lights.begin(), _lights.end(),
+                   std::back_inserter(lights),
+                   boost::bind(&std::map<std::string, Light*>::value_type::second,_1) );
+        
+        return lights;
     }
 
     std::vector<Camera*> SceneNode::getCameras(){
         return _cameras;
+    }
+    
+    Light* SceneNode::getLight(std::string name){
+        try{
+            return _lights.at(name);
+        }
+        catch(const std::out_of_range& e){
+            return nullptr;
+        }
     }
     
     //Move to IObject?

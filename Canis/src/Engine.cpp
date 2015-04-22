@@ -31,11 +31,12 @@ namespace Canis
         delete _materialManager;
         delete _textureManager;
         delete _shaderManager;
-        delete _scriptManager;
         
         if(_renderer != nullptr){
             delete _renderer;
         }
+        
+        delete _scriptManager;
 
 #ifdef CANIS_PLATFORM_WIN32
         _CrtDumpMemoryLeaks();

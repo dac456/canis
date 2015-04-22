@@ -41,7 +41,7 @@ namespace Canis
         }
         virtual ~IObject(){
             _resetConnection.disconnect();
-            unsetScript();
+            unsetScript(); //TODO: fix segfault on exit
         }
         
         void setScript(Script* script){
