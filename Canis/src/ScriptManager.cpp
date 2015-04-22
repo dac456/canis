@@ -13,6 +13,9 @@ namespace Canis
     }
     
     ScriptManager::~ScriptManager(){
+        for(auto p : _providers){
+            delete p.second;
+        }
     }
     
     void ScriptManager::registerProvider(IScriptProvider* provider){

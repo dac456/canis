@@ -16,7 +16,7 @@ namespace Canis
     }
     
     PythonProvider::~PythonProvider(){
-		//Py_Finalize();
+		Py_Finalize();
     }
     
     void PythonProvider::initialize(){
