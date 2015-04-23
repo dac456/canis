@@ -28,7 +28,7 @@ namespace Canis
         Mesh(CSXLoader* csx);
         ~Mesh();
 
-        void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<Light*> lights);
+        void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights);
 
         void setTransform(glm::mat4 transform);
         glm::mat4 getTransform();

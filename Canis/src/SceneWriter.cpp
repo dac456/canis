@@ -88,7 +88,7 @@ namespace Canis
         parent->LinkEndChild(entElem);        
     }        
     
-    void SceneWriter::_writeLight(TiXmlElement* parent, Light* light){
+    void SceneWriter::_writeLight(TiXmlElement* parent, LightPtr light){
         TiXmlElement* lightElem = new TiXmlElement("light");
         lightElem->SetAttribute("name", light->getName());
         

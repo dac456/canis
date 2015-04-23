@@ -17,7 +17,7 @@ namespace Canis
 
         std::vector<IEntity*> _entities;
         //std::vector<Light*> _lights;
-        std::map<std::string, Light*> _lights;
+        std::map<std::string, LightPtr> _lights;
         std::vector<Camera*> _cameras;
 
     public:
@@ -29,18 +29,18 @@ namespace Canis
 
         void attachSceneNode(SceneNode* node);
         void attachEntity(IEntity* entity);
-        void attachLight(Light* light);
+        void attachLight(LightPtr light);
         void attachCamera(Camera* camera);
         
         void removeEntity(IEntity* entity);
-        void removeLight(Light* light);
+        void removeLight(std::string name);
 
         std::vector<SceneNode*> getChildren();
         std::vector<IEntity*> getEntities();
-        std::vector<Light*> getLights();
+        std::vector<LightPtr> getLights();
         std::vector<Camera*> getCameras();
         
-        Light* getLight(std::string name);
+        LightPtr getLight(std::string name);
 
         void translate(glm::vec3 translation);
         void setScale(glm::vec3 scale); //Scale signal to trigger collision rebuild?

@@ -12,6 +12,7 @@ namespace Canis
     }
     
     Light::~Light(){
+        std::cout << "destroying light " << getName() << std::endl;
     }
 
     glm::vec3 Light::getPosition(){

@@ -13,7 +13,7 @@ namespace Canis
     class CSAPI Scene : public IObject{
     private:
         std::vector<SceneNode*> _nodes;
-        std::vector<Light*> _lights; //Maintain a list of lights for distance computation
+        std::map<std::string, LightPtr> _lights; //Maintain a list of lights for distance computation
         Camera* _activeCamera;
 
         //--Physics--//
@@ -44,14 +44,14 @@ namespace Canis
 
         btDiscreteDynamicsWorld* getDynamicsWorld();
         
-        std::vector<Light*> getLightsClosestToPoint(glm::vec4 point);
+        std::vector<LightPtr> getLightsClosestToPoint(glm::vec4 point);
         
     private:
-        void _addLight(Light* light);
-        void _removeLight(Light* light);
+        void _addLight(LightPtr light);
+        void _removeLight(std::string name);
         
-        friend void SceneNode::attachLight(Light* light);
-        friend void SceneNode::removeLight(Light* light);
+        friend void SceneNode::attachLight(LightPtr light);
+        friend void SceneNode::removeLight(std::string name);
         //friend SceneNode; //TODO: this is currently just for addLight. right idea?
         
     };

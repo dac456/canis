@@ -58,17 +58,14 @@ namespace Canis
         _entities.push_back(entity);
     }
 
-    void SceneNode::attachLight(Light* light){
-        auto search = _lights.find(light->getName());
+    void SceneNode::attachLight(LightPtr light){
+        /*auto search = _lights.find(light->getName());
         if(search != _lights.end()){
             Scene* parentScene = this->getParentScene();
             if(parentScene){
                 parentScene->_removeLight(search->second);
             }            
-            
-            delete search->second;
-            search->second = nullptr;
-        }
+        }*/
         
         light->_parent = this;
         Scene* parentScene = this->getParentScene();
@@ -91,15 +88,15 @@ namespace Canis
         }
     }
     
-    void SceneNode::removeLight(Light* light){
+    void SceneNode::removeLight(std::string name){
         Scene* parentScene = this->getParentScene();
         if(parentScene){
-            parentScene->_removeLight(light);
+            parentScene->_removeLight(name);
         }
         
-        Light* l = _lights[light->getName()];
-        delete l;
-        _lights.erase(light->getName());
+        if(_lights.count(name) != 0){
+            _lights.erase(name);
+        }
     }
 
     std::vector<SceneNode*> SceneNode::getChildren(){
@@ -110,12 +107,12 @@ namespace Canis
         return _entities;
     }
 
-    std::vector<Light*> SceneNode::getLights(){
+    std::vector<LightPtr> SceneNode::getLights(){
         //return _lights;
-        std::vector<Light*> lights;
+        std::vector<LightPtr> lights;
         std::transform( _lights.begin(), _lights.end(),
                    std::back_inserter(lights),
-                   boost::bind(&std::map<std::string, Light*>::value_type::second,_1) );
+                   boost::bind(&std::map<std::string, LightPtr>::value_type::second,_1) );
         
         return lights;
     }
@@ -124,7 +121,7 @@ namespace Canis
         return _cameras;
     }
     
-    Light* SceneNode::getLight(std::string name){
+    LightPtr SceneNode::getLight(std::string name){
         try{
             return _lights.at(name);
         }

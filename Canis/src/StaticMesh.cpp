@@ -83,7 +83,7 @@ namespace Canis
             _rigidBody->setWorldTransform(_dynamicsTransform);
         }
 
-        std::vector<Light*> lights;
+        std::vector<LightPtr> lights;
         SceneNode* parentNode = getParentNode();
         if(parentNode != nullptr){
             Scene* parentScene = parentNode->getParentScene();

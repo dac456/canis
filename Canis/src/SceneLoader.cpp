@@ -132,7 +132,7 @@ namespace Canis
             }
         }
         
-        Light* light = new Light(lightName, diffuse, radius, transform);
+        LightPtr light = std::make_shared<Light>(Light(lightName, diffuse, radius, transform));
         if(parentObj->getType() == "node"){
             SceneNode* parentNode = static_cast<SceneNode*>(parentObj);
             parentNode->attachLight(light);

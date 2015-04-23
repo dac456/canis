@@ -139,7 +139,7 @@ namespace Canis
                 delete _groups[i].vertexObjects[j];
     }
 
-    void Mesh::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<Light*> lights){
+    void Mesh::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights){
         Texture* currentLightmap = nullptr;
 
         for(size_t i=0; i<_groups.size(); i++){

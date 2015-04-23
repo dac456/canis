@@ -167,7 +167,7 @@ namespace SceneEditor
         }
 
         for(size_t i=0; i<node->getLights().size(); i++){
-            Canis::Light* currentLight = node->getLights()[i];
+            Canis::LightPtr currentLight = node->getLights()[i];
             QTreeWidgetItem* light = new QTreeWidgetItem(QStringList(std::string(currentLight->getName()+" <Light>").c_str()));
             root->addChild(light);
         }
@@ -289,7 +289,7 @@ namespace SceneEditor
                   
     }
     
-    void MainWindow::setPropertySheetLight(Canis::Light* light){
+    void MainWindow::setPropertySheetLight(Canis::LightPtr light){
         ui.propertyBrowser->addProperty(new StringProperty("Name", QString(light->getName().c_str()), false, [this, light](QVariant data){
             light->setName(data.toString().toStdString());
             updateSceneGraphTree();

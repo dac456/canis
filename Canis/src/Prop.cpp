@@ -66,7 +66,7 @@ namespace Canis
         _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTrans));
         
 
-        std::vector<Light*>  lights;
+        std::vector<LightPtr>  lights;
         SceneNode* parentNode = this->getParentNode();
         if(parentNode != nullptr){
             Scene* parentScene = parentNode->getParentScene();

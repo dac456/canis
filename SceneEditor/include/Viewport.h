@@ -96,8 +96,8 @@ namespace SceneEditor
         void _renderNodeMarker(Canis::SceneNode* node);
         Canis::SceneNode* _getNodeByName(std::string name);
         Canis::SceneNode* _getChildNodeByName(Canis::SceneNode* node, std::string name);
-        Canis::Light* _getLightByName(QString name);
-        Canis::Light* _getLightFromNode(Canis::SceneNode* node, QString name);
+        Canis::LightPtr _getLightByName(QString name);
+        Canis::LightPtr _getLightFromNode(Canis::SceneNode* node, QString name);
         Canis::IEntity* _getEntityByName(QString name);
         Canis::IEntity* _getEntityFromNode(Canis::SceneNode* node, QString name);
         
@@ -132,7 +132,7 @@ namespace SceneEditor
         void viewportChanged(int type);
         void renderOnce();
         void setPropertySheetNode(Canis::SceneNode* node);
-        void setPropertySheetLight(Canis::Light* light);
+        void setPropertySheetLight(Canis::LightPtr light);
         void setPropertySheetEntity(Canis::IEntity* entity);
     };
 

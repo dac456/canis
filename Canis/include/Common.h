@@ -10,6 +10,7 @@
 #include <fstream>
 #include <vector>
 #include <map>
+#include <memory>
 
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32)
     #define CANIS_PLATFORM_WIN32
@@ -144,6 +145,8 @@ namespace Canis
     class Texture;
     class TextureManager;
     class VertexObject;
+    
+    typedef std::shared_ptr<Light> LightPtr;
 }
 
 #endif

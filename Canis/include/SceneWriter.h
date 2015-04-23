@@ -20,7 +20,7 @@ namespace Canis
     private:
         void _writeNode(TiXmlElement* parent, SceneNode* node);
         void _writeEntity(TiXmlElement* parent, IEntity* ent);
-        void _writeLight(TiXmlElement* parent, Light* light);
+        void _writeLight(TiXmlElement* parent, LightPtr light);
     };
     
 }

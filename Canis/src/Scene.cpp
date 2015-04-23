@@ -104,38 +104,47 @@ namespace Canis
         return _dynamicsWorld;
     }
     
-    void Scene::_addLight(Light* light){
-        _lights.push_back(light);
+    void Scene::_addLight(LightPtr light){
+        //_lights.push_back(light);
+        _lights[light->getName()] = light;
     }
     
-    void Scene::_removeLight(Light* light){
-        _lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
+    void Scene::_removeLight(std::string name){
+        //_lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
+        if(_lights.count(name) != 0){
+            _lights.erase(name);
+        }        
     }
     
-    std::vector<Light*> Scene::getLightsClosestToPoint(glm::vec4 point){
+    std::vector<LightPtr> Scene::getLightsClosestToPoint(glm::vec4 point){
         //TODO: we will eventually only want to sort lights that we can see
-        for(size_t i=0; i<_lights.size(); i++){
-            glm::vec4 lightPos = glm::vec4(_lights[i]->getAbsolutePosition(), 1.0f);
+        std::vector<LightPtr> lights;
+        std::transform( _lights.begin(), _lights.end(),
+                   std::back_inserter(lights),
+                   boost::bind(&std::map<std::string, LightPtr>::value_type::second,_1) );        
+        
+        for(size_t i=0; i<lights.size(); i++){
+            glm::vec4 lightPos = glm::vec4(lights[i]->getAbsolutePosition(), 1.0f);
             //glm::vec4 lightDir = glm::normalize(lightPos - point);
             //glm::vec4 eyeDir = glm::normalize(glm::vec4(_activeCamera->getAbsolutePosition(), 1.0f) - point);
 
             //_lights[i]->_brightness = glm::dot(lightDir, eyeDir);
             //_lights[i]->_brightness = glm::length(point - lightPos);
-            _lights[i]->_brightness = fabs(glm::length(lightPos - point));
+            lights[i]->_brightness = fabs(glm::length(lightPos - point));
             //printf("Brightness: %f\n", _lights[i]->_brightness);
         }
 
-        std::sort(_lights.begin(), _lights.end());
+        std::sort(lights.begin(), lights.end());
         
-        std::vector<Light*> ret;
+        std::vector<LightPtr> ret;
         int count = 0;
-        if(_lights.size() <= 4)
-            count = _lights.size();
+        if(lights.size() <= 4)
+            count = lights.size();
         else
             count = 4;
             
         for(int i=0; i<count; i++){
-            ret.push_back(_lights[i]);
+            ret.push_back(lights[i]);
         }
         
         return ret;

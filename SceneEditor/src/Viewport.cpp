@@ -81,7 +81,7 @@ namespace SceneEditor
         connect(this, SIGNAL(viewportChanged(int)), main, SLOT(viewportChanged(int)));  
         connect(this, SIGNAL(renderOnce()), main, SLOT(updateFpsCounter()));
         connect(this, SIGNAL(setPropertySheetNode(Canis::SceneNode*)), main, SLOT(setPropertySheetNode(Canis::SceneNode*)));
-        connect(this, SIGNAL(setPropertySheetLight(Canis::Light*)), main, SLOT(setPropertySheetLight(Canis::Light*)));
+        connect(this, SIGNAL(setPropertySheetLight(Canis::LightPtr)), main, SLOT(setPropertySheetLight(Canis::LightPtr)));
         connect(this, SIGNAL(setPropertySheetEntity(Canis::IEntity*)), main, SLOT(setPropertySheetEntity(Canis::IEntity*)));
     }        
 
@@ -574,14 +574,14 @@ namespace SceneEditor
         //_nodeMarker->setTransform(trans*glm::scale(glm::vec3(1.0f/nodeScale.x, 1.0f/nodeScale.y, 1.0f/nodeScale.z))*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
         _nodeMarker->setTransform(glm::translate(glm::vec3(trans[3][0], trans[3][1], trans[3][2]))*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
         
-        _nodeMarker->render(_projMatrix, _cam->getTransform(), std::vector<Canis::Light*>());
+        _nodeMarker->render(_projMatrix, _cam->getTransform(), std::vector<Canis::LightPtr>());
 
         if(_selectedObjectType.compare("node") == 0){
             if(node->getName().compare(_selectedObjectName.toStdString()) == 0){
                 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
                 //_selectionBox->setTransform(trans*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
                 _selectionBox->setTransform(glm::translate(glm::vec3(trans[3][0], trans[3][1], trans[3][2]))*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
-                _selectionBox->render(_projMatrix, _cam->getTransform(), std::vector<Canis::Light*>());
+                _selectionBox->render(_projMatrix, _cam->getTransform(), std::vector<Canis::LightPtr>());
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             }
         }
@@ -625,10 +625,10 @@ namespace SceneEditor
         return nullptr;
     }
     
-    Canis::Light* Viewport::_getLightByName(QString name){
+    Canis::LightPtr Viewport::_getLightByName(QString name){
         Canis::Scene* sc = _activeScene;
         
-        Canis::Light* ret = nullptr;
+        Canis::LightPtr ret = nullptr;
         for(auto n : sc->getNodes()){
             ret =  _getLightFromNode(n, name);
             
@@ -643,7 +643,7 @@ namespace SceneEditor
         return nullptr;
     }
     
-    Canis::Light* Viewport::_getLightFromNode(Canis::SceneNode* node, QString name){
+    Canis::LightPtr Viewport::_getLightFromNode(Canis::SceneNode* node, QString name){
         for(auto l : node->getLights()){
             if(l->getName() == name.toStdString()){
                 return l;
@@ -708,13 +708,13 @@ namespace SceneEditor
     }
     
     void Viewport::_removeLight(QString name){
-        /*Canis::Light* light = _getLightByName(name);
+        /*Canis::LightPtr light = _getLightByName(name);
         for(auto n : _activeScene->getNodes()){
             n->removeLight(light);
         }
         delete light;*/
         for(auto n : _activeScene->getNodes()){
-            n->removeLight(n->getLight(name.toStdString()));
+            n->removeLight(name.toStdString());
         }        
         
         Q_EMIT sceneChanged();
@@ -769,7 +769,7 @@ namespace SceneEditor
             Q_EMIT setPropertySheetNode(n);
         }
         else if(type == "light"){
-            Canis::Light* l = _getLightByName(name);
+            Canis::LightPtr l = _getLightByName(name);
             Q_EMIT setPropertySheetLight(l);
         }
         else if(type == "entity"){
@@ -867,7 +867,7 @@ namespace SceneEditor
 
     void Viewport::addLight(QString name, float radius, QColor diffuse){
         if(_selectedObjectType == "node"){
-            _getNodeByName(_selectedObjectName.toStdString())->attachLight(new Canis::Light(name.toStdString(), glm::vec3(diffuse.redF(), diffuse.greenF(), diffuse.blueF()), radius, glm::mat4(1.0f)));
+            _getNodeByName(_selectedObjectName.toStdString())->attachLight(std::make_shared<Canis::Light>(Canis::Light(name.toStdString(), glm::vec3(diffuse.redF(), diffuse.greenF(), diffuse.blueF()), radius, glm::mat4(1.0f))));
         
             Q_EMIT sceneChanged();
         }
