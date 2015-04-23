@@ -98,8 +98,8 @@ namespace Canis
         }
         
         Light* l = _lights[light->getName()];
-        _lights.erase(light->getName());
         delete l;
+        _lights.erase(light->getName());
     }
 
     std::vector<SceneNode*> SceneNode::getChildren(){
@@ -152,6 +152,7 @@ namespace Canis
         _scale = scale;
     }
     
+    //TODO: just store a pointer directly to the parent scene?
     Scene* SceneNode::getParentScene(){
         if(_parent != nullptr){
             if(_parent->getType() == "scene"){

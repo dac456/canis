@@ -22,6 +22,7 @@ namespace Canis
 
     public:
         Light(std::string name, glm::vec3 diffuse, float radius, glm::mat4 transform = glm::mat4(1.0f));
+        virtual ~Light();
 
         glm::vec3 getPosition();
         glm::vec3 getAbsolutePosition();

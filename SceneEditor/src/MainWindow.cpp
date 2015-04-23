@@ -314,6 +314,22 @@ namespace SceneEditor
             updateSceneGraphTree();
         }));
         
+        QString scriptName("");
+        if(entity->getScript() != nullptr){
+            scriptName = entity->getScript()->getName().c_str();
+        }
+        
+        ui.propertyBrowser->addProperty(new FileProperty(QString("Script"), scriptName, [this, entity](QVariant data){
+            QFile f(data.toString());
+            QFileInfo fileInfo(f.fileName());
+            QString filename(fileInfo.fileName());
+            
+            entity->unsetScript();
+            entity->setScript(new Canis::Script(filename.toStdString(), data.toString().toStdString()));
+            
+            updateSceneGraphTree();
+        }));          
+        
         for(auto pair : entity->getParamTypes()){
             if(pair.second == Canis::PARAM_REAL){
                 ui.propertyBrowser->addProperty(new StringProperty(QString(pair.first.c_str()), QString(entity->getParam(pair.first).c_str()), false, [pair, entity](QVariant data){

@@ -10,6 +10,9 @@ namespace Canis
         _radius = radius;
         _scale = glm::vec3(radius, radius, radius);
     }
+    
+    Light::~Light(){
+    }
 
     glm::vec3 Light::getPosition(){
         return glm::vec3(_transform[3][0], _transform[3][1], _transform[3][2]);
