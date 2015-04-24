@@ -44,16 +44,16 @@ namespace SceneEditor
 
     private:
         //Helpers
-        void _traverseNode(Canis::SceneNode* node, QTreeWidgetItem* root);
+        void _traverseNode(Canis::SceneNodePtr node, QTreeWidgetItem* root);
 
     public Q_SLOTS:
         void initialize();
 
         void viewportChanged(int);
         void sceneGraphSelectionChanged();
-        void setPropertySheetNode(Canis::SceneNode* node);
+        void setPropertySheetNode(Canis::SceneNodePtr node);
         void setPropertySheetLight(Canis::LightPtr light);
-        void setPropertySheetEntity(Canis::IEntity* entity);
+        void setPropertySheetEntity(Canis::IEntityPtr entity);
         void addNodeButtonClicked();
         void addLightButtonClicked();
         void addEntityButtonClicked();
@@ -79,7 +79,7 @@ namespace SceneEditor
         void entityAdded(QString type, Canis::StringMap args);
         void lightAdded(QString name, float radius, QColor diffuse);
         void initialized();
-        void sceneLoaded(Canis::Scene* scene);
+        void sceneLoaded(Canis::ScenePtr scene);
         
         void enableXAxis(int enable); //MOC complains about bool
         void enableYAxis(int enable);

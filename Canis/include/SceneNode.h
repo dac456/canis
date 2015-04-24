@@ -13,10 +13,9 @@ namespace Canis
     private:
         Mesh* _marker;
 
-        std::vector<SceneNode*> _children;
+        std::map<std::string, SceneNodePtr> _children;
 
-        std::vector<IEntity*> _entities;
-        //std::vector<Light*> _lights;
+        std::map<std::string, IEntityPtr> _entities;
         std::map<std::string, LightPtr> _lights;
         std::vector<Camera*> _cameras;
 
@@ -27,26 +26,29 @@ namespace Canis
         void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
         void reset(); //Override
 
-        void attachSceneNode(SceneNode* node);
-        void attachEntity(IEntity* entity);
+        void attachSceneNode(SceneNodePtr node);
+        void attachEntity(IEntityPtr entity);
         void attachLight(LightPtr light);
         void attachCamera(Camera* camera);
         
-        void removeEntity(IEntity* entity);
+        void removeSceneNode(std::string name);
+        void removeEntity(std::string name);
         void removeLight(std::string name);
 
-        std::vector<SceneNode*> getChildren();
-        std::vector<IEntity*> getEntities();
+        std::vector<SceneNodePtr> getChildren();
+        std::vector<IEntityPtr> getEntities();
         std::vector<LightPtr> getLights();
         std::vector<Camera*> getCameras();
         
+        SceneNodePtr getChild(std::string name);
+        IEntityPtr getEntity(std::string name);
         LightPtr getLight(std::string name);
 
         void translate(glm::vec3 translation);
         void setScale(glm::vec3 scale); //Scale signal to trigger collision rebuild?
         
     //protected:
-        Scene* getParentScene();    
+        ScenePtr getParentScene();    
     
     private:
         friend class Scene;

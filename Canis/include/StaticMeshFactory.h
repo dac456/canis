@@ -12,7 +12,7 @@ namespace Canis
         StaticMeshFactory();
         ~StaticMeshFactory(){}
 
-        IEntity* createEntity(std::string name, glm::mat4 transform = glm::mat4(1.0f), const StringMap& userParams = StringMap());
+        IEntityPtr createEntity(std::string name, glm::mat4 transform = glm::mat4(1.0f), const StringMap& userParams = StringMap());
     };
 
 }

@@ -12,14 +12,14 @@ namespace Canis
         TiXmlDocument _doc;
         
     public:
-        SceneWriter(Scene* scene);
+        SceneWriter(ScenePtr scene);
         ~SceneWriter();
         
         void save(std::string file);
         
     private:
-        void _writeNode(TiXmlElement* parent, SceneNode* node);
-        void _writeEntity(TiXmlElement* parent, IEntity* ent);
+        void _writeNode(TiXmlElement* parent, SceneNodePtr node);
+        void _writeEntity(TiXmlElement* parent, IEntityPtr ent);
         void _writeLight(TiXmlElement* parent, LightPtr light);
     };
     

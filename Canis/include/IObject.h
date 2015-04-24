@@ -11,14 +11,14 @@ namespace Canis
 
     //TODO: should there be a seperate motion state class?
     //TODO: should each IObject define it's type/class by a string?
-    class CSAPI IObject : public btMotionState {
+    class CSAPI IObject : public btMotionState, public std::enable_shared_from_this<IObject>{
     private:
         std::string _name;
         std::string _type;
         Script* _script; //TODO: multiple?
 
     protected:
-        IObject* _parent;
+        IObjectPtr _parent;
         glm::mat4 _transform, _initialTransform;
         glm::vec3 _scale;
 
@@ -44,6 +44,10 @@ namespace Canis
             unsetScript(); //TODO: fix segfault on exit
         }
         
+        std::shared_ptr<IObject> getptr(){
+            return shared_from_this();
+        }        
+                
         void setScript(Script* script){
             _script = script;
             _script->setOwner(this);
@@ -76,7 +80,7 @@ namespace Canis
             return _type;
         }
 
-        IObject* getParent(){
+        IObjectPtr getParent(){
             return _parent;
         }
 
@@ -92,7 +96,7 @@ namespace Canis
         glm::mat4 getAbsoluteTransform(){
             if(_parent != nullptr){
                 glm::mat4 absTransform = _parent->getTransform()*_transform;
-                IObject* next = _parent->getParent();
+                IObjectPtr next = _parent->getParent();
                 while(next != nullptr){
                     absTransform = next->getTransform()*absTransform;
                     next = next->getParent();

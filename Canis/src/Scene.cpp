@@ -10,6 +10,7 @@ namespace Canis
     Scene::Scene(std::string name, glm::mat4 transform)
         : IObject(name, "scene", transform){
         _activeCamera = nullptr;
+        std::cout << "created world " << name << std::endl;
 
         //--Physics--//
         _broadphase = new btDbvtBroadphase();
@@ -24,13 +25,11 @@ namespace Canis
     }
 
     Scene::~Scene(){
+        std::cout << "deleting world " << getName() << std::endl;
         for(int i=0; i<_dynamicsWorld->getNumCollisionObjects(); i++){
             btCollisionObject* obj = _dynamicsWorld->getCollisionObjectArray()[i];
             _dynamicsWorld->removeCollisionObject(obj);
         }
-
-        for(size_t i=0; i<_nodes.size(); i++)
-            delete _nodes[i];
 
         //--Physics--//
 
@@ -40,6 +39,7 @@ namespace Canis
         //delete _broadphase;
         delete _collisionDispatcher;
         delete _collisionConfiguration;
+        delete _broadphase;
     }
 
     void Scene::render(Camera* activeCamera, glm::mat4 projectionMatrix){
@@ -48,10 +48,16 @@ namespace Canis
         }
         _lastTime = _timer->millis();
 
-        for(size_t i=0; i<_nodes.size(); i++){
+        /*for(size_t i=0; i<_nodes.size(); i++){
             if(activeCamera != nullptr){
                 _activeCamera = activeCamera; 
                 _nodes[i]->render(projectionMatrix, _activeCamera->getTransform());
+            }
+        }*/
+        for(auto const& it : _nodes){
+            if(activeCamera != nullptr){
+                _activeCamera = activeCamera;
+                it.second->render(projectionMatrix, _activeCamera->getTransform());
             }
         }
     }
@@ -68,13 +74,17 @@ namespace Canis
         }
     }
 
-    void Scene::addSceneNode(SceneNode* node){
-        node->_parent = this;
-        _nodes.push_back(node);
+    void Scene::addSceneNode(SceneNodePtr node){
+        node->_parent = getptr();
+        //_nodes.push_back(node);
+        _nodes[node->getName()] = node;
     }
     
-    void Scene::removeSceneNode(SceneNode* node){
-        _nodes.erase(std::remove(_nodes.begin(), _nodes.end(), node), _nodes.end());
+    void Scene::removeSceneNode(std::string name){
+        //_nodes.erase(std::remove(_nodes.begin(), _nodes.end(), node), _nodes.end());
+        if(_nodes.count(name) != 0){
+            _nodes.erase(name);
+        }
     }
     
     void Scene::setActiveCamera(Camera* camera){
@@ -86,18 +96,22 @@ namespace Canis
     }
 
     //TODO: deep search?
-    SceneNode* Scene::getNode(std::string name){
-        for(auto n : _nodes){
-            if(n->getName() == name){
-                return n;
-            }
+    SceneNodePtr Scene::getNode(std::string name){
+        try{
+            return _nodes.at(name);
         }
-        
-        return nullptr;
+        catch(const std::out_of_range& e){
+            return nullptr;
+        }
     }
 
-    std::vector<SceneNode*> Scene::getNodes(){
-        return _nodes;
+    std::vector<SceneNodePtr> Scene::getNodes(){
+        std::vector<SceneNodePtr> children;
+        std::transform( _nodes.begin(), _nodes.end(),
+                   std::back_inserter(children),
+                   boost::bind(&std::map<std::string, SceneNodePtr>::value_type::second,_1) );
+                   
+        return children;
     }
 
     btDiscreteDynamicsWorld* Scene::getDynamicsWorld(){

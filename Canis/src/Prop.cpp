@@ -63,13 +63,13 @@ namespace Canis
         }*/
         glm::mat4 absTrans = this->getAbsoluteTransform();
         _mesh->setTransform(absTrans);
-        _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTrans));
+        //_dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTrans));
         
 
         std::vector<LightPtr>  lights;
-        SceneNode* parentNode = this->getParentNode();
+        SceneNodePtr parentNode = this->getParentNode();
         if(parentNode != nullptr){
-            Scene* parentScene = parentNode->getParentScene();
+            ScenePtr parentScene = parentNode->getParentScene();
             if(parentScene != nullptr){
                 lights = parentScene->getLightsClosestToPoint(this->getAbsoluteTransform()[3]);
             }
@@ -128,7 +128,7 @@ namespace Canis
                
                 btVector3 inertia(0,0,0);
                 _collisionShape->calculateLocalInertia(_mass, inertia);               
-               _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, _parent, _collisionShape, inertia));
+               _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, _parent.get(), _collisionShape, inertia));
                _dynamicsWorld->addRigidBody(_rigidBody);
            }
            
@@ -139,13 +139,13 @@ namespace Canis
     void Prop::_entityAttached(){
         btVector3 inertia(0,0,0);
         _collisionShape->calculateLocalInertia(_mass, inertia);
-        _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, _parent, _collisionShape, inertia));
+        _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, _parent.get(), _collisionShape, inertia));
         _rigidBody->setActivationState(DISABLE_DEACTIVATION);
 
-        IObject* next = _parent;
+        IObjectPtr next = _parent;
         while(next != nullptr){
             if(next->getType().compare("scene") == 0){
-                Scene* scene = static_cast<Scene*>(next);
+                ScenePtr scene = std::static_pointer_cast<Scene>(next);
                 setDynamicsWorld(scene->getDynamicsWorld());
                 break;
             }
@@ -156,7 +156,7 @@ namespace Canis
     void Prop::setTransform(glm::mat4 transform){
         _transform = transform;
         _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(_transform));
-        _mesh->setTransform(_transform);
+        //_mesh->setTransform(_transform);
     }
 
     void Prop::setDynamicsWorld(btDiscreteDynamicsWorld* dynamicsWorld){

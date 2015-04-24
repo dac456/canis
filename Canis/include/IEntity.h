@@ -78,16 +78,16 @@ namespace Canis
         virtual void reset(){} //Override
         
     protected:
-        SceneNode* getParentNode(){
+        SceneNodePtr getParentNode(){
             if(_parent != nullptr){
                 if(_parent->getType() == "node"){
-                    return static_cast<SceneNode*>(_parent);
+                    return std::static_pointer_cast<SceneNode>(_parent);
                 }
                 else{
-                    IObject* next = _parent->getParent();
+                    IObjectPtr next = _parent->getParent();
                     while(next != nullptr){
                         if(next->getType() == "node"){
-                            return static_cast<SceneNode*>(next);
+                            return std::static_pointer_cast<SceneNode>(next);
                         }
                     }
                 }

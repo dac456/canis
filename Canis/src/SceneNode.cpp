@@ -17,12 +17,6 @@ namespace Canis
     }
 
     SceneNode::~SceneNode(){
-        for(size_t i=0; i<_children.size(); i++)
-            delete _children[i];
-
-        for(size_t i=0; i<_entities.size(); i++)
-            delete _entities[i];
-        //delete _marker;
     }
 
     void SceneNode::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix){
@@ -35,76 +29,78 @@ namespace Canis
             ScriptManager::getSingleton().run(this->getScript(), "step");
         }
 
-        for(size_t i=0; i<_entities.size(); i++){
-            _entities[i]->update(projectionMatrix, viewMatrix);
+        for(auto const& it : _entities){
+            it.second->update(projectionMatrix, viewMatrix);
         }
 
-        for(size_t i=0; i<_children.size(); i++)
-            _children[i]->render(projectionMatrix, viewMatrix);
+        for(auto const& it : _children){
+            it.second->render(projectionMatrix, viewMatrix);
+        }
     }
 
     void SceneNode::reset(){
         _transform = _initialTransform;
     }
 
-    void SceneNode::attachSceneNode(SceneNode* node){
-        node->_parent = this;
-        _children.push_back(node);
+    void SceneNode::attachSceneNode(SceneNodePtr node){
+        node->_parent = getptr();
+        _children[node->getName()] = node;
     }
 
-    void SceneNode::attachEntity(IEntity* entity){
-        entity->_parent = this;
+    void SceneNode::attachEntity(IEntityPtr entity){
+        entity->_parent = getptr();
         entity->_entityAttached();
-        _entities.push_back(entity);
+        _entities[entity->getName()] = entity;
     }
 
-    void SceneNode::attachLight(LightPtr light){
-        /*auto search = _lights.find(light->getName());
-        if(search != _lights.end()){
-            Scene* parentScene = this->getParentScene();
-            if(parentScene){
-                parentScene->_removeLight(search->second);
-            }            
-        }*/
-        
-        light->_parent = this;
-        Scene* parentScene = this->getParentScene();
+    void SceneNode::attachLight(LightPtr light){        
+        light->_parent = getptr();
+        ScenePtr parentScene = this->getParentScene();
         if(parentScene != nullptr){
             parentScene->_addLight(light);
         }
         
-        //_lights.push_back(light);
         _lights[light->getName()] = light;
     }
 
     void SceneNode::attachCamera(Camera* camera){
-        camera->_parent = this;
+        camera->_parent = getptr();
         _cameras.push_back(camera);
     }
     
-    void SceneNode::removeEntity(IEntity* entity){
-        if(std::find(_entities.begin(), _entities.end(), entity) != _entities.end()){
-            _entities.erase(std::remove(_entities.begin(), _entities.end(), entity), _entities.end());
-        }
+    void SceneNode::removeSceneNode(std::string name){
+        _children.erase(name);
+    }
+    
+    void SceneNode::removeEntity(std::string name){
+        _entities.erase(name);
     }
     
     void SceneNode::removeLight(std::string name){
-        Scene* parentScene = this->getParentScene();
+        ScenePtr parentScene = this->getParentScene();
         if(parentScene){
             parentScene->_removeLight(name);
         }
         
-        if(_lights.count(name) != 0){
-            _lights.erase(name);
-        }
+        _lights.erase(name);
     }
 
-    std::vector<SceneNode*> SceneNode::getChildren(){
-        return _children;
+    std::vector<SceneNodePtr> SceneNode::getChildren(){
+        std::vector<SceneNodePtr> children;
+        std::transform( _children.begin(), _children.end(),
+                   std::back_inserter(children),
+                   boost::bind(&std::map<std::string, SceneNodePtr>::value_type::second,_1) );
+                   
+        return children;
     }
 
-    std::vector<IEntity*> SceneNode::getEntities(){
-        return _entities;
+    std::vector<IEntityPtr> SceneNode::getEntities(){
+        std::vector<IEntityPtr> entities;
+        std::transform( _entities.begin(), _entities.end(),
+                   std::back_inserter(entities),
+                   boost::bind(&std::map<std::string, IEntityPtr>::value_type::second,_1) );
+                   
+        return entities;
     }
 
     std::vector<LightPtr> SceneNode::getLights(){
@@ -119,6 +115,24 @@ namespace Canis
 
     std::vector<Camera*> SceneNode::getCameras(){
         return _cameras;
+    }
+    
+    SceneNodePtr SceneNode::getChild(std::string name){
+        try{
+            return _children.at(name);
+        }
+        catch(const std::out_of_range& e){
+            return nullptr;
+        }
+    }
+    
+    IEntityPtr SceneNode::getEntity(std::string name){
+        try{
+            return _entities.at(name);
+        }
+        catch(const std::out_of_range& e){
+            return nullptr;
+        }
     }
     
     LightPtr SceneNode::getLight(std::string name){
@@ -137,12 +151,12 @@ namespace Canis
 
     //Move to IObject?
     void SceneNode::setScale(glm::vec3 scale){
-        for(auto e : _entities){
-            e->setScale(scale);
+        for(auto const& it: _entities){
+            it.second->setScale(scale);
         }
         
-        for(auto n : _children){
-            n->setScale(scale);
+        for(auto const& it : _children){
+            it.second->setScale(scale);
         }
                 
         //_transform = glm::scale(scale)*_transform;
@@ -150,16 +164,16 @@ namespace Canis
     }
     
     //TODO: just store a pointer directly to the parent scene?
-    Scene* SceneNode::getParentScene(){
+    ScenePtr SceneNode::getParentScene(){
         if(_parent != nullptr){
             if(_parent->getType() == "scene"){
-                return static_cast<Scene*>(_parent);
+                return std::static_pointer_cast<Scene>(_parent);
             }
             else{
-                IObject* next = _parent->getParent();
+                IObjectPtr next = _parent->getParent();
                 while(next != nullptr){
                     if(next->getType() == "scene"){
-                        return static_cast<Scene*>(next);
+                        return std::static_pointer_cast<Scene>(next);
                     }
                 }
             }

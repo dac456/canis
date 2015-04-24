@@ -59,7 +59,7 @@ namespace SceneEditor
         connect(this, SIGNAL(entityAdded(QString, Canis::StringMap)), ui.viewport, SLOT(addEntity(QString, Canis::StringMap)));
         connect(this, SIGNAL(lightAdded(QString, float, QColor)), ui.viewport, SLOT(addLight(QString, float, QColor)));
         connect(this, SIGNAL(initialized()), ui.viewport, SLOT(initialize()));
-        connect(this, SIGNAL(sceneLoaded(Canis::Scene*)), ui.viewport, SLOT(setActiveScene(Canis::Scene*)));
+        connect(this, SIGNAL(sceneLoaded(Canis::ScenePtr)), ui.viewport, SLOT(setActiveScene(Canis::ScenePtr)));
         
         ui.viewport->connectToMainWindow(this);
 
@@ -94,10 +94,11 @@ namespace SceneEditor
         args["mesh"] = "./Media/Models/terrain2.ms3d";
         Canis::IEntity* ent2 = Canis::EntityManager::getSingleton().getEntityFactory("Static Mesh")->createEntity("Terrain", glm::mat4(1.0f), args);*/
 
-        Canis::Scene* defaultScene = new Canis::Scene("untitled", glm::mat4(1.0f));
-
-        Canis::SceneNode* root = new Canis::SceneNode("Root");
-        //Canis::SceneNode* ball = new Canis::SceneNode("BallNode", glm::translate(glm::vec3(0.0f, 1000.0f, 0.0f)));
+        Canis::ScenePtr defaultScene;
+        defaultScene = std::make_shared<Canis::Scene>("untitled", glm::mat4(1.0f));
+        
+        Canis::SceneNodePtr root = std::make_shared<Canis::SceneNode>("Root");
+        //Canis::SceneNodePtr ball = new Canis::SceneNode("BallNode", glm::translate(glm::vec3(0.0f, 1000.0f, 0.0f)));
         defaultScene->addSceneNode(root);
         /*defaultScene->addSceneNode(ball);
 
@@ -122,8 +123,6 @@ namespace SceneEditor
         std::map<std::string, Canis::IEntityFactory*> entityFactories = Canis::EntityManager::getSingleton().getEntityFactories();
         for(it = entityFactories.begin(); it != entityFactories.end(); it++)
             ui.entityList->addItem(QString(((*it).first).c_str()));
-        
-        std::cout << "mainwindow initialized" << std::endl;
             
         Q_EMIT initialized();
     }
@@ -159,9 +158,9 @@ namespace SceneEditor
      */
 
     //TODO: scene graph methods should possibly be moved to new widget class
-    void MainWindow::_traverseNode(Canis::SceneNode* node, QTreeWidgetItem* root){
+    void MainWindow::_traverseNode(Canis::SceneNodePtr node, QTreeWidgetItem* root){
         for(size_t i=0; i<node->getEntities().size(); i++){
-            Canis::IEntity* currentEntity = node->getEntities()[i];
+            Canis::IEntityPtr currentEntity = node->getEntities()[i];
             QTreeWidgetItem* ent = new QTreeWidgetItem(QStringList(std::string(currentEntity->getName()+" <Entity>").c_str()));
             root->addChild(ent);
         }
@@ -179,7 +178,7 @@ namespace SceneEditor
         }
 
         for(size_t i=0; i<node->getChildren().size(); i++){
-            Canis::SceneNode* nextNode = node->getChildren()[i];
+            Canis::SceneNodePtr nextNode = node->getChildren()[i];
             QTreeWidgetItem* nextRoot = new QTreeWidgetItem(QStringList(std::string(nextNode->getName()+" <Node>").c_str()));
             root->addChild(nextRoot);
 
@@ -245,7 +244,7 @@ namespace SceneEditor
         }
     }
     
-    void MainWindow::setPropertySheetNode(Canis::SceneNode* node){
+    void MainWindow::setPropertySheetNode(Canis::SceneNodePtr node){
         ui.propertyBrowser->addProperty(new StringProperty(QString("Name"), QString(node->getName().c_str()), false, [this, node](QVariant data){
             node->setName(data.toString().toStdString());
             updateSceneGraphTree();
@@ -308,7 +307,7 @@ namespace SceneEditor
         }));        
     }
     
-    void MainWindow::setPropertySheetEntity(Canis::IEntity* entity){
+    void MainWindow::setPropertySheetEntity(Canis::IEntityPtr entity){
         ui.propertyBrowser->addProperty(new StringProperty("Name", QString(entity->getName().c_str()), false, [this, entity](QVariant data){
             entity->setName(data.toString().toStdString());
             updateSceneGraphTree();
@@ -402,7 +401,7 @@ namespace SceneEditor
     
     //TODO: this can probably be faster; deleting the whole tree will be dangerous for large scenes
     void MainWindow::updateSceneGraphTree(){
-        Canis::Scene* currentScene = ui.viewport->getActiveScene();
+        Canis::ScenePtr currentScene = ui.viewport->getRenderer()->getActiveScene();
         ui.sceneGraphView->removeItemWidget(_rootItem, 1);
 
         if(_rootItem != nullptr)
@@ -415,7 +414,7 @@ namespace SceneEditor
         ui.sceneGraphView->addTopLevelItem(_rootItem);
 
         for(size_t i=0; i<currentScene->getNodes().size(); i++){
-            Canis::SceneNode* currentNode = currentScene->getNodes()[i];
+            Canis::SceneNodePtr currentNode = currentScene->getNodes()[i];
             QTreeWidgetItem* node = new QTreeWidgetItem(QStringList(std::string(currentNode->getName()+" <Node>").c_str()));
             _rootItem->addChild(node);
 
@@ -443,15 +442,13 @@ namespace SceneEditor
      */
      
      void MainWindow::newScene(){
-         Canis::Scene* sc = ui.viewport->getActiveScene();
-         Q_EMIT sceneLoaded(new Canis::Scene("untitled"));
-         delete sc;
+         Q_EMIT sceneLoaded(std::make_shared<Canis::Scene>("untitled"));
          
          updateSceneGraphTree();
      }
      
      void MainWindow::save(){
-         Canis::Scene* sc = ui.viewport->getActiveScene();
+         Canis::ScenePtr sc = ui.viewport->getRenderer()->getActiveScene();
          
          QFileDialog saveDialog(this, "Save Scene", "./Media/Scenes");(this, "Save Scene", "./Media/Scenes", ".scene");
          saveDialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -475,9 +472,8 @@ namespace SceneEditor
             
             Canis::SceneLoader sl(files.at(0).toStdString());
 
-            Canis::Scene* sc = ui.viewport->getActiveScene();
+            //Canis::ScenePtr sc = ui.viewport->getRenderer()->getActiveScene();
             Q_EMIT sceneLoaded(sl.getScene());
-            delete sc;
             
             updateSceneGraphTree();
         }         

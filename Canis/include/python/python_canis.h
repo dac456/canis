@@ -19,13 +19,13 @@ namespace Canis
     Scene* getActiveScene(){
         Renderer* renderer = Engine::getSingleton().getRenderer();
         if(renderer != nullptr){
-            Scene* sc = renderer->getActiveScene();
+            ScenePtr sc = renderer->getActiveScene();
             if(sc == nullptr){
                 std::cout << "Python get_active_scene: No active scene" << std::endl;
                 return nullptr;
             }
             else{
-                return sc;  
+                return sc.get();  
             }
         }
         else{
@@ -34,14 +34,14 @@ namespace Canis
     }
     
     void attachLight(Scene* scene, std::string node, std::string name, float r, float g, float b, float radius){
-        SceneNode* n = scene->getNode(node);
+        SceneNodePtr n = scene->getNode(node);
         if(n != nullptr){
-            n->attachLight(std::make_shared<Light>(Light(name, glm::vec3(r, g, b), radius)));
+            n->attachLight(std::make_shared<Light>(name, glm::vec3(r, g, b), radius));
         }
     }
     
     void removeLight(Scene* scene, std::string node, std::string name){
-        SceneNode* n = scene->getNode(node);
+        SceneNodePtr n = scene->getNode(node);
         if(n != nullptr){
             n->removeLight(name);
         }

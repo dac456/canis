@@ -36,7 +36,6 @@ namespace SceneEditor
 
         //Canis
         Canis::Renderer* _renderer; //TODO: start offloading to renderer class as much as possible
-        Canis::Scene* _activeScene;
         Canis::Camera* _cam;
         Canis::Mesh* _nodeMarker;
         Canis::Mesh* _selectionBox;
@@ -75,11 +74,11 @@ namespace SceneEditor
         ~Viewport();
         
         void connectToMainWindow(MainWindow* main);
+        
+        Canis::Renderer* getRenderer();
 
         virtual void render();
         virtual void resize(int w, int h);     
-
-        Canis::Scene* getActiveScene();
 
         virtual void mouseMoveEvent(QMouseEvent* e);
         virtual void mousePressEvent(QMouseEvent* e);
@@ -93,13 +92,13 @@ namespace SceneEditor
         void _setOrtho();
         void _rotateFirstPerson(int x, int y);
 
-        void _renderNodeMarker(Canis::SceneNode* node);
-        Canis::SceneNode* _getNodeByName(std::string name);
-        Canis::SceneNode* _getChildNodeByName(Canis::SceneNode* node, std::string name);
+        void _renderNodeMarker(Canis::SceneNodePtr node);
+        Canis::SceneNodePtr _getNodeByName(std::string name);
+        Canis::SceneNodePtr _getChildNodeByName(Canis::SceneNodePtr node, std::string name);
         Canis::LightPtr _getLightByName(QString name);
-        Canis::LightPtr _getLightFromNode(Canis::SceneNode* node, QString name);
-        Canis::IEntity* _getEntityByName(QString name);
-        Canis::IEntity* _getEntityFromNode(Canis::SceneNode* node, QString name);
+        Canis::LightPtr _getLightFromNode(Canis::SceneNodePtr node, QString name);
+        Canis::IEntityPtr _getEntityByName(QString name);
+        Canis::IEntityPtr _getEntityFromNode(Canis::SceneNodePtr node, QString name);
         
         void _removeSceneNode(QString name);
         void _removeEntity(QString name);
@@ -107,7 +106,7 @@ namespace SceneEditor
 
     public Q_SLOTS:
         void initialize();
-        void setActiveScene(Canis::Scene* scene);
+        void setActiveScene(Canis::ScenePtr scene);
         
         void selectObject(QString name, QString type);
         void updateView(QString item);
@@ -131,9 +130,9 @@ namespace SceneEditor
         void sceneChanged();
         void viewportChanged(int type);
         void renderOnce();
-        void setPropertySheetNode(Canis::SceneNode* node);
+        void setPropertySheetNode(Canis::SceneNodePtr node);
         void setPropertySheetLight(Canis::LightPtr light);
-        void setPropertySheetEntity(Canis::IEntity* entity);
+        void setPropertySheetEntity(Canis::IEntityPtr entity);
     };
 
 }

@@ -8,7 +8,7 @@ namespace Canis
 {
 
     SceneLoader::SceneLoader(std::string file){
-        _scene = new Scene("untitled", glm::mat4(1.0f));
+        _scene = std::make_shared<Scene>("new_untitled", glm::mat4(1.0f));
         _lastObj = _scene;
         
         _load(file);
@@ -17,7 +17,7 @@ namespace Canis
     SceneLoader::~SceneLoader(){
     }
     
-    Scene* SceneLoader::getScene(){
+    ScenePtr SceneLoader::getScene(){
         return _scene;
     }
     
@@ -49,15 +49,15 @@ namespace Canis
         }
     }
     
-    void SceneLoader::_loadNode(TiXmlNode* parent, IObject* parentObj){
+    void SceneLoader::_loadNode(TiXmlNode* parent, IObjectPtr parentObj){
         TiXmlElement* e = parent->ToElement();
-        SceneNode* node = new SceneNode(e->Attribute("name"));
+        SceneNodePtr node = std::make_shared<SceneNode>(e->Attribute("name"));
         if(parentObj->getType() == "scene"){
-            Scene* sc = static_cast<Scene*>(parentObj);
+            ScenePtr sc = std::static_pointer_cast<Scene>(parentObj);
             sc->addSceneNode(node);
         }
         else if(parentObj->getType() == "node"){
-            SceneNode* sn = static_cast<SceneNode*>(parentObj);
+            SceneNodePtr sn = std::static_pointer_cast<SceneNode>(parentObj);
             sn->attachSceneNode(node);
         }
         
@@ -84,7 +84,7 @@ namespace Canis
         }        
     }
     
-    void SceneLoader::_loadEntity(TiXmlNode* parent, IObject* parentObj){
+    void SceneLoader::_loadEntity(TiXmlNode* parent, IObjectPtr parentObj){
         TiXmlElement* e = parent->ToElement();
         
         std::string entName = e->Attribute("name");
@@ -103,14 +103,14 @@ namespace Canis
             }            
         }
         
-        IEntity* ent = EntityManager::getSingleton().getEntityFactory(entType)->createEntity(entName, transform, params);
+        IEntityPtr ent = EntityManager::getSingleton().getEntityFactory(entType)->createEntity(entName, transform, params);
         if(parentObj->getType() == "node"){
-            SceneNode* parentNode = static_cast<SceneNode*>(parentObj);
+            SceneNodePtr parentNode = std::static_pointer_cast<SceneNode>(parentObj);
             parentNode->attachEntity(ent);
         }
     }
     
-    void SceneLoader::_loadLight(TiXmlNode* parent, IObject* parentObj){
+    void SceneLoader::_loadLight(TiXmlNode* parent, IObjectPtr parentObj){
         TiXmlElement* e = parent->ToElement();
         
         std::string lightName = e->Attribute("name");
@@ -132,9 +132,9 @@ namespace Canis
             }
         }
         
-        LightPtr light = std::make_shared<Light>(Light(lightName, diffuse, radius, transform));
+        LightPtr light = std::make_shared<Light>(lightName, diffuse, radius, transform);
         if(parentObj->getType() == "node"){
-            SceneNode* parentNode = static_cast<SceneNode*>(parentObj);
+            SceneNodePtr parentNode = std::static_pointer_cast<SceneNode>(parentObj);
             parentNode->attachLight(light);
         }
     }

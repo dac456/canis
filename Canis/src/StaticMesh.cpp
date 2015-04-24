@@ -68,7 +68,7 @@ namespace Canis
 
         if(_parent != nullptr){
             glm::mat4 absTransform = _parent->getTransform()*_transform;
-            IObject* next = _parent->getParent();
+            IObjectPtr next = _parent->getParent();
             while(next != nullptr){
                 absTransform = next->getTransform()*absTransform;
                 next = next->getParent();
@@ -84,9 +84,9 @@ namespace Canis
         }
 
         std::vector<LightPtr> lights;
-        SceneNode* parentNode = getParentNode();
+        SceneNodePtr parentNode = getParentNode();
         if(parentNode != nullptr){
-            Scene* parentScene = parentNode->getParentScene();
+            ScenePtr parentScene = parentNode->getParentScene();
             if(parentScene != nullptr){
                 lights = parentScene->getLightsClosestToPoint(this->getAbsoluteTransform()[3]);
             }
@@ -127,10 +127,10 @@ namespace Canis
     }
     
     void StaticMesh::_entityAttached(){
-        IObject* next = _parent;
+        IObjectPtr next = _parent;
         while(next != nullptr){
             if(next->getType() == "scene"){
-                Scene* scene = static_cast<Scene*>(next);
+                ScenePtr scene = std::static_pointer_cast<Scene>(next);
                 setDynamicsWorld(scene->getDynamicsWorld());
                 break;
             }

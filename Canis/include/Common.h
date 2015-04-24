@@ -146,7 +146,11 @@ namespace Canis
     class TextureManager;
     class VertexObject;
     
+    typedef std::shared_ptr<Scene> ScenePtr;
+    typedef std::shared_ptr<IObject> IObjectPtr;
     typedef std::shared_ptr<Light> LightPtr;
+    typedef std::shared_ptr<IEntity> IEntityPtr;
+    typedef std::shared_ptr<SceneNode> SceneNodePtr;
 }
 
 #endif

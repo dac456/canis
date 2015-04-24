@@ -22,7 +22,7 @@ namespace Canis
     glm::vec3 Light::getAbsolutePosition(){
         if(_parent != nullptr){
             glm::mat4 absTransform = _parent->getTransform()*_transform;
-            IObject* next = _parent->getParent();
+            IObjectPtr next = _parent->getParent();
             while(next != nullptr){
                 absTransform = next->getTransform()*absTransform;
                 next = next->getParent();

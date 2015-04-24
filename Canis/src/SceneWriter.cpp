@@ -7,7 +7,7 @@
 namespace Canis
 {
     
-    SceneWriter::SceneWriter(Scene* scene){
+    SceneWriter::SceneWriter(ScenePtr scene){
         if(scene){
             TiXmlElement* root = new TiXmlElement("scene");
             root->SetAttribute("name", scene->getName());
@@ -28,7 +28,7 @@ namespace Canis
         _doc.SaveFile(file);
     }
     
-    void SceneWriter::_writeNode(TiXmlElement* parent, SceneNode* node){
+    void SceneWriter::_writeNode(TiXmlElement* parent, SceneNodePtr node){
         TiXmlElement* e = new TiXmlElement("node");
         e->SetAttribute("name", node->getName());
         
@@ -60,7 +60,7 @@ namespace Canis
         parent->LinkEndChild(e);        
     }
     
-    void SceneWriter::_writeEntity(TiXmlElement* parent, IEntity* ent){
+    void SceneWriter::_writeEntity(TiXmlElement* parent, IEntityPtr ent){
         TiXmlElement* entElem = new TiXmlElement("entity");
         entElem->SetAttribute("name", ent->getName());
         entElem->SetAttribute("type", ent->getType());

@@ -11,7 +11,7 @@ namespace Canis
         IEntityFactory(){}
         virtual ~IEntityFactory(){}
 
-        virtual IEntity* createEntity(std::string name, glm::mat4 transform = glm::mat4(1.0f), const StringMap& userParams = StringMap()) = 0;
+        virtual IEntityPtr createEntity(std::string name, glm::mat4 transform = glm::mat4(1.0f), const StringMap& userParams = StringMap()) = 0;
     };
 
 }

@@ -12,7 +12,7 @@ namespace Canis
 
     class CSAPI Scene : public IObject{
     private:
-        std::vector<SceneNode*> _nodes;
+        std::map<std::string, SceneNodePtr> _nodes;
         std::map<std::string, LightPtr> _lights; //Maintain a list of lights for distance computation
         Camera* _activeCamera;
 
@@ -33,14 +33,14 @@ namespace Canis
         void render(Camera* activeCamera, glm::mat4 projectionMatrix);
         void reset(); //Override
 
-        void addSceneNode(SceneNode* node);
-        void removeSceneNode(SceneNode* node);
+        void addSceneNode(SceneNodePtr node);
+        void removeSceneNode(std::string name);
         
         void setActiveCamera(Camera* camera);
         Camera* getActiveCamera();
 
-        SceneNode* getNode(std::string name);
-        std::vector<SceneNode*> getNodes();
+        SceneNodePtr getNode(std::string name);
+        std::vector<SceneNodePtr> getNodes();
 
         btDiscreteDynamicsWorld* getDynamicsWorld();
         
