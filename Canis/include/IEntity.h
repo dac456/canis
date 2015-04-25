@@ -78,6 +78,7 @@ namespace Canis
         virtual void reset(){} //Override
         
     protected:
+        //TODO: hold directly like node parentScene?
         SceneNodePtr getParentNode(){
             if(_parent != nullptr){
                 if(_parent->getType() == "node"){

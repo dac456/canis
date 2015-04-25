@@ -13,6 +13,7 @@ namespace Canis
     private:
         Mesh* _marker;
 
+        ScenePtr _parentScene;
         std::map<std::string, SceneNodePtr> _children;
 
         std::map<std::string, IEntityPtr> _entities;
@@ -47,8 +48,7 @@ namespace Canis
         void translate(glm::vec3 translation);
         void setScale(glm::vec3 scale); //Scale signal to trigger collision rebuild?
         
-    //protected:
-        ScenePtr getParentScene();    
+        ScenePtr getParentScene();
     
     private:
         friend class Scene;

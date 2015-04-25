@@ -44,20 +44,29 @@ namespace Canis
 
     void SceneNode::attachSceneNode(SceneNodePtr node){
         node->_parent = getptr();
+        node->_parentScene = _parentScene;
         _children[node->getName()] = node;
+        
+        if(_parentScene){
+            _parentScene->_addNode(node);
+        }
     }
 
     void SceneNode::attachEntity(IEntityPtr entity){
         entity->_parent = getptr();
         entity->_entityAttached();
         _entities[entity->getName()] = entity;
+        
+        if(_parentScene){
+            _parentScene->_addEntity(entity);
+        }
     }
 
     void SceneNode::attachLight(LightPtr light){        
         light->_parent = getptr();
-        ScenePtr parentScene = this->getParentScene();
-        if(parentScene != nullptr){
-            parentScene->_addLight(light);
+
+        if(_parentScene){
+            _parentScene->_addLight(light);
         }
         
         _lights[light->getName()] = light;
@@ -70,16 +79,23 @@ namespace Canis
     
     void SceneNode::removeSceneNode(std::string name){
         _children.erase(name);
+        
+        if(_parentScene){
+            _parentScene->_removeNode(name);
+        }
     }
     
     void SceneNode::removeEntity(std::string name){
         _entities.erase(name);
+        
+        if(_parentScene){
+            _parentScene->_removeEntity(name);
+        }
     }
     
     void SceneNode::removeLight(std::string name){
-        ScenePtr parentScene = this->getParentScene();
-        if(parentScene){
-            parentScene->_removeLight(name);
+        if(_parentScene){
+            _parentScene->_removeLight(name);
         }
         
         _lights.erase(name);
@@ -163,24 +179,8 @@ namespace Canis
         _scale = scale;
     }
     
-    //TODO: just store a pointer directly to the parent scene?
     ScenePtr SceneNode::getParentScene(){
-        if(_parent != nullptr){
-            if(_parent->getType() == "scene"){
-                return std::static_pointer_cast<Scene>(_parent);
-            }
-            else{
-                IObjectPtr next = _parent->getParent();
-                while(next != nullptr){
-                    if(next->getType() == "scene"){
-                        return std::static_pointer_cast<Scene>(next);
-                    }
-                }
-            }
-        }
-        else{
-            return nullptr;
-        }
+        return _parentScene;
     }
 
 }

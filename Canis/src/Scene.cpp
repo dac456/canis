@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Camera.h"
 #include "Light.h"
+#include "IEntity.h"
 
 namespace Canis
 {
@@ -76,15 +77,16 @@ namespace Canis
 
     void Scene::addSceneNode(SceneNodePtr node){
         node->_parent = getptr();
+        node->_parentScene = std::static_pointer_cast<Scene>(getptr());
         //_nodes.push_back(node);
         _nodes[node->getName()] = node;
+        _globalNodes[node->getName()] = node;
     }
     
     void Scene::removeSceneNode(std::string name){
         //_nodes.erase(std::remove(_nodes.begin(), _nodes.end(), node), _nodes.end());
-        if(_nodes.count(name) != 0){
-            _nodes.erase(name);
-        }
+        _nodes.erase(name);
+        _globalNodes.erase(name);
     }
     
     void Scene::setActiveCamera(Camera* camera){
@@ -113,27 +115,27 @@ namespace Canis
                    
         return children;
     }
+    
+    bool Scene::nodeExists(std::string name){
+        return _globalNodes.count(name) > 0;
+    }
+    
+    bool Scene::lightExists(std::string name){
+        return _globalLights.count(name) > 0;
+    }
+    
+    bool Scene::entityExists(std::string name){
+        return _globalEntities.count(name) > 0;
+    }
 
     btDiscreteDynamicsWorld* Scene::getDynamicsWorld(){
         return _dynamicsWorld;
     }
     
-    void Scene::_addLight(LightPtr light){
-        //_lights.push_back(light);
-        _lights[light->getName()] = light;
-    }
-    
-    void Scene::_removeLight(std::string name){
-        //_lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
-        if(_lights.count(name) != 0){
-            _lights.erase(name);
-        }        
-    }
-    
     std::vector<LightPtr> Scene::getLightsClosestToPoint(glm::vec4 point){
         //TODO: we will eventually only want to sort lights that we can see
         std::vector<LightPtr> lights;
-        std::transform( _lights.begin(), _lights.end(),
+        std::transform( _globalLights.begin(), _globalLights.end(),
                    std::back_inserter(lights),
                    boost::bind(&std::map<std::string, LightPtr>::value_type::second,_1) );        
         
@@ -142,10 +144,10 @@ namespace Canis
             //glm::vec4 lightDir = glm::normalize(lightPos - point);
             //glm::vec4 eyeDir = glm::normalize(glm::vec4(_activeCamera->getAbsolutePosition(), 1.0f) - point);
 
-            //_lights[i]->_brightness = glm::dot(lightDir, eyeDir);
-            //_lights[i]->_brightness = glm::length(point - lightPos);
+            //_globalLights[i]->_brightness = glm::dot(lightDir, eyeDir);
+            //_globalLights[i]->_brightness = glm::length(point - lightPos);
             lights[i]->_brightness = fabs(glm::length(lightPos - point));
-            //printf("Brightness: %f\n", _lights[i]->_brightness);
+            //printf("Brightness: %f\n", _globalLights[i]->_brightness);
         }
 
         std::sort(lights.begin(), lights.end());
@@ -162,6 +164,34 @@ namespace Canis
         }
         
         return ret;
+    }    
+    
+    /* Private add/remove object methods
+     * Use to keep track of all objects in a scene globally to avoid name collisions
+     * and for fast lookup where applicable
+     */
+    void Scene::_addNode(SceneNodePtr node){
+        _globalNodes[node->getName()] = node;
+    }
+    
+    void Scene::_removeNode(std::string name){
+        _globalNodes.erase(name);
+    }
+    
+    void Scene::_addLight(LightPtr light){
+        _globalLights[light->getName()] = light;
+    }
+    
+    void Scene::_removeLight(std::string name){
+        _globalLights.erase(name);   
+    }
+    
+    void Scene::_addEntity(IEntityPtr entity){
+        _globalEntities[entity->getName()] = entity;
+    }
+    
+    void Scene::_removeEntity(std::string name){
+        _globalEntities.erase(name);
     }    
 
 }

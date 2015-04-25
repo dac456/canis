@@ -13,8 +13,12 @@ namespace Canis
     class CSAPI Scene : public IObject{
     private:
         std::map<std::string, SceneNodePtr> _nodes;
-        std::map<std::string, LightPtr> _lights; //Maintain a list of lights for distance computation
         Camera* _activeCamera;
+        
+        //Maps of all objects contained in scene
+        std::map<std::string, SceneNodePtr> _globalNodes;
+        std::map<std::string, LightPtr> _globalLights;
+        std::map<std::string, IEntityPtr> _globalEntities;
 
         //--Physics--//
         Timer* _timer;
@@ -41,18 +45,29 @@ namespace Canis
 
         SceneNodePtr getNode(std::string name);
         std::vector<SceneNodePtr> getNodes();
+        
+        bool nodeExists(std::string name);
+        bool lightExists(std::string name);
+        bool entityExists(std::string name);
 
         btDiscreteDynamicsWorld* getDynamicsWorld();
         
         std::vector<LightPtr> getLightsClosestToPoint(glm::vec4 point);
         
     private:
+        void _addNode(SceneNodePtr node);
+        void _removeNode(std::string name);
         void _addLight(LightPtr light);
         void _removeLight(std::string name);
+        void _addEntity(IEntityPtr entity);
+        void _removeEntity(std::string name);
         
+        friend void SceneNode::attachSceneNode(SceneNodePtr node);
+        friend void SceneNode::removeSceneNode(std::string name);
         friend void SceneNode::attachLight(LightPtr light);
         friend void SceneNode::removeLight(std::string name);
-        //friend SceneNode; //TODO: this is currently just for addLight. right idea?
+        friend void SceneNode::attachEntity(IEntityPtr entity);
+        friend void SceneNode::removeEntity(std::string name);
         
     };
 

@@ -66,8 +66,11 @@ namespace Canis
         glm::mat4 localTransform = _transform;
         //glm::mat4 meshTransform = _mesh->getTransform();
 
-        glm::mat4 absTrans = this->getAbsoluteTransform();
-        _mesh->setTransform(absTrans);
+        glm::mat4 absTransform = this->getAbsoluteTransform();
+
+        _mesh->setTransform(absTransform*glm::scale(_scale));
+        _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTransform));
+        _rigidBody->setWorldTransform(_dynamicsTransform);
 
         std::vector<LightPtr> lights;
         SceneNodePtr parentNode = getParentNode();
