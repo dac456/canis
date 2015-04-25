@@ -15,6 +15,9 @@ namespace SceneEditor
         ~AddNodeDialog();
 
         QString getNodeName();
+    
+    public Q_SLOTS:
+        void nameChanged(const QString& name);
 
     private:
         Ui::AddNodeDialog ui;

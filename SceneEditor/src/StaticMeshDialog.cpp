@@ -13,13 +13,6 @@ namespace SceneEditor
         : IEntityDialog(parent){
         QVBoxLayout* layout = new QVBoxLayout();
 
-        QHBoxLayout* field1 = new QHBoxLayout();
-        QLabel* nameLabel = new QLabel("Name: ");
-        _nameInput = new QLineEdit();
-        field1->addWidget(nameLabel);
-        field1->addWidget(_nameInput);
-        layout->addLayout(field1);
-
         QHBoxLayout* field2 = new QHBoxLayout();
         QLabel* meshLabel = new QLabel("Mesh: ");
         _meshInput = new QLineEdit();
@@ -40,7 +33,6 @@ namespace SceneEditor
 
     std::map<std::string, std::string> StaticMeshDialog::getEntityParams(){
         std::map<std::string, std::string> params;
-        params["name"] = _nameInput->text().toStdString();
         params["mesh"] = _meshInput->text().toStdString();
 
         return params;

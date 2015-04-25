@@ -11,6 +11,7 @@ namespace SceneEditor
         Q_OBJECT
 
     private:
+        QLineEdit* nameInput;
         QPushButton* okButton;
         QPushButton* cancelButton;
         IEntityDialog* dialogWidget;
@@ -21,6 +22,9 @@ namespace SceneEditor
 
         void setDialog(std::string entity);
         std::map<std::string, std::string> getEntityParams();
+        
+    public Q_SLOTS:
+        void nameChanged(const QString& name);
 
     private:
         Ui::AddEntityDialog ui;

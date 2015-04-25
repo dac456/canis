@@ -24,6 +24,7 @@ namespace SceneEditor
         
     private Q_SLOTS:
         void updateColor(QColor color);
+        void nameChanged(const QString& name);
 
     private:
         Ui::AddLightDialog ui;

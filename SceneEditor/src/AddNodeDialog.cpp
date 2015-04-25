@@ -1,6 +1,6 @@
 #include "AddNodeDialog.h"
 //#include "MainWindow.h"
-//#include <Canis.h>
+#include <Canis.h>
 
 namespace SceneEditor
 {
@@ -9,6 +9,8 @@ namespace SceneEditor
         : QDialog(parent) 
     {
         ui.setupUi(this);
+        
+        connect(ui.nodeName, SIGNAL(textChanged(const QString&)), this, SLOT(nameChanged(const QString&)));
     }
 
     AddNodeDialog::~AddNodeDialog(){
@@ -16,6 +18,20 @@ namespace SceneEditor
 
     QString AddNodeDialog::getNodeName(){
         return ui.nodeName->text();
+    }
+    
+    /*
+     * SLOTS
+     */
+    
+    void AddNodeDialog::nameChanged(const QString& name){
+        Canis::ScenePtr sc = Canis::Engine::getSingleton().getRenderer()->getActiveScene();
+        if(name == "" || sc->nodeExists(name.toStdString())){
+            ui.okButton->setEnabled(false);
+        }
+        else{
+            ui.okButton->setEnabled(true);
+        }
     }
 
 }

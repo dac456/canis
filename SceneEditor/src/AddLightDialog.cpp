@@ -1,3 +1,4 @@
+#include <QtWidgets/QPushButton>
 #include "AddLightDialog.h"
 
 #include <Canis.h>
@@ -10,7 +11,11 @@ namespace SceneEditor
     {
         ui.setupUi(this);
         
+        QPushButton* okButton = ui.buttonBox->button(QDialogButtonBox::Ok);
+        okButton->setEnabled(false);
+        
         connect(ui.colorWheel, SIGNAL(colorChanged(QColor)), this, SLOT(updateColor(QColor)));
+        connect(ui.nameInput, SIGNAL(textChanged(const QString&)), this, SLOT(nameChanged(const QString&)));
     }
 
     AddLightDialog::~AddLightDialog(){
@@ -35,5 +40,17 @@ namespace SceneEditor
      void AddLightDialog::updateColor(QColor color){
          _color = color;
      }
+     
+    void AddLightDialog::nameChanged(const QString& name){
+        QPushButton* okButton = ui.buttonBox->button(QDialogButtonBox::Ok);
+        
+        Canis::ScenePtr sc = Canis::Engine::getSingleton().getRenderer()->getActiveScene();
+        if(name == "" || sc->lightExists(name.toStdString())){
+            okButton->setEnabled(false);
+        }
+        else{
+            okButton->setEnabled(true);
+        }        
+    }     
     
 }
