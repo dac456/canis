@@ -45,22 +45,6 @@ namespace Canis
         glm::mat4 localTransform = _transform;
         //glm::mat4 meshTransform = _mesh->getTransform();
 
-        /*if(_parent != nullptr){
-            glm::mat4 absTransform = _parent->getTransform()*_transform;
-            IObject* next = _parent->getParent();
-            while(next != nullptr){
-                absTransform = next->getTransform()*absTransform;
-                next = next->getParent();
-            }
-            _mesh->setTransform(absTransform*glm::scale(_scale));
-            _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTransform));
-            //_rigidBody->setWorldTransform(_dynamicsTransform);
-        }
-        else{
-            _mesh->setTransform(localTransform*glm::scale(_scale));
-            _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(localTransform));
-            //_rigidBody->setWorldTransform(_dynamicsTransform);
-        }*/
         glm::mat4 absTrans = this->getAbsoluteTransform();
         _mesh->setTransform(absTrans);
         //_dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTrans));
