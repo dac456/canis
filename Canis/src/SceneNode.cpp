@@ -17,6 +17,18 @@ namespace Canis
     }
 
     SceneNode::~SceneNode(){
+        std::cout << "destroying scenenode " << std::endl;
+        for(auto const& it : _entities){
+            this->removeEntity(it.first);
+        }
+        
+        for(auto const& it : _lights){
+            this->removeLight(it.first);
+        }
+
+        for(auto const& it : _children){
+            this->removeSceneNode(it.first);
+        }        
     }
 
     void SceneNode::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix){

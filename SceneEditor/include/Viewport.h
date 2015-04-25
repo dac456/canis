@@ -93,12 +93,6 @@ namespace SceneEditor
         void _rotateFirstPerson(int x, int y);
 
         void _renderNodeMarker(Canis::SceneNodePtr node);
-        Canis::SceneNodePtr _getNodeByName(std::string name);
-        Canis::SceneNodePtr _getChildNodeByName(Canis::SceneNodePtr node, std::string name);
-        Canis::LightPtr _getLightByName(QString name);
-        Canis::LightPtr _getLightFromNode(Canis::SceneNodePtr node, QString name);
-        Canis::IEntityPtr _getEntityByName(QString name);
-        Canis::IEntityPtr _getEntityFromNode(Canis::SceneNodePtr node, QString name);
         
         void _removeSceneNode(QString name);
         void _removeEntity(QString name);

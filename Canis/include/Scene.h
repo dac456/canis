@@ -46,6 +46,10 @@ namespace Canis
         SceneNodePtr getNode(std::string name);
         std::vector<SceneNodePtr> getNodes();
         
+        SceneNodePtr getNodeGlobal(std::string name);
+        LightPtr getLightGlobal(std::string name);
+        IEntityPtr getEntityGlobal(std::string name);
+        
         bool nodeExists(std::string name);
         bool lightExists(std::string name);
         bool entityExists(std::string name);

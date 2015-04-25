@@ -116,6 +116,38 @@ namespace Canis
         return children;
     }
     
+    /* These methods find an object by name in the entire scene
+     * Not sure if Global suffix is necessary since Lights/Entities/Cameras 
+     * can't be attached directly to a scene
+     */
+    
+    SceneNodePtr Scene::getNodeGlobal(std::string name){
+        try{
+            return _globalNodes.at(name);
+        }
+        catch(const std::out_of_range& e){
+            return nullptr;
+        }
+    }
+    
+    LightPtr Scene::getLightGlobal(std::string name){
+        try{
+            return _globalLights.at(name);
+        }
+        catch(const std::out_of_range& e){
+            return nullptr;
+        }        
+    }
+    
+    IEntityPtr Scene::getEntityGlobal(std::string name){
+        try{
+            return _globalEntities.at(name);
+        }
+        catch(const std::out_of_range& e){
+            return nullptr;
+        }        
+    }
+    
     bool Scene::nodeExists(std::string name){
         return _globalNodes.count(name) > 0;
     }

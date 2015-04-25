@@ -163,7 +163,7 @@ namespace SceneEditor
                 
                 if(e->buttons() & Qt::LeftButton){
                     if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                        Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                        Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
                         
                         if(selectedNode != nullptr){
                             glm::mat4 trans = selectedNode->getTransform();
@@ -181,7 +181,7 @@ namespace SceneEditor
                 
                 if(e->buttons() & Qt::LeftButton){
                     if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                        Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                        Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
                         
                         if(selectedNode != nullptr){
                             glm::mat4 t = selectedNode->getTransform();
@@ -199,7 +199,7 @@ namespace SceneEditor
                 
                 if(e->buttons() & Qt::LeftButton){
                     if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                        Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                        Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
                         
                         if(selectedNode != nullptr){
                             glm::vec3 currentScale = selectedNode->getScale();
@@ -227,7 +227,7 @@ namespace SceneEditor
                 if(_viewType == TOP){
                     if(_mode == MOVE_MODE){
                         if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                            Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                            Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
 
                             if(selectedNode != nullptr){
                                 glm::mat4 oldTrans = selectedNode->getTransform();
@@ -239,7 +239,7 @@ namespace SceneEditor
                     }
                     else if(_mode == ROTATE_MODE){
                         if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                            Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                            Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
 
                             if(selectedNode != nullptr){
                                 glm::mat4 t = selectedNode->getTransform();
@@ -251,7 +251,7 @@ namespace SceneEditor
                     else if(_mode == SCALE_MODE){
                         if(e->buttons() & Qt::LeftButton){
                             if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                                Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                                Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
                                 
                                 if(selectedNode != nullptr){
                                     glm::vec3 currentScale = selectedNode->getScale();
@@ -265,7 +265,7 @@ namespace SceneEditor
                 else if(_viewType == FRONT){
                     if(_mode == MOVE_MODE){
                         if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                            Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                            Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
 
                             if(selectedNode != nullptr){
                                 glm::mat4 oldTrans = selectedNode->getTransform();
@@ -277,7 +277,7 @@ namespace SceneEditor
                     }
                     else if(_mode == ROTATE_MODE){
                         if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                            Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                            Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
 
                             if(selectedNode != nullptr){
                                 glm::mat4 t = selectedNode->getTransform();
@@ -289,7 +289,7 @@ namespace SceneEditor
                     else if(_mode == SCALE_MODE){
                         if(e->buttons() & Qt::LeftButton){
                             if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                                Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                                Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
                                 
                                 if(selectedNode != nullptr){
                                     glm::vec3 currentScale = selectedNode->getScale();
@@ -303,7 +303,7 @@ namespace SceneEditor
                 else if(_viewType == SIDE){
                     if(_mode == MOVE_MODE){
                         if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                            Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                            Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
 
                             if(selectedNode != nullptr){
                                 glm::mat4 oldTrans = selectedNode->getTransform();
@@ -315,7 +315,7 @@ namespace SceneEditor
                     }
                     else if(_mode == ROTATE_MODE){
                         if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                            Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                            Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
 
                             if(selectedNode != nullptr){
                                 glm::mat4 t = selectedNode->getTransform();
@@ -327,7 +327,7 @@ namespace SceneEditor
                     else if(_mode == SCALE_MODE){
                         if(e->buttons() & Qt::LeftButton){
                             if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-                                Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+                                Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
                                 
                                 if(selectedNode != nullptr){
                                     glm::vec3 currentScale = selectedNode->getScale();
@@ -593,124 +593,43 @@ namespace SceneEditor
             _renderNodeMarker(node->getChildren()[i]);
         }
     }
-
-    Canis::SceneNodePtr Viewport::_getNodeByName(std::string name){
-        Canis::SceneNodePtr selectedNode = nullptr;
-        for(size_t i=0; i<_renderer->getActiveScene()->getNodes().size(); i++){
-            if(_renderer->getActiveScene()->getNodes()[i]->getName().compare(name) == 0){
-                selectedNode = _renderer->getActiveScene()->getNodes()[i];
-                break;
-            }
-            else{
-                selectedNode = _getChildNodeByName(_renderer->getActiveScene()->getNodes()[i], name);
-                if(selectedNode != nullptr)
-                    break;
-            }
-        }
-
-        return selectedNode;
-    }
-
-    Canis::SceneNodePtr Viewport::_getChildNodeByName(Canis::SceneNodePtr node, std::string name){
-        for(size_t i=0; i<node->getChildren().size(); i++){
-            if(node->getChildren()[i]->getName().compare(name) == 0){
-                return node->getChildren()[i];
-            }
-            else{
-                return _getChildNodeByName(node->getChildren()[i], name);
-            }
-        }
-
-        return nullptr;
-    }
-    
-    Canis::LightPtr Viewport::_getLightByName(QString name){
-        Canis::ScenePtr sc = _renderer->getActiveScene();
-        
-        Canis::LightPtr ret = nullptr;
-        for(auto n : sc->getNodes()){
-            ret =  _getLightFromNode(n, name);
-            
-            if(ret != nullptr){
-                return ret;
-            }
-            else{
-                continue;
-            }
-        }
-        
-        return nullptr;
-    }
-    
-    Canis::LightPtr Viewport::_getLightFromNode(Canis::SceneNodePtr node, QString name){
-        for(auto l : node->getLights()){
-            if(l->getName() == name.toStdString()){
-                return l;
-            }
-        }
-        
-        for(auto c : node->getChildren()){
-            return _getLightFromNode(c, name);
-        }
-        
-        return nullptr;
-    }
-    
-    Canis::IEntityPtr Viewport::_getEntityByName(QString name){
-        Canis::ScenePtr sc = _renderer->getActiveScene();
-        
-        Canis::IEntityPtr ret = nullptr;
-        for(auto n : sc->getNodes()){
-            ret = _getEntityFromNode(n, name);
-            
-            if(ret != nullptr){
-                return ret;
-            }
-            else{
-                continue;
-            }
-        }
-        
-        return nullptr;
-    }
-    
-    Canis::IEntityPtr Viewport::_getEntityFromNode(Canis::SceneNodePtr node, QString name){
-        for(auto e : node->getEntities()){
-            if(e->getName() == name.toStdString()){
-                return e;
-            }
-        }
-        
-        for(auto c : node->getChildren()){
-            return _getEntityFromNode(c, name);
-        }
-        
-        return nullptr;
-    }
     
     void Viewport::_removeSceneNode(QString name){
-        _renderer->getActiveScene()->removeSceneNode(name.toStdString());
+        Canis::SceneNodePtr node = _renderer->getActiveScene()->getNodeGlobal(name.toStdString());
+        if(node){
+            if(node->getParent()->getType() == "node"){
+                Canis::SceneNodePtr parent = std::static_pointer_cast<Canis::SceneNode>(node->getParent());
+                parent->removeSceneNode(node->getName());
+            }
+            else if(node->getParent()->getType() == "scene"){
+                Canis::ScenePtr parent = std::static_pointer_cast<Canis::Scene>(node->getParent());
+                parent->removeSceneNode(node->getName());            
+            }
+        }
         
         Q_EMIT sceneChanged();
     }
     
     void Viewport::_removeEntity(QString name){
-        for(auto n : _renderer->getActiveScene()->getNodes()){
-            n->removeEntity(name.toStdString()); //TODO: this should return if the entity was found/removed so we can break the loop
+        Canis::IEntityPtr ent = _renderer->getActiveScene()->getEntityGlobal(name.toStdString());
+        if(ent){
+            if(ent->getParent()->getType() == "node"){
+                Canis::SceneNodePtr parent = std::static_pointer_cast<Canis::SceneNode>(ent->getParent());
+                parent->removeEntity(ent->getName());
+            }
         }
         
         Q_EMIT sceneChanged();
     }
     
     void Viewport::_removeLight(QString name){
-        /*Canis::LightPtr light = _getLightByName(name);
-        for(auto n : _renderer->getActiveScene()->getNodes()){
-            n->removeLight(light);
-        }
-        delete light;*/
-        for(auto n : _renderer->getActiveScene()->getNodes()){
-            n->removeLight(name.toStdString());
-        }        
+        Canis::LightPtr light = _renderer->getActiveScene()->getLightGlobal(name.toStdString());
+        if(light){
+            if(light->getParent()->getType() == "node"){
+                Canis::SceneNodePtr parent = std::static_pointer_cast<Canis::SceneNode>(light->getParent());
+                parent->removeLight(light->getName());
+            }
+        }    
         
         Q_EMIT sceneChanged();
     }
@@ -758,15 +677,15 @@ namespace SceneEditor
         //TODO: Should eventually select by calling node->select();
         
         if(type == "node"){
-            Canis::SceneNodePtr n = _getNodeByName(name.toStdString());
+            Canis::SceneNodePtr n = _renderer->getActiveScene()->getNodeGlobal(name.toStdString());
             Q_EMIT setPropertySheetNode(n);
         }
         else if(type == "light"){
-            Canis::LightPtr l = _getLightByName(name);
+            Canis::LightPtr l = _renderer->getActiveScene()->getLightGlobal(name.toStdString());
             Q_EMIT setPropertySheetLight(l);
         }
         else if(type == "entity"){
-            Canis::IEntityPtr e = _getEntityByName(name);
+            Canis::IEntityPtr e = _renderer->getActiveScene()->getEntityGlobal(name.toStdString());
             Q_EMIT setPropertySheetEntity(e);
         }
     }        
@@ -789,7 +708,7 @@ namespace SceneEditor
 
     void Viewport::setInitialPoseButtonClicked(){
         if(!Canis::Engine::getSingleton().isDynamicsEnabled()){
-            Canis::SceneNodePtr selectedNode = _getNodeByName(_selectedObjectName.toStdString());
+            Canis::SceneNodePtr selectedNode = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
 
             if(selectedNode != nullptr){
                 selectedNode->setInitialTransform(selectedNode->getTransform());
@@ -844,7 +763,14 @@ namespace SceneEditor
     
     void Viewport::addSceneNode(QString name){
         glm::vec3 pos = _cam->getPosition();
-        _renderer->getActiveScene()->addSceneNode(std::make_shared<Canis::SceneNode>(name.toStdString(), glm::translate(pos))); 
+        
+        if(_selectedObjectType == "scene"){
+            _renderer->getActiveScene()->addSceneNode(std::make_shared<Canis::SceneNode>(name.toStdString(), glm::translate(pos))); 
+        }
+        else if(_selectedObjectType == "node"){
+            Canis::SceneNodePtr node = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
+            node->attachSceneNode(std::make_shared<Canis::SceneNode>(name.toStdString(), glm::translate(pos)));
+        }
         
         Q_EMIT sceneChanged();
     }
@@ -852,7 +778,8 @@ namespace SceneEditor
     void Viewport::addEntity(QString type, Canis::StringMap args){
         if(_selectedObjectType == "node"){
             Canis::IEntityPtr ent = Canis::EntityManager::getSingleton().getEntityFactory(type.toStdString())->createEntity(args["name"], glm::mat4(1.0f), args);
-            _getNodeByName(_selectedObjectName.toStdString())->attachEntity(ent);
+            Canis::SceneNodePtr node = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
+            node->attachEntity(ent);
             
             Q_EMIT sceneChanged();
         }
@@ -860,7 +787,8 @@ namespace SceneEditor
 
     void Viewport::addLight(QString name, float radius, QColor diffuse){
         if(_selectedObjectType == "node"){
-            _getNodeByName(_selectedObjectName.toStdString())->attachLight(std::make_shared<Canis::Light>(name.toStdString(), glm::vec3(diffuse.redF(), diffuse.greenF(), diffuse.blueF()), radius, glm::mat4(1.0f)));
+            Canis::SceneNodePtr node = _renderer->getActiveScene()->getNodeGlobal(_selectedObjectName.toStdString());
+            node->attachLight(std::make_shared<Canis::Light>(name.toStdString(), glm::vec3(diffuse.redF(), diffuse.greenF(), diffuse.blueF()), radius, glm::mat4(1.0f)));
         
             Q_EMIT sceneChanged();
         }
