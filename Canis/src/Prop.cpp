@@ -45,11 +45,8 @@ namespace Canis
         glm::mat4 localTransform = _transform;
         //glm::mat4 meshTransform = _mesh->getTransform();
 
-        glm::mat4 absTrans = this->getAbsoluteTransform();
-        _mesh->setTransform(absTrans);
-        //_dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTrans));
+        _mesh->setTransform(_motionState.getBulletWorldTransform());
         
-
         std::vector<LightPtr>  lights;
         SceneNodePtr parentNode = this->getParentNode();
         if(parentNode != nullptr){
@@ -84,11 +81,15 @@ namespace Canis
             //_rigidBody->setActivationState(DISABLE_DEACTIVATION);
             
             _dynamicsWorld->removeRigidBody(_rigidBody);
-            _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(_parent->getInitialTransform()));
+            _motionState.setBulletWorldTransform(this->getAbsoluteTransform());
             _rigidBody->clearForces();
             _rigidBody->setLinearVelocity(btVector3(0,0,0));
             _rigidBody->setAngularVelocity(btVector3(0,0,0));
-            _rigidBody->setWorldTransform(_dynamicsTransform);
+            
+            btTransform dynamicsTransform;
+            dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(this->getAbsoluteTransform()));
+            _rigidBody->setWorldTransform(dynamicsTransform);
+            
             _dynamicsWorld->addRigidBody(_rigidBody);
             
             //_rigidBody->setActivationState(ENABLE_DEACTIVATION);
@@ -112,7 +113,7 @@ namespace Canis
                
                 btVector3 inertia(0,0,0);
                 _collisionShape->calculateLocalInertia(_mass, inertia);               
-               _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, _parent.get(), _collisionShape, inertia));
+               _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, &_motionState, _collisionShape, inertia));
                _dynamicsWorld->addRigidBody(_rigidBody);
            }
            
@@ -121,10 +122,13 @@ namespace Canis
     }
 
     void Prop::_entityAttached(){
+        glm::mat4 absTrans = this->getAbsoluteTransform();
+        _motionState.setBulletWorldTransform(absTrans);      
+        
         btVector3 inertia(0,0,0);
         _collisionShape->calculateLocalInertia(_mass, inertia);
-        _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, _parent.get(), _collisionShape, inertia));
-        _rigidBody->setActivationState(DISABLE_DEACTIVATION);
+        _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(_mass, &_motionState, _collisionShape, inertia));
+        //_rigidBody->setActivationState(DISABLE_DEACTIVATION);
 
         IObjectPtr next = _parent;
         while(next != nullptr){
@@ -139,8 +143,6 @@ namespace Canis
 
     void Prop::setTransform(glm::mat4 transform){
         _transform = transform;
-        _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(_transform));
-        //_mesh->setTransform(_transform);
     }
 
     void Prop::setDynamicsWorld(btDiscreteDynamicsWorld* dynamicsWorld){

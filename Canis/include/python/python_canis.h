@@ -57,7 +57,7 @@ namespace Canis
         py::def("remove_light", &removeLight, "doc string");
     }
     
-    void registerModuleSceneGraph(){
+    void registerModuleCanisMain(){
         initcanis();
     }
 

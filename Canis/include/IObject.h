@@ -6,12 +6,14 @@
 #include "Script.h"
 #include "ScriptManager.h"
 
+#include "MotionState.h"
+
 namespace Canis
 {
 
     //TODO: should there be a seperate motion state class?
     //TODO: should each IObject define it's type/class by a string?
-    class CSAPI IObject : public btMotionState, public std::enable_shared_from_this<IObject>{
+    class CSAPI IObject : public std::enable_shared_from_this<IObject>{
     private:
         std::string _name;
         std::string _type;
@@ -22,8 +24,8 @@ namespace Canis
         glm::mat4 _transform, _initialTransform;
         glm::vec3 _scale;
 
-        btTransform _dynamicsTransform;
-
+        MotionState _motionState;
+        
     public:
         IObject(std::string name, std::string type, glm::mat4 transform = glm::mat4(1.0f)){
             _name = name;
@@ -34,8 +36,6 @@ namespace Canis
             _transform = transform;
             _initialTransform = _transform;
             _scale = glm::vec3(1.0f, 1.0f, 1.0f);
-
-            _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(_transform));
 
             _resetConnection = Engine::getSingleton()._connectReset(boost::bind(&IObject::reset, this));
         }
@@ -86,7 +86,6 @@ namespace Canis
 
         virtual void setTransform(glm::mat4 transform){
             _transform = transform;
-            _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(_transform));
         }
 
         glm::mat4 getTransform(){
@@ -127,21 +126,7 @@ namespace Canis
         }
 
         virtual void reset() = 0; //Should be pure virtual?
-
-        //--Bullet overrides--//
-        virtual void getWorldTransform(btTransform& trans) const{
-            trans = _dynamicsTransform;
-        }
-
-        virtual void setWorldTransform(const btTransform& trans){
-            _dynamicsTransform = trans;
-
-            //TODO: this seems like it is probably slow and wasteful
-            btScalar m[16];
-            trans.getOpenGLMatrix(m);
-            _transform = glm::make_mat4(m);
-        }
-
+        
     private:
         boost::signals2::connection _resetConnection;
     };

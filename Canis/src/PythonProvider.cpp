@@ -21,7 +21,7 @@ namespace Canis
     
     void PythonProvider::initialize(){
         Py_Initialize();
-        registerModuleSceneGraph();
+        registerModuleCanisMain();
         
         boost::filesystem::path p("./Media/Scripts");
         std::cout << boost::filesystem::absolute(p).normalize().string() << std::endl;

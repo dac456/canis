@@ -198,6 +198,17 @@ namespace SceneEditor
         if(!ui.sceneGraphView->selectedItems().empty()){
             QTreeWidgetItem* sel = ui.sceneGraphView->selectedItems()[0];
 
+            if(sel->text(0).contains("<Scene>")){
+                ui.propertyBrowser->reset(); //should be signal
+                
+                ui.addEntityButton->setEnabled(false);
+                ui.addLightButton->setEnabled(false);
+                ui.addCameraButton->setEnabled(false);
+                ui.setPoseButton->setEnabled(false);
+
+                QString name = sel->text(0).remove(" <Scene>");
+                Q_EMIT objectSelected(name, "scene");
+            }                
             if(sel->text(0).contains("<Node>")){
                 ui.propertyBrowser->reset(); //should be signal
                 
@@ -231,7 +242,7 @@ namespace SceneEditor
                 QString name = sel->text(0).remove(" <Light>");
                 Q_EMIT objectSelected(name, "light");                
             }
-            else{
+            /*else{
                 ui.propertyBrowser->reset(); //should be signal
                 
                 ui.addEntityButton->setEnabled(false);
@@ -240,7 +251,7 @@ namespace SceneEditor
                 ui.setPoseButton->setEnabled(false);
 
                 Q_EMIT objectSelected("", "");
-            }
+            }*/
         }
     }
     

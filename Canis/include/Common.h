@@ -125,6 +125,7 @@ namespace Canis
     class MaterialLoader;
     class MaterialManager;
     class Mesh;
+    class MotionState;
     class PluginManager;
     class ProgramLoader;
     class Prop;

@@ -12,8 +12,6 @@ namespace Canis
     SceneNode::SceneNode(std::string name, glm::mat4 transform)
         : IObject(name, "node", transform) {
         _parent = nullptr;
-        //_marker = new Mesh(new AssimpLoader("./Media/Models/marker.ms3d"));
-        //_marker->setTransform(transform);
     }
 
     SceneNode::~SceneNode(){

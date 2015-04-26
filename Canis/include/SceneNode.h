@@ -46,7 +46,7 @@ namespace Canis
         LightPtr getLight(std::string name);
 
         void translate(glm::vec3 translation);
-        void setScale(glm::vec3 scale); //Scale signal to trigger collision rebuild?
+        void setScale(glm::vec3 scale); //TODO: Scale signal to trigger collision rebuild?
         
         ScenePtr getParentScene();
     

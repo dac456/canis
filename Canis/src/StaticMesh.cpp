@@ -47,8 +47,8 @@ namespace Canis
                 _collisionShape = new btBvhTriangleMeshShape(_triangleMesh, true);
             }
             
-            btCollisionShape* scaledShape = new btScaledBvhTriangleMeshShape(static_cast<btBvhTriangleMeshShape*>(_collisionShape), btVector3(1.0f, 1.0f, 1.0f));
-            _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, this, scaledShape, btVector3(0, 0, 0)));
+            //btCollisionShape* scaledShape = new btScaledBvhTriangleMeshShape(static_cast<btBvhTriangleMeshShape*>(_collisionShape), btVector3(1.0f, 1.0f, 1.0f));
+            //_rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, this, scaledShape, btVector3(0, 0, 0)));
     }
 
     StaticMesh::~StaticMesh(){
@@ -66,11 +66,10 @@ namespace Canis
         glm::mat4 localTransform = _transform;
         //glm::mat4 meshTransform = _mesh->getTransform();
 
-        glm::mat4 absTransform = this->getAbsoluteTransform();
-
-        _mesh->setTransform(absTransform*glm::scale(_scale));
-        _dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTransform));
-        _rigidBody->setWorldTransform(_dynamicsTransform);
+        _mesh->setTransform(_motionState.getBulletWorldTransform());
+        //_mesh->setTransform(absTransform*glm::scale(_scale));
+        //_dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTransform));
+        //_rigidBody->setWorldTransform(_dynamicsTransform);
 
         std::vector<LightPtr> lights;
         SceneNodePtr parentNode = getParentNode();
@@ -94,8 +93,6 @@ namespace Canis
 
     void StaticMesh::setTransform(glm::mat4 transform){
         _transform = transform;
-        //_dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(_transform));
-        _mesh->setTransform(_transform);
     }
 
     void StaticMesh::setDynamicsWorld(btDiscreteDynamicsWorld* dynamicsWorld){
@@ -116,6 +113,12 @@ namespace Canis
     }
     
     void StaticMesh::_entityAttached(){
+        glm::mat4 absTrans = this->getAbsoluteTransform();
+        _motionState.setBulletWorldTransform(absTrans);
+        
+        btCollisionShape* scaledShape = new btScaledBvhTriangleMeshShape(static_cast<btBvhTriangleMeshShape*>(_collisionShape), btVector3(1.0f, 1.0f, 1.0f));
+        _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, &_motionState, scaledShape, btVector3(0, 0, 0)));        
+        
         IObjectPtr next = _parent;
         while(next != nullptr){
             if(next->getType() == "scene"){
@@ -134,7 +137,7 @@ namespace Canis
            _dynamicsWorld->removeRigidBody(_rigidBody);
            delete _rigidBody->getCollisionShape();
            delete _rigidBody;
-           _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, this, scaledShape, btVector3(0, 0, 0)));
+           _rigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(0, &_motionState, scaledShape, btVector3(0, 0, 0)));
            _dynamicsWorld->addRigidBody(_rigidBody);
        }
        
