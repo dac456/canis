@@ -19,6 +19,7 @@ namespace Canis
         glm::mat4 _transform;
 
         AxisAlignedBox _aabb;
+        Material* _overrideMaterial;
 
     public:
         Mesh(){}
@@ -31,6 +32,9 @@ namespace Canis
         void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights);
         
         std::string getName();
+        
+        void setMaterialOverride(std::string name);
+        void unsetMaterialOverride();
 
         void setTransform(glm::mat4 transform);
         glm::mat4 getTransform();

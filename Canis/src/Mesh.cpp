@@ -73,6 +73,7 @@ namespace Canis
 
     Mesh::Mesh(std::string name, AssimpLoader* ai){
         _name = name;
+        _overrideMaterial = nullptr;
         
         if(!ai->getData().empty()){
             VertexData meshes = ai->getData();
@@ -167,7 +168,14 @@ namespace Canis
                     if(lights.first[j][3] == -1.0f)
                         lights.second[j] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);*/
 
-                Material* mat = MaterialManager::getSingleton().getMaterial(_groups[i].materialId);
+                Material* mat;
+                if(_overrideMaterial == nullptr){
+                    mat = MaterialManager::getSingleton().getMaterial(_groups[i].materialId);
+                }
+                else{
+                    mat = _overrideMaterial;
+                }
+                
                 if(k == 0){
                     if(mat != nullptr){
                         Technique t = mat->getTechniques()[0];
@@ -220,6 +228,14 @@ namespace Canis
     
     std::string Mesh::getName(){
         return _name;
+    }
+    
+    void Mesh::setMaterialOverride(std::string name){
+        _overrideMaterial = MaterialManager::getSingleton().getMaterial(name);
+    }
+    
+    void Mesh::unsetMaterialOverride(){
+        _overrideMaterial = nullptr;
     }
 
     void Mesh::setTransform(glm::mat4 transform){
