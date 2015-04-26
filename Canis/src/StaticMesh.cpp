@@ -66,10 +66,12 @@ namespace Canis
         glm::mat4 localTransform = _transform;
         //glm::mat4 meshTransform = _mesh->getTransform();
 
-        _mesh->setTransform(_motionState.getBulletWorldTransform());
-        //_mesh->setTransform(absTransform*glm::scale(_scale));
-        //_dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(absTransform));
-        //_rigidBody->setWorldTransform(_dynamicsTransform);
+        if(Engine::getSingleton().isDynamicsEnabled()){
+            _mesh->setTransform(_motionState.getBulletWorldTransform()*glm::scale(_scale));
+        }
+        else{
+            _mesh->setTransform(this->getAbsoluteTransform()*glm::scale(_scale));
+        }
 
         std::vector<LightPtr> lights;
         SceneNodePtr parentNode = getParentNode();
@@ -86,6 +88,17 @@ namespace Canis
     }
     
     void StaticMesh::reset(){
+        if(_parent != nullptr){  
+            _dynamicsWorld->removeRigidBody(_rigidBody);
+            _motionState.setBulletWorldTransform(this->getAbsoluteTransform());
+            
+            btTransform dynamicsTransform;
+            dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(this->getAbsoluteTransform()));
+            _rigidBody->setWorldTransform(dynamicsTransform);
+            
+            _dynamicsWorld->addRigidBody(_rigidBody);
+        }        
+        
         if(_needsRebuild) {
             _rebuildCollisionMesh();
         }

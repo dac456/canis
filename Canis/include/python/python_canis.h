@@ -34,14 +34,14 @@ namespace Canis
     }
     
     void attachLight(Scene* scene, std::string node, std::string name, float r, float g, float b, float radius){
-        SceneNodePtr n = scene->getNode(node);
+        SceneNodePtr n = scene->getNodeGlobal(node);
         if(n != nullptr){
             n->attachLight(std::make_shared<Light>(name, glm::vec3(r, g, b), radius));
         }
     }
     
     void removeLight(Scene* scene, std::string node, std::string name){
-        SceneNodePtr n = scene->getNode(node);
+        SceneNodePtr n = scene->getNodeGlobal(node);
         if(n != nullptr){
             n->removeLight(name);
         }
