@@ -6,6 +6,7 @@
 #include "EntityManager.h"
 #include "PluginManager.h"
 #include "ScriptManager.h"
+#include "MeshManager.h"
 
 #include "IObject.h"
 
@@ -19,6 +20,7 @@ namespace Canis
         _shaderManager = new GlShaderManager();
         _textureManager = new TextureManager();
         _materialManager = new MaterialManager();
+        _meshManager = new MeshManager();
         _entityManager = new EntityManager();
         _pluginManager = new PluginManager();
 
@@ -28,6 +30,7 @@ namespace Canis
     Engine::~Engine(){
         delete _pluginManager;
         delete _entityManager;
+        delete _meshManager;
         delete _materialManager;
         delete _textureManager;
         delete _shaderManager;

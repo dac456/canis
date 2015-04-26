@@ -1,4 +1,3 @@
-#include <boost/filesystem.hpp>
 #include "StaticMeshFactory.h"
 #include "StaticMesh.h"
 #include "EntityManager.h"
@@ -25,8 +24,7 @@ namespace Canis
             return std::make_shared<StaticMesh>(name, new Mesh(new LW14Loader(mesh)), transform);
         }
         else{
-            //StaticMesh* sm = new StaticMesh(name, new Mesh(new AssimpLoader(mesh)), transform);
-            std::shared_ptr<StaticMesh> sm = std::make_shared<StaticMesh>(name, new Mesh(new AssimpLoader(mesh)), transform);
+            std::shared_ptr<StaticMesh> sm = std::make_shared<StaticMesh>(name, new Mesh(p.filename().string(), new AssimpLoader(mesh)), transform);
             sm->setParam("mesh", mesh);
             
             return std::static_pointer_cast<IEntity>(sm);

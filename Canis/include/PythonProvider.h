@@ -9,7 +9,7 @@
 namespace Canis
 {
     
-    class PythonProvider : public IScriptProvider{
+    class CSAPI PythonProvider : public IScriptProvider{
     public:
         PythonProvider();
         ~PythonProvider();

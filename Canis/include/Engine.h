@@ -15,6 +15,7 @@ namespace Canis
         GlShaderManager* _shaderManager;
         TextureManager* _textureManager;
         MaterialManager* _materialManager;
+        MeshManager* _meshManager;
         EntityManager* _entityManager;
         PluginManager* _pluginManager;
         ScriptManager* _scriptManager;

@@ -18,10 +18,24 @@ namespace Canis
 
         if(!_scene){
             _loaded = false;
-            fprintf(stdout, "%s\n", imp.GetErrorString());
+           std::cout << imp.GetErrorString() << std::endl;
         }
-        else
+        else{
             load(fileName);
+        }
+    }
+    
+    AssimpLoader::AssimpLoader(char* buffer){
+        Assimp::Importer imp;
+        _scene = imp.ReadFileFromMemory(buffer, sizeof(buffer), aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType, "nff");
+    
+        if(!_scene){
+            _loaded = false;
+           std::cout << imp.GetErrorString() << std::endl;
+        }
+        else{
+            load("");  
+        }  
     }
 
     AssimpLoader::~AssimpLoader(){

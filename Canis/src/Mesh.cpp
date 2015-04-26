@@ -71,7 +71,9 @@ namespace Canis
         }
     }
 
-    Mesh::Mesh(AssimpLoader* ai){
+    Mesh::Mesh(std::string name, AssimpLoader* ai){
+        _name = name;
+        
         if(!ai->getData().empty()){
             VertexData meshes = ai->getData();
             IndexData meshIndices = ai->getIndices();
@@ -214,6 +216,10 @@ namespace Canis
                 }
             }
         }
+    }
+    
+    std::string Mesh::getName(){
+        return _name;
     }
 
     void Mesh::setTransform(glm::mat4 transform){

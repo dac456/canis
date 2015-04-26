@@ -15,7 +15,9 @@ namespace Canis
         IndexData _indices;
 
     public:
+        //TODO: this constructors are a little ambiguous - consider using boost filesyste path for fileName
         AssimpLoader(std::string fileName);
+        AssimpLoader(char* buffer);
         ~AssimpLoader();
 
         void load(std::string fileName);

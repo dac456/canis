@@ -4,6 +4,8 @@
 #include "Mesh.h"
 #include "AssimpLoader.h"
 
+using namespace boost;
+
 namespace Canis
 {
 
@@ -25,9 +27,10 @@ namespace Canis
         }
         
         std::string mesh = params["mesh"];
+        filesystem::path p(mesh);
 
         //Prop* prop = new Prop(name, new Mesh(new AssimpLoader(mesh)), shape, mass);
-        std::shared_ptr<Prop> prop = std::make_shared<Prop>(name, new Mesh(new AssimpLoader(mesh)), shape, mass);
+        std::shared_ptr<Prop> prop = std::make_shared<Prop>(name, new Mesh(p.filename().string(), new AssimpLoader(mesh)), shape, mass);
         prop->setParam("mesh", mesh);
         
         return std::static_pointer_cast<IEntity>(prop);

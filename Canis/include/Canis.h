@@ -24,6 +24,7 @@
 #include "MaterialLoader.h"
 #include "MaterialManager.h"
 #include "Mesh.h"
+#include "MeshManager.h"
 #include "PluginManager.h"
 #include "ProgramLoader.h"
 #include "Prop.h"

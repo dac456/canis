@@ -654,8 +654,8 @@ namespace SceneEditor
         //Load editor specific assets
         Canis::MaterialManager::getSingleton().addMaterial(new Canis::Material(new Canis::MaterialLoader("../Editor/Materials/Marker.material")));
         Canis::MaterialManager::getSingleton().addMaterial(new Canis::Material(new Canis::MaterialLoader("../Editor/Materials/Selection.material")));
-        _nodeMarker = new Canis::Mesh(new Canis::AssimpLoader("./Media/Editor/Models/node.ms3d"));
-        _selectionBox = new Canis::Mesh(new Canis::AssimpLoader("./Media/Editor/Models/selection_box.ms3d"));                    
+        _nodeMarker = new Canis::Mesh("editor_node", new Canis::AssimpLoader(std::string("./Media/Editor/Models/node.ms3d")));
+        _selectionBox = new Canis::Mesh("editor_selectionbox", new Canis::AssimpLoader(std::string("./Media/Editor/Models/selection_box.ms3d")));                    
         
         fprintf(stdout, "GL Version: %s\n", glGetString(GL_VERSION));
         fprintf(stdout, "Canis Version: %i.%i.%i '%s'\n", CS_MAJOR_REVISION, CS_MINOR_REVISION, CS_BUILD_REVISION, CS_CODENAME);

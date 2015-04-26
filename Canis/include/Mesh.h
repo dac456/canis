@@ -14,7 +14,7 @@ namespace Canis
 
     class CSAPI Mesh{
     private:
-        size_t _id;
+        std::string _name;
         std::vector<MeshGroup> _groups;
         glm::mat4 _transform;
 
@@ -24,11 +24,13 @@ namespace Canis
         Mesh(){}
         Mesh(DXSLoader* dxs);
         Mesh(LW14Loader* lw14);
-        Mesh(AssimpLoader* ai);
+        Mesh(std::string name, AssimpLoader* ai);
         Mesh(CSXLoader* csx);
         ~Mesh();
 
         void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights);
+        
+        std::string getName();
 
         void setTransform(glm::mat4 transform);
         glm::mat4 getTransform();

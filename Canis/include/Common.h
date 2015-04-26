@@ -52,6 +52,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/signals2.hpp>
 #include <boost/bind.hpp>
+#include <boost/filesystem.hpp>
 
 #include <GL/glew.h>
 #ifdef CANIS_PLATFORM_WIN32
@@ -125,6 +126,7 @@ namespace Canis
     class MaterialLoader;
     class MaterialManager;
     class Mesh;
+    class MeshManager;
     class MotionState;
     class PluginManager;
     class ProgramLoader;
