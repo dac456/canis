@@ -7,7 +7,7 @@
 namespace Canis
 {
 
-    StaticMesh::StaticMesh(std::string name, Mesh* mesh, glm::mat4 transform)
+    StaticMesh::StaticMesh(std::string name, MeshPtr mesh, glm::mat4 transform)
         : IEntity("Static Mesh", name, transform, true){
             _mesh = mesh;
             _mesh->setTransform(transform);
@@ -52,7 +52,7 @@ namespace Canis
     }
 
     StaticMesh::~StaticMesh(){
-        delete _mesh;
+        //delete _mesh;
 
         _dynamicsWorld->removeRigidBody(_rigidBody);
         delete _collisionShape;

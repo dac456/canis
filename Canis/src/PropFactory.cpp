@@ -2,6 +2,7 @@
 #include "EntityManager.h"
 #include "Prop.h"
 #include "Mesh.h"
+#include "MeshManager.h"
 #include "AssimpLoader.h"
 
 using namespace boost;
@@ -26,12 +27,17 @@ namespace Canis
             shape = static_cast<COLLISION_SHAPE>(std::stoi(params["shape"]));
         }
         
-        std::string mesh = params["mesh"];
-        filesystem::path p(mesh);
+        std::string meshPath = params["mesh"];
+        filesystem::path p(meshPath);
 
-        //Prop* prop = new Prop(name, new Mesh(new AssimpLoader(mesh)), shape, mass);
-        std::shared_ptr<Prop> prop = std::make_shared<Prop>(name, new Mesh(p.filename().string(), new AssimpLoader(mesh)), shape, mass);
-        prop->setParam("mesh", mesh);
+        MeshPtr mesh = MeshManager::getSingleton().getMesh(p.filename().string());
+        if(!mesh){
+            mesh = std::make_shared<Mesh>(p.filename().string(), new AssimpLoader(meshPath));
+            MeshManager::getSingleton().addMesh(mesh);
+        }
+        
+        std::shared_ptr<Prop> prop = std::make_shared<Prop>(name, mesh, shape, mass);
+        prop->setParam("mesh", meshPath);
         
         return std::static_pointer_cast<IEntity>(prop);
     }

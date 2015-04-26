@@ -9,7 +9,7 @@ namespace Canis
 
     class CSAPI Prop : public IEntity{
     private:
-        Mesh* _mesh;
+        MeshPtr _mesh;
         bool _needsRebuild;
 
         btCollisionShape* _collisionShape;
@@ -19,7 +19,7 @@ namespace Canis
         COLLISION_SHAPE _shape;
 
     public:
-        Prop(std::string name, Mesh* mesh, COLLISION_SHAPE shape, float mass);
+        Prop(std::string name, MeshPtr mesh, COLLISION_SHAPE shape, float mass);
         ~Prop();
 
         void update(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);

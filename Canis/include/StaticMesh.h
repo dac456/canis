@@ -9,7 +9,7 @@ namespace Canis
 
     class CSAPI StaticMesh : public IEntity{
     private:
-        Mesh* _mesh;
+        MeshPtr _mesh;
         bool _needsRebuild;
 
         //--Bullet--//
@@ -20,7 +20,7 @@ namespace Canis
         btDiscreteDynamicsWorld* _dynamicsWorld;
 
     public:
-        StaticMesh(std::string name, Mesh* mesh, glm::mat4 transform = glm::mat4(1.0f));
+        StaticMesh(std::string name, MeshPtr mesh, glm::mat4 transform = glm::mat4(1.0f));
         ~StaticMesh();
 
         void update(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
