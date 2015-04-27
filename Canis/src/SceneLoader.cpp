@@ -4,6 +4,8 @@
 #include "IEntity.h"
 #include "Light.h"
 
+namespace fs = boost::filesystem;
+
 namespace Canis
 {
 
@@ -52,6 +54,13 @@ namespace Canis
     void SceneLoader::_loadNode(TiXmlNode* parent, IObjectPtr parentObj){
         TiXmlElement* e = parent->ToElement();
         SceneNodePtr node = std::make_shared<SceneNode>(e->Attribute("name"));
+        
+        if(e->Attribute("script") != nullptr){
+            fs::path scriptPath(e->Attribute("script"));
+            Script* script = new Script(scriptPath.filename().string(), scriptPath);
+            node->setScript(script);
+        }
+        
         if(parentObj->getType() == "scene"){
             ScenePtr sc = std::static_pointer_cast<Scene>(parentObj);
             sc->addSceneNode(node);
@@ -104,6 +113,13 @@ namespace Canis
         }
         
         IEntityPtr ent = EntityManager::getSingleton().getEntityFactory(entType)->createEntity(entName, transform, params);
+        
+        if(e->Attribute("script") != nullptr){
+            fs::path scriptPath(e->Attribute("script"));
+            Script* script = new Script(scriptPath.filename().string(), scriptPath);
+            ent->setScript(script);
+        }        
+        
         if(parentObj->getType() == "node"){
             SceneNodePtr parentNode = std::static_pointer_cast<SceneNode>(parentObj);
             parentNode->attachEntity(ent);
@@ -133,6 +149,13 @@ namespace Canis
         }
         
         LightPtr light = std::make_shared<Light>(lightName, diffuse, radius, transform);
+        
+        if(e->Attribute("script") != nullptr){
+            fs::path scriptPath(e->Attribute("script"));
+            Script* script = new Script(scriptPath.filename().string(), scriptPath);
+            light->setScript(script);
+        }        
+        
         if(parentObj->getType() == "node"){
             SceneNodePtr parentNode = std::static_pointer_cast<SceneNode>(parentObj);
             parentNode->attachLight(light);

@@ -4,13 +4,13 @@
 namespace Canis
 {
 
-    Script::Script(std::string name, std::string file){
+    Script::Script(std::string name, fs::path file){
         _name = name;
         _id = -1;
         _owner = nullptr;
+        _filePath = file;
         
-        boost::filesystem::path p(file);
-        std::string ext = p.extension().string();
+        std::string ext = file.extension().string();
         
         if(ext == ".py"){
             _type = "python";
@@ -19,7 +19,7 @@ namespace Canis
             _type = "unknown";
         }
         
-        std::ifstream fin(file, std::ios::in);
+        std::ifstream fin(file.string(), std::ios::in);
         
         std::stringstream ss;
         if(fin.is_open()){
@@ -58,6 +58,10 @@ namespace Canis
     
     std::string Script::getBuffer(){
         return std::string(_buffer);
+    }
+    
+    fs::path Script::getFilePath(){
+        return _filePath;
     }
 
 }

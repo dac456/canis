@@ -3,6 +3,8 @@
 
 #include "Common.h"
 
+namespace fs = boost::filesystem;
+
 namespace Canis
 {
     
@@ -14,9 +16,10 @@ namespace Canis
         IObject* _owner;
         
         char* _buffer;
+        fs::path _filePath;
         
     public:
-        Script(std::string name, std::string file);
+        Script(std::string name, fs::path file);
         ~Script();
         
         void setOwner(IObject* owner);
@@ -25,6 +28,7 @@ namespace Canis
         std::string getName();
         std::string getType();
         std::string getBuffer();
+        fs::path getFilePath();
         
         friend class ScriptManager;
     };

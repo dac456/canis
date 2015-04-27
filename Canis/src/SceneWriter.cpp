@@ -32,6 +32,11 @@ namespace Canis
         TiXmlElement* e = new TiXmlElement("node");
         e->SetAttribute("name", node->getName());
         
+        Script* script = node->getScript();
+        if(script){
+            e->SetAttribute("script", script->getFilePath().string());
+        }
+        
         TiXmlElement* transform = new TiXmlElement("transform");
         glm::mat4 t = node->getTransform();
         
@@ -64,6 +69,11 @@ namespace Canis
         TiXmlElement* entElem = new TiXmlElement("entity");
         entElem->SetAttribute("name", ent->getName());
         entElem->SetAttribute("type", ent->getType());
+
+        Script* script = ent->getScript();
+        if(script){
+            entElem->SetAttribute("script", script->getFilePath().string());
+        }
         
         TiXmlElement* transform = new TiXmlElement("transform");
         glm::mat4 t = ent->getTransform();
@@ -91,6 +101,11 @@ namespace Canis
     void SceneWriter::_writeLight(TiXmlElement* parent, LightPtr light){
         TiXmlElement* lightElem = new TiXmlElement("light");
         lightElem->SetAttribute("name", light->getName());
+
+        Script* script = light->getScript();
+        if(script){
+            lightElem->SetAttribute("script", script->getFilePath().string());
+        }
         
         TiXmlElement* transform = new TiXmlElement("transform");
         glm::mat4 t = light->getTransform();
