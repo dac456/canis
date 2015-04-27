@@ -4,6 +4,8 @@
 #include "Common.h"
 #include "VertexObject.h"
 
+namespace fs = boost::filesystem;
+
 namespace Canis
 {
 
@@ -15,8 +17,7 @@ namespace Canis
         IndexData _indices;
 
     public:
-        //TODO: this constructors are a little ambiguous - consider using boost filesyste path for fileName
-        AssimpLoader(std::string fileName);
+        AssimpLoader(fs::path path);
         AssimpLoader(char* buffer);
         ~AssimpLoader();
 

@@ -32,7 +32,7 @@ namespace Canis
 
         MeshPtr mesh = MeshManager::getSingleton().getMesh(p.filename().string());
         if(!mesh){
-            mesh = std::make_shared<Mesh>(p.filename().string(), new AssimpLoader(meshPath));
+            mesh = std::make_shared<Mesh>(p.filename().string(), new AssimpLoader(p));
             MeshManager::getSingleton().addMesh(mesh);
         }
         

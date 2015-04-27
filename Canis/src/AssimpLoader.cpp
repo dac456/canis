@@ -12,16 +12,16 @@ using namespace boost;
 namespace Canis
 {
 
-    AssimpLoader::AssimpLoader(std::string fileName){
+    AssimpLoader::AssimpLoader(fs::path path){
         Assimp::Importer imp;
-        _scene = imp.ReadFile(fileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+        _scene = imp.ReadFile(path.string(), aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
 
         if(!_scene){
             _loaded = false;
            std::cout << imp.GetErrorString() << std::endl;
         }
         else{
-            load(fileName);
+            load(path.string());
         }
     }
     
