@@ -10,6 +10,7 @@
 #include <fstream>
 #include <vector>
 #include <map>
+#include <queue>
 #include <memory>
 
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32)

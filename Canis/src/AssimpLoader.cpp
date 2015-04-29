@@ -21,20 +21,20 @@ namespace Canis
            std::cout << imp.GetErrorString() << std::endl;
         }
         else{
-            load(path.string());
+            load();
         }
     }
     
-    AssimpLoader::AssimpLoader(char* buffer){
+    AssimpLoader::AssimpLoader(const char* buffer){
         Assimp::Importer imp;
-        _scene = imp.ReadFileFromMemory(buffer, sizeof(buffer), aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType, "nff");
+        _scene = imp.ReadFileFromMemory(buffer, sizeof(buffer), aiProcess_GenNormals | aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType, "nff");
     
         if(!_scene){
             _loaded = false;
            std::cout << imp.GetErrorString() << std::endl;
         }
         else{
-            load("");  
+            load();  
         }  
     }
 
@@ -42,7 +42,7 @@ namespace Canis
         //delete _scene;
     }
 
-    void AssimpLoader::load(std::string fileName){
+    void AssimpLoader::load(){
         _data.resize(_scene->mNumMeshes);
         _indices.resize(_scene->mNumMeshes);
 

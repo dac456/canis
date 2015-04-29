@@ -10,6 +10,8 @@
 #include "Engine.h"
 #include "Renderer.h"
 #include "Light.h"
+#include "MeshManager.h"
+#include "AssimpLoader.h"
 
 namespace py = boost::python;
 
@@ -33,6 +35,22 @@ namespace Canis
         }
     }
     
+    void loadMesh(std::string name, std::string file){
+        MeshPtr mesh = std::make_shared<Mesh>(name, new AssimpLoader(file));
+        
+        if(mesh){
+            MeshManager::getSingleton().addMesh(mesh);
+        }
+    }
+    
+    void drawMesh(Scene* scene, std::string name, float px, float py, float pz){
+        MeshPtr mesh = MeshManager::getSingleton().getMesh(name);
+        
+        if(mesh){
+            scene->drawMesh(mesh, glm::translate(glm::vec3(px, py, pz)));
+        }
+    }
+    
     void attachLight(Scene* scene, std::string node, std::string name, float r, float g, float b, float radius){
         SceneNodePtr n = scene->getNodeGlobal(node);
         if(n != nullptr){
@@ -53,6 +71,10 @@ namespace Canis
         ;
         
         py::def("get_active_scene", &getActiveScene, py::return_value_policy<py::reference_existing_object>());
+        
+        py::def("load_mesh", &loadMesh);
+        py::def("draw_mesh", &drawMesh);
+        
         py::def("attach_light", &attachLight, "doc string");
         py::def("remove_light", &removeLight, "doc string");
     }

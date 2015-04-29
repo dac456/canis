@@ -18,10 +18,10 @@ namespace Canis
 
     public:
         AssimpLoader(fs::path path);
-        AssimpLoader(char* buffer);
+        AssimpLoader(const char* buffer);
         ~AssimpLoader();
 
-        void load(std::string fileName);
+        void load();
 
         VertexData getData();
         IndexData getIndices();

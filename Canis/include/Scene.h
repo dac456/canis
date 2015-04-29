@@ -13,6 +13,7 @@ namespace Canis
     class CSAPI Scene : public IObject{
     private:
         std::map<std::string, SceneNodePtr> _nodes;
+        std::queue<std::pair<MeshPtr,glm::mat4>> _meshQueue;
         Camera* _activeCamera;
         
         //Maps of all objects contained in scene
@@ -36,6 +37,8 @@ namespace Canis
 
         void render(Camera* activeCamera, glm::mat4 projectionMatrix);
         void reset(); //Override
+        
+        void drawMesh(MeshPtr mesh, glm::mat4 transform);
 
         void addSceneNode(SceneNodePtr node);
         void removeSceneNode(std::string name);

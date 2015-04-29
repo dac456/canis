@@ -49,17 +49,20 @@ namespace Canis
         }
         _lastTime = _timer->millis();
 
-        /*for(size_t i=0; i<_nodes.size(); i++){
-            if(activeCamera != nullptr){
-                _activeCamera = activeCamera; 
-                _nodes[i]->render(projectionMatrix, _activeCamera->getTransform());
-            }
-        }*/
         for(auto const& it : _nodes){
             if(activeCamera != nullptr){
                 _activeCamera = activeCamera;
                 it.second->render(projectionMatrix, _activeCamera->getTransform());
             }
+        }
+        
+        while(!_meshQueue.empty()){
+            std::pair<MeshPtr, glm::mat4> mesh = _meshQueue.front();
+            
+            mesh.first->setTransform(mesh.second);
+            mesh.first->render(projectionMatrix, activeCamera->getTransform(), getLightsClosestToPoint(mesh.first->getTransform()[3]));
+            
+            _meshQueue.pop();
         }
     }
 
@@ -73,6 +76,10 @@ namespace Canis
         for(size_t i=0; i<pairArray.size(); i++){
             pairCache->cleanOverlappingPair(pairArray[i], _collisionDispatcher);
         }
+    }
+    
+    void Scene::drawMesh(MeshPtr mesh, glm::mat4 transform){
+        _meshQueue.push(std::make_pair(mesh, transform));
     }
 
     void Scene::addSceneNode(SceneNodePtr node){

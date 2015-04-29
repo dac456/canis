@@ -6,11 +6,16 @@ namespace Canis
 {
     
     MeshManager::MeshManager(){
-        char* cube = "hex 0 0 0 1";
-        MeshPtr cubeMesh = std::make_shared<Mesh>("cube", new AssimpLoader(cube));
+        const char* cube = "hex 0 0 0 1";
+        MeshPtr cubeMesh = std::make_shared<Mesh>("cube", new AssimpLoader(static_cast<const char*>(cube)));
         cubeMesh->setMaterialOverride("white");
         
+        const char* sphere = "s 0 0 0 1";
+        MeshPtr sphereMesh = std::make_shared<Mesh>("sphere", new AssimpLoader(static_cast<const char*>(sphere)));
+        sphereMesh->setMaterialOverride("white");
+        
         _meshes["cube"] = cubeMesh;
+        _meshes["sphere"] = sphereMesh;
     }
     
     MeshManager::~MeshManager(){
