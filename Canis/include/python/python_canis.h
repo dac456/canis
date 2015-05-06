@@ -64,6 +64,14 @@ namespace Canis
             n->removeLight(name);
         }
     }
+    
+    void setNodeTransform(Scene* scene, std::string node, float px, float py, float pz, float yaw, float pitch, float roll){
+        SceneNodePtr n = scene->getNodeGlobal(node);
+        if(n){
+            glm::mat4 trans = glm::eulerAngleYXZ(yaw, pitch, roll)*glm::translate(glm::vec3(px, py, pz));
+            n->setTransform(trans);
+        }
+    }
 
     BOOST_PYTHON_MODULE(canis){
         py::class_<Scene>("scene", py::no_init)
@@ -77,6 +85,8 @@ namespace Canis
         
         py::def("attach_light", &attachLight, "doc string");
         py::def("remove_light", &removeLight, "doc string");
+        
+        py::def("set_node_transform", &setNodeTransform);
     }
     
     void registerModuleCanisMain(){
