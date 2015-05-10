@@ -18,6 +18,10 @@ namespace py = boost::python;
 namespace Canis
 {
     
+    bool dynamicsEnabled(){
+        return Engine::getSingleton().isDynamicsEnabled();
+    }
+    
     Scene* getActiveScene(){
         Renderer* renderer = Engine::getSingleton().getRenderer();
         if(renderer != nullptr){
@@ -72,12 +76,21 @@ namespace Canis
             n->setTransform(trans);
         }
     }
+    
+    py::tuple getNodePosition(Scene* scene, std::string node){
+        SceneNodePtr n = scene->getNodeGlobal(node);
+        if(n){        
+            glm::mat4 trans = n->getAbsoluteTransform();
+            return py::make_tuple(trans[3][0], trans[3][1], trans[3][2]);
+        }
+    }
 
     BOOST_PYTHON_MODULE(canis){
         py::class_<Scene>("scene", py::no_init)
             .def("get_name", &Scene::getName)
         ;
         
+        py::def("dynamics_enabled", &dynamicsEnabled);
         py::def("get_active_scene", &getActiveScene, py::return_value_policy<py::reference_existing_object>());
         
         py::def("load_mesh", &loadMesh);
@@ -87,6 +100,7 @@ namespace Canis
         py::def("remove_light", &removeLight, "doc string");
         
         py::def("set_node_transform", &setNodeTransform);
+        py::def("get_node_position", &getNodePosition);
     }
     
     void registerModuleCanisMain(){
