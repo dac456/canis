@@ -11,7 +11,6 @@ namespace Canis
     Scene::Scene(std::string name, glm::mat4 transform)
         : IObject(name, "scene", transform){
         _activeCamera = nullptr;
-        std::cout << "created world " << name << std::endl;
 
         //--Physics--//
         _broadphase = new btDbvtBroadphase();
@@ -26,7 +25,6 @@ namespace Canis
     }
 
     Scene::~Scene(){
-        std::cout << "deleting world " << getName() << std::endl;
         for(int i=0; i<_dynamicsWorld->getNumCollisionObjects(); i++){
             btCollisionObject* obj = _dynamicsWorld->getCollisionObjectArray()[i];
             _dynamicsWorld->removeCollisionObject(obj);
