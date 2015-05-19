@@ -87,7 +87,7 @@
 
 #define CS_MAJOR_REVISION 0
 #define CS_MINOR_REVISION 4
-#define CS_BUILD_REVISION 0
+#define CS_BUILD_REVISION 1
 #define CS_CODENAME "Kobayashi Maru"
 
 namespace Canis
