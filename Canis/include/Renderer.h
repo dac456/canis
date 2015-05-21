@@ -2,9 +2,22 @@
 #define __RENDERER_H
 
 #include "Common.h"
+#include "Mesh.h"
 
 namespace Canis
 {
+    
+    typedef std::pair<Material*, std::vector<Renderable>> RenderGroup;
+    
+    struct Renderable{
+        MeshGroup meshGroup; //TODO: replace with vector of VertexObject?
+        glm::mat4 transform;
+        glm::mat3 normalMatrix;
+        
+        glm::mat4 lightPositions;
+        glm::mat4 lightColors;
+        glm::vec4 lightRadii;
+    };    
     
     class CSAPI Renderer{
     private:
@@ -12,6 +25,7 @@ namespace Canis
         std::vector<RenderTarget*> _renderTargets;
         
         ScenePtr _activeScene;
+        std::map<Material*, std::vector<Renderable>> _renderQueue;
         
         int _width, _height;
         
@@ -22,6 +36,8 @@ namespace Canis
         void render(Camera* activeCamera, glm::mat4 projectionMatrix);
         void resize(int w, int h);
         
+        void queueRenderable(Material* material, Renderable renderable, size_t priority = 0);
+        
         void addScene(ScenePtr scene);
         void attachRenderTarget(RenderTarget* target);
         
@@ -30,6 +46,10 @@ namespace Canis
         void setScene(ScenePtr scene);
         
         ScenePtr getActiveScene();
+        
+    private:
+        void _renderGroup(glm::mat4 viewMatrix, glm::mat4 projMatrix, RenderGroup group);
+        void _flushRenderQueue();
     };
     
 }

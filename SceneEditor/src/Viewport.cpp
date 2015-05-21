@@ -95,14 +95,16 @@ namespace SceneEditor
     void Viewport::render(){
         makeCurrent();
         
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.5f, 0.5f, 0.5, 1.0f);
         
         _setView(_viewType);
         if(underMouse()) setFocus(Qt::MouseFocusReason);        
         
         if(_renderer != nullptr && _cam != nullptr && _initialized && this->isVisible()){
-            _renderer->getActiveScene()->render(_cam, _projMatrix);
+            _renderer->render(_cam, _projMatrix);
+            //_renderer->getActiveScene()->render(_cam, _projMatrix);
+            //_renderer->getRenderQueue(0)->render(_projMatrix, _cam->getTransform());
             
             glDisable(GL_DEPTH_TEST);
             for(size_t i=0; i<_renderer->getActiveScene()->getNodes().size(); i++){
@@ -118,6 +120,7 @@ namespace SceneEditor
     
     void Viewport::resize(int w, int h){
         glViewport(0, 0, w, h);
+        _renderer->resize(w, h);
         
         if(_viewType == PERSP){
             _projMatrix = glm::perspective(glm::radians(45.0f), (float)w/(float)h, 0.1f, 10000.0f);

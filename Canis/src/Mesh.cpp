@@ -12,6 +12,7 @@
 #include "GlShader.h"
 #include "Texture.h"
 #include "Light.h"
+#include "Renderer.h"
 
 namespace Canis
 {
@@ -144,13 +145,13 @@ namespace Canis
 
     void Mesh::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights){
         Texture* currentLightmap = nullptr;
-
+        
         for(size_t i=0; i<_groups.size(); i++){
             if(_groups[i].vertexObjects.size()){
                 //glm::vec4* frustum = RenderManager::getSingleton().getFrustum();
-                int k=0;
+                //int k=0;
 
-                glm::vec4 absCenter = _transform*glm::vec4(_groups[i].boundingBox.getCenter(), 1.0);
+                //glm::vec4 absCenter = _transform*glm::vec4(_groups[i].boundingBox.getCenter(), 1.0);
                 //std::pair<std::pair<glm::mat4, glm::mat4>, glm::vec4> lights = RenderManager::getSingleton().getLightsClosestToPoint(absCenter);
 
                 glm::mat4 retPos = glm::mat4(0.0f);
@@ -163,11 +164,6 @@ namespace Canis
                     retRad[j] = lights[j]->getRadius();
                 }
 
-                /*int count = 0;
-                for(int j=0; j<4; j++)
-                    if(lights.first[j][3] == -1.0f)
-                        lights.second[j] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);*/
-
                 Material* mat;
                 if(_overrideMaterial == nullptr){
                     mat = MaterialManager::getSingleton().getMaterial(_groups[i].materialId);
@@ -176,54 +172,18 @@ namespace Canis
                     mat = _overrideMaterial;
                 }
                 
-                if(k == 0){
-                    if(mat != nullptr){
-                        Technique t = mat->getTechniques()[0];
-                        for(size_t j=0; j<t.passes.size(); j++){
-                            GLuint shd = t.passes[j].shader->getProgramId();
-                            t.passes[j].shader->use();
-                            t.passes[j].shader->setUniformMat4f("cs_ViewMatrix", viewMatrix);
-                            t.passes[j].shader->setUniformMat4f("cs_ProjectionMatrix", projectionMatrix);
-                            t.passes[j].shader->setUniformMat4f("cs_ModelMatrix", _transform);
-                            t.passes[j].shader->setUniformMat3f("cs_NormalMatrix", glm::inverseTranspose(glm::mat3(viewMatrix)*glm::mat3(_transform)));
-                            t.passes[j].shader->setUniformVec4f("cs_ViewVector", glm::inverse(viewMatrix)[2]);
-                            t.passes[j].shader->setUniformMat4f("cs_LightPositions", retPos);
-                            t.passes[j].shader->setUniformMat4f("cs_LightColors", retCol);
-                            t.passes[j].shader->setUniformVec4f("cs_LightRadius", retRad);
-                            t.passes[j].shader->setUniformVec4f("cs_DiffuseMaterial", t.passes[j].diffuse);
-
-                            if(t.passes[j].textures.size() > 0){
-                                t.passes[j].shader->setUniform1i("cs_UseTexture", true);
-                                for(size_t k=0; k<t.passes[j].textures.size(); k++){
-                                    Texture* tex = TextureManager::getSingleton().getTexture(t.passes[j].textures[k]);
-                                    tex->use(shd);
-                                }
-                            }
-                            else
-                                t.passes[j].shader->setUniform1i("cs_UseTexture", false);
-
-                            for(size_t k=0; k<_groups[i].vertexObjects.size(); k++){
-                                if((_groups[i].vertexObjects[k]->getLightmap() != nullptr) && (currentLightmap != _groups[i].vertexObjects[k]->getLightmap())){
-                                    t.passes[j].shader->setUniform1i("cs_UseLightmap", true);
-                                    _groups[i].vertexObjects[k]->getLightmap()->use(shd);
-                                }
-                                else
-                                    t.passes[j].shader->setUniform1i("cs_UseLightmap", false);
-
-                                if(t.passes[j].blend){
-                                    glEnable(GL_BLEND);
-                                    glBlendFunc(t.passes[j].blendSrc, t.passes[j].blendDst);
-                                }
-
-                                _groups[i].vertexObjects[k]->render();
-
-                                glDisable(GL_BLEND);
-                            }
-                        }
-                    }
-                }
+                Renderable renderable;
+                renderable.meshGroup = _groups[i];
+                renderable.transform = _transform;
+                //renderable.normalMatrix = glm::inverseTranspose(glm::mat3(viewMatrix)*glm::mat3(_transform));
+                renderable.lightPositions = retPos;
+                renderable.lightColors = retCol;
+                renderable.lightRadii = retRad;
+                
+                Engine::getSingleton().getRenderer()->queueRenderable(mat, renderable, 0);
             }
         }
+        
     }
     
     std::string Mesh::getName(){

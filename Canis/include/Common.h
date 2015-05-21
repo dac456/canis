@@ -104,6 +104,8 @@ namespace Canis
 
     struct Technique;
     struct Pass;
+    
+    struct Renderable;
 
     class AssimpLoader;
     class AxisAlignedBox;
