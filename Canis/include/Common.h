@@ -105,7 +105,7 @@ namespace Canis
     struct Technique;
     struct Pass;
     
-    struct Renderable;
+    struct QueueItem;
 
     class AssimpLoader;
     class AxisAlignedBox;
@@ -145,8 +145,9 @@ namespace Canis
     class ScriptManager;
     class StaticMesh;
     class StaticMeshFactory;
+    class Renderable;
     class Renderer;
-    class RenderManager;
+    class RenderGroup;
     class RenderTarget;
     template <class T> class Singleton;
     class Texture;
@@ -160,6 +161,9 @@ namespace Canis
     typedef std::shared_ptr<Mesh> MeshPtr;
     typedef std::shared_ptr<Scene> ScenePtr;
     typedef std::shared_ptr<SceneNode> SceneNodePtr;
+    
+    typedef std::shared_ptr<Renderable> RenderablePtr;
+    typedef std::shared_ptr<RenderGroup> RenderGroupPtr;
 }
 
 #endif

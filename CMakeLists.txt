@@ -9,8 +9,8 @@ if (INTEL_CC)
     find_program(CMAKE_AR NAMES xiar)
     find_program(CMAKE_LINKER NAMES xild)
     
-    #set(CMAKE_CXX_FLAGS "-O0 -g -traceback -ggdb")
-    set(CMAKE_CXX_FLAGS "-O3")
+    set(CMAKE_CXX_FLAGS "-O0 -g -traceback -ggdb")
+    #set(CMAKE_CXX_FLAGS "-O3")
 
     if (CMAKE_C_COMPILER MATCHES CMAKE_C_COMPILER-NOTFOUND OR
      CMAKE_CXX_COMPILER MATCHES CMAKE_CXX_COMPILER-NOTFOUND OR

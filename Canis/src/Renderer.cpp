@@ -1,4 +1,6 @@
 #include "Renderer.h"
+#include "RenderGroup.h"
+#include "Renderable.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "RenderTarget.h"
@@ -32,9 +34,7 @@ namespace Canis
                 _activeScene->render(_renderTargets[i]->getCamera(), projectionMatrix);
                 
                 for(auto& it : _renderQueue){
-                    if(!it.second.empty()){
-                        _renderGroup(activeCamera->getTransform(), projectionMatrix, it);
-                    }
+                    _renderGroup(activeCamera->getTransform(), projectionMatrix, it);
                 }                
             }        
         
@@ -46,12 +46,10 @@ namespace Canis
             _activeScene->render(activeCamera, projectionMatrix); //TODO: pass in pointer to this renderer?
             
             for(auto& it : _renderQueue){
-                if(!it.second.empty()){
-                    _renderGroup(activeCamera->getTransform(), projectionMatrix, it);
-                }
+                _renderGroup(activeCamera->getTransform(), projectionMatrix, it);
             }
             
-            _flushRenderQueue();
+            //_flushRenderQueue();
         }
     }
     
@@ -60,9 +58,18 @@ namespace Canis
         _height = h;
     }
     
-    void Renderer::queueRenderable(Material* material, Renderable renderable, size_t priority){
+    void Renderer::queueRenderable(Material* material, RenderablePtr renderable, size_t priority){
         //_renderQueue[priority]->addRenderable(material, renderable);
-        _renderQueue[material].push_back(renderable);
+        //_renderQueue[material].push_back(renderable);
+        if(_renderQueue.count(material) > 0){
+            _renderQueue[material]->queueRenderable(renderable);
+        }
+        else{
+            RenderGroupPtr group = std::make_shared<RenderGroup>();
+            _renderQueue[material] = group;
+            
+            _renderQueue[material]->queueRenderable(renderable);
+        }
     }
     
     void Renderer::addScene(ScenePtr scene){
@@ -87,11 +94,11 @@ namespace Canis
         return _activeScene;
     }
     
-    void Renderer::_renderGroup(glm::mat4 viewMatrix, glm::mat4 projMatrix, RenderGroup group){
+    void Renderer::_renderGroup(glm::mat4 viewMatrix, glm::mat4 projMatrix, std::pair<Material*, RenderGroupPtr> group){
         Material* mat = group.first;
         
         if(mat != nullptr){
-            //std::queue<Renderable> renderQueue = it.second;
+            RenderGroupPtr renderGroup = group.second;
             
             Technique t = mat->getTechniques()[0];
             for(size_t j=0; j<t.passes.size(); j++){
@@ -116,46 +123,42 @@ namespace Canis
                 }
                 else
                     t.passes[j].shader->setUniform1i("cs_UseTexture", false);
-                    
-                for(auto& renderable : group.second){
-                    //Renderable renderable = group.second.front();
-                    
-                    t.passes[j].shader->setUniformMat4f("cs_ModelMatrix", renderable.transform);
-                    //t.passes[j].shader->setUniformMat3f("cs_NormalMatrix", renderable.normalMatrix);
-                    t.passes[j].shader->setUniformMat4f("cs_LightPositions", renderable.lightPositions);
-                    t.passes[j].shader->setUniformMat4f("cs_LightColors", renderable.lightColors);
-                    t.passes[j].shader->setUniformVec4f("cs_LightRadius", renderable.lightRadii);                        
                 
-                    for(size_t k=0; k<renderable.meshGroup.vertexObjects.size(); k++){
-                        if(renderable.meshGroup.vertexObjects[k]->getLightmap() != nullptr){
-                            t.passes[j].shader->setUniform1i("cs_UseLightmap", true);
-                            renderable.meshGroup.vertexObjects[k]->getLightmap()->use(shd);
+                QueueItemMap groupItems = renderGroup->getQueueItemMap();    
+                for(auto& it : groupItems){
+                    if(it.second->count > 0){
+                        RenderablePtr renderable = it.second->item;
+                        t.passes[j].shader->setUniformMat4f("cs_ModelMatrix", renderable->getTransform());
+                        //t.passes[j].shader->setUniformMat3f("cs_NormalMatrix", renderable->normalMatrix);
+                        t.passes[j].shader->setUniformMat4f("cs_LightPositions", renderable->getLightPositions());
+                        t.passes[j].shader->setUniformMat4f("cs_LightColors", renderable->getLightColors());
+                        t.passes[j].shader->setUniformVec4f("cs_LightRadius", renderable->getLightRadii());                        
+                    
+                        for(size_t k=0; k<renderable->getVertexObjects().size(); k++){
+                            if(renderable->getVertexObjects()[k]->getLightmap() != nullptr){
+                                t.passes[j].shader->setUniform1i("cs_UseLightmap", true);
+                                renderable->getVertexObjects()[k]->getLightmap()->use(shd);
+                            }
+                            else
+                                t.passes[j].shader->setUniform1i("cs_UseLightmap", false);
+                        
+                            if(t.passes[j].blend){
+                                glEnable(GL_BLEND);
+                                glBlendFunc(t.passes[j].blendSrc, t.passes[j].blendDst);
+                            }
+                        
+                            renderable->getVertexObjects()[k]->render();
+                        
+                            glDisable(GL_BLEND);
                         }
-                        else
-                            t.passes[j].shader->setUniform1i("cs_UseLightmap", false);
-                    
-                        if(t.passes[j].blend){
-                            glEnable(GL_BLEND);
-                            glBlendFunc(t.passes[j].blendSrc, t.passes[j].blendDst);
-                        }
-                    
-                        renderable.meshGroup.vertexObjects[k]->render();
-                    
-                        glDisable(GL_BLEND);
+                        
+                        it.second->count = 0;
                     }
-                    
-                    //group.second.pop();
                 }
                 
             }
             
         }    
-    }
-    
-    void Renderer::_flushRenderQueue(){
-        for(auto& it : _renderQueue){
-            it.second.clear();
-        }
     }
     
 }

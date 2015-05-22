@@ -12,6 +12,7 @@
 #include "Texture.h"
 #include "Light.h"
 #include "Renderer.h"
+#include "Renderable.h"
 
 namespace Canis
 {
@@ -171,13 +172,16 @@ namespace Canis
                     mat = _overrideMaterial;
                 }
                 
-                Renderable renderable;
-                renderable.meshGroup = _groups[i];
-                renderable.transform = _transform;
+                std::stringstream renderableName;
+                renderableName << _name << _groups[i].id;
+                
+                //TODO: should Mesh be modified so it holds Renderables rather than generating them?
+                RenderablePtr renderable = std::make_shared<Renderable>(renderableName.str(), _groups[i].vertexObjects);
+                renderable->setTransform(_transform);
                 //renderable.normalMatrix = glm::inverseTranspose(glm::mat3(viewMatrix)*glm::mat3(_transform));
-                renderable.lightPositions = retPos;
-                renderable.lightColors = retCol;
-                renderable.lightRadii = retRad;
+                renderable->setLightPositions(retPos);
+                renderable->setLightColors(retCol);
+                renderable->setLightRadii(retRad);
                 
                 Engine::getSingleton().getRenderer()->queueRenderable(mat, renderable, 0);
             }
