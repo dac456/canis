@@ -1,4 +1,3 @@
-#include "RenderManager.h"
 #include "Material.h"
 #include "Texture.h"
 #include "GlShader.h"

@@ -1,6 +1,5 @@
 #include "FramebufferObject.h"
 #include "Texture.h"
-#include "RenderManager.h"
 
 namespace Canis
 {

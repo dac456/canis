@@ -1,7 +1,6 @@
 #include "VertexObject.h"
 #include "MaterialManager.h"
 #include "Material.h"
-#include "RenderManager.h"
 #include "GlShader.h"
 #include "Texture.h"
 #include "AxisAlignedBox.h"

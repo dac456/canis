@@ -6,7 +6,6 @@
 #include "AssimpLoader.h"
 #include "MaterialManager.h"
 #include "TextureManager.h"
-#include "RenderManager.h"
 #include "AxisAlignedBox.h"
 #include "Material.h"
 #include "GlShader.h"

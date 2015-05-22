@@ -1,5 +1,4 @@
 #include "Light.h"
-#include "RenderManager.h"
 
 namespace Canis
 {

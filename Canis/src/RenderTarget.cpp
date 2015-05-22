@@ -1,7 +1,6 @@
 #include "RenderTarget.h"
 #include "Camera.h"
 #include "FramebufferObject.h"
-#include "RenderManager.h"
 
 namespace Canis
 {
