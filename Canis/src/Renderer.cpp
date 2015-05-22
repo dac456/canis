@@ -118,7 +118,7 @@ namespace Canis
                 else
                     t.passes[j].shader->setUniform1i("cs_UseTexture", false);
                     
-                for(auto renderable : group.second){
+                for(auto& renderable : group.second){
                     //Renderable renderable = group.second.front();
                     
                     t.passes[j].shader->setUniformMat4f("cs_ModelMatrix", renderable.transform);
