@@ -106,6 +106,14 @@ namespace Canis
         glGenBuffers(1, &_indexBuffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*numIndices, &indices[0], GL_STATIC_DRAW);
+        
+        glGenBuffers(1, &_transformBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, _transformBuffer);
+        for(size_t i=0; i<4; i++){
+            glEnableVertexAttribArray(4 + i);
+            glVertexAttribPointer(4 + i, 4, GL_FLOAT, 0, sizeof(GLfloat)*16, (const GLvoid*)(sizeof(GLfloat) * i * 4));
+            glVertexAttribDivisor(4 + i, 1);
+        }
 
         err = glGetError();
         //if(err != GL_NO_ERROR)
@@ -122,8 +130,10 @@ namespace Canis
         delete[] _indices;
     }
 
-    void VertexObject::render(){
-        //glBlendFunc(GL_ONE, GL_ONE);
+    void VertexObject::render(size_t numInstances, GLfloat* transformArray){
+        glBindBuffer(GL_ARRAY_BUFFER, _transformBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*16*numInstances, transformArray, GL_DYNAMIC_DRAW);
+        
         glBindVertexArray(_arrayId);
         if(_isIndexed)
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
@@ -131,8 +141,8 @@ namespace Canis
         if(!_isIndexed)
             glDrawArrays(_drawMode, 0, _numVertices);
         else
-            glDrawElements(_drawMode, _numIndices, GL_UNSIGNED_INT, NULL);
-        glDisable(GL_BLEND);
+            glDrawElementsInstanced(_drawMode, _numIndices, GL_UNSIGNED_INT, NULL, numInstances);
+        glDisable(GL_BLEND);       
     }
 
     void VertexObject::scale(Real s){

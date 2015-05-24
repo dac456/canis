@@ -9,6 +9,8 @@ namespace Canis
     struct QueueItem{
         RenderablePtr item;
         size_t count = 0;
+        
+        std::vector<glm::mat4> transforms;
     };
     
     typedef std::shared_ptr<QueueItem> QueueItemPtr;

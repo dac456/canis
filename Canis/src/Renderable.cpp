@@ -11,14 +11,14 @@ namespace Canis
     Renderable::~Renderable(){
     }
     
-    void Renderable::update(RenderablePtr renderable){
+    /*void Renderable::update(RenderablePtr renderable){
         _transform = renderable->getTransform();
         _normalMatrix = renderable->getNormalMatrix();
         
         _lightPositions = renderable->getLightPositions();
         _lightColors = renderable->getLightColors();
         _lightRadii = renderable->getLightRadii();
-    }
+    }*/
     
     std::string Renderable::getName(){
         return _name;

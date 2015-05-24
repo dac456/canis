@@ -128,12 +128,22 @@ namespace Canis
                 for(auto& it : groupItems){
                     if(it.second->count > 0){
                         RenderablePtr renderable = it.second->item;
-                        t.passes[j].shader->setUniformMat4f("cs_ModelMatrix", renderable->getTransform());
+                        //t.passes[j].shader->setUniformMat4f("cs_ModelMatrix", renderable->getTransform());
                         //t.passes[j].shader->setUniformMat3f("cs_NormalMatrix", renderable->normalMatrix);
                         t.passes[j].shader->setUniformMat4f("cs_LightPositions", renderable->getLightPositions());
                         t.passes[j].shader->setUniformMat4f("cs_LightColors", renderable->getLightColors());
                         t.passes[j].shader->setUniformVec4f("cs_LightRadius", renderable->getLightRadii());                        
                     
+                        GLfloat* transArray = new GLfloat[16*it.second->count];
+                        for(size_t i=0; i<it.second->count; i++){
+                            float* arr = glm::value_ptr(it.second->transforms[i]);
+                            for(size_t j=0; j<16; j++){
+                                transArray[(i*16)+j] = arr[j];
+                            }
+                        }                    
+                    
+                        //TODO: multiple objects per group/renderable exists for CSG map support
+                        //      not needed (i think) for assimp and could probably be dropped
                         for(size_t k=0; k<renderable->getVertexObjects().size(); k++){
                             if(renderable->getVertexObjects()[k]->getLightmap() != nullptr){
                                 t.passes[j].shader->setUniform1i("cs_UseLightmap", true);
@@ -147,12 +157,14 @@ namespace Canis
                                 glBlendFunc(t.passes[j].blendSrc, t.passes[j].blendDst);
                             }
                         
-                            renderable->getVertexObjects()[k]->render();
+                            renderable->getVertexObjects()[k]->render(it.second->count, transArray);
                         
                             glDisable(GL_BLEND);
                         }
                         
+                        it.second->transforms.clear();
                         it.second->count = 0;
+                        delete[] transArray;
                     }
                 }
                 

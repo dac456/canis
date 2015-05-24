@@ -23,7 +23,7 @@ namespace Canis
         Renderable(std::string name, std::vector<VertexObject*> objects);
         ~Renderable();
         
-        void update(RenderablePtr renderable);
+        //void update(RenderablePtr renderable);
         
         std::string getName();
         std::vector<VertexObject*> getVertexObjects();

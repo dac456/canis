@@ -28,6 +28,7 @@ namespace Canis
     private:
         GLuint _arrayId;
         GLuint _vertexBuffer, _indexBuffer;
+        GLuint _transformBuffer, _lightPositionBuffer, _lightColorBuffer, _lightRadiiBuffer;
         GLenum _drawMode;
         bool _isIndexed;
 
@@ -47,7 +48,7 @@ namespace Canis
         VertexObject(Vertex vertices[], size_t numVertices, unsigned int indices[], size_t numIndices, GLenum drawMode, size_t materialId);
         ~VertexObject();
 
-        void render();
+        void render(size_t numInstances = 1, GLfloat* transformArray = NULL);
         void scale(Real s);
 
         void setLightmap(Texture* lightmap);
