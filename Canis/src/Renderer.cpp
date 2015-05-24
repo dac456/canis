@@ -132,15 +132,7 @@ namespace Canis
                         //t.passes[j].shader->setUniformMat3f("cs_NormalMatrix", renderable->normalMatrix);
                         t.passes[j].shader->setUniformMat4f("cs_LightPositions", renderable->getLightPositions());
                         t.passes[j].shader->setUniformMat4f("cs_LightColors", renderable->getLightColors());
-                        t.passes[j].shader->setUniformVec4f("cs_LightRadius", renderable->getLightRadii());                        
-                    
-                        GLfloat* transArray = new GLfloat[16*it.second->count];
-                        for(size_t i=0; i<it.second->count; i++){
-                            float* arr = glm::value_ptr(it.second->transforms[i]);
-                            for(size_t j=0; j<16; j++){
-                                transArray[(i*16)+j] = arr[j];
-                            }
-                        }                    
+                        t.passes[j].shader->setUniformVec4f("cs_LightRadius", renderable->getLightRadii());                                          
                     
                         //TODO: multiple objects per group/renderable exists for CSG map support
                         //      not needed (i think) for assimp and could probably be dropped
@@ -157,14 +149,13 @@ namespace Canis
                                 glBlendFunc(t.passes[j].blendSrc, t.passes[j].blendDst);
                             }
                         
-                            renderable->getVertexObjects()[k]->render(it.second->count, transArray);
+                            renderable->getVertexObjects()[k]->render(it.second->count, it.second->transArray);
                         
                             glDisable(GL_BLEND);
                         }
                         
-                        it.second->transforms.clear();
+                        //it.second->transforms.clear();
                         it.second->count = 0;
-                        delete[] transArray;
                     }
                 }
                 

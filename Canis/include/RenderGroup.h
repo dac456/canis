@@ -11,6 +11,7 @@ namespace Canis
         size_t count = 0;
         
         std::vector<glm::mat4> transforms;
+        GLfloat transArray[16*32768];
     };
     
     typedef std::shared_ptr<QueueItem> QueueItemPtr;
