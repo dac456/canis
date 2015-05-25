@@ -30,5 +30,7 @@ message("USING CXX FLAGS: ${CMAKE_CXX_FLAGS}")
 
 project(CanisSDK)
 
+add_definitions( -DBOOST_ALL_NO_LIB )
+
 add_subdirectory(Canis)
 add_subdirectory(SceneEditor)

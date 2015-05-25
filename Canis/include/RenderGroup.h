@@ -12,6 +12,7 @@ namespace Canis
         
         std::vector<glm::mat4> transforms;
         GLfloat transArray[16*32768];
+        GLfloat lightPositionArray[16*32768];
     };
     
     typedef std::shared_ptr<QueueItem> QueueItemPtr;

@@ -16,6 +16,7 @@ namespace Canis
     private:
         std::string _name;
         std::vector<MeshGroup> _groups;
+        std::vector<RenderablePtr> _renderables;
         glm::mat4 _transform;
 
         AxisAlignedBox _aabb;

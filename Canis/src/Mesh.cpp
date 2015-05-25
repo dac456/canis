@@ -103,6 +103,14 @@ namespace Canis
                     delete[] objVertsA;
                     //delete[] objIndices.first;
                 }
+
+                std::stringstream renderableName;
+                renderableName << name << mesh.id;
+
+                //TODO: should Mesh be modified so it holds Renderables rather than generating them?
+                RenderablePtr renderable = std::make_shared<Renderable>(renderableName.str(), mesh.vertexObjects);
+                _renderables.push_back(renderable);
+
                 _groups.push_back(mesh);
                 _aabb.addAxisAlignedBox(mesh.boundingBox);
             }
@@ -172,11 +180,8 @@ namespace Canis
                     mat = _overrideMaterial;
                 }
                 
-                std::stringstream renderableName;
-                renderableName << _name << _groups[i].id;
-                
-                //TODO: should Mesh be modified so it holds Renderables rather than generating them?
-                RenderablePtr renderable = std::make_shared<Renderable>(renderableName.str(), _groups[i].vertexObjects);
+
+				RenderablePtr renderable = _renderables[i];
                 renderable->setTransform(_transform);
                 //renderable.normalMatrix = glm::inverseTranspose(glm::mat3(viewMatrix)*glm::mat3(_transform));
                 renderable->setLightPositions(retPos);

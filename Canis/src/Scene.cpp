@@ -5,6 +5,8 @@
 #include "Light.h"
 #include "IEntity.h"
 
+#include "MeshManager.h"
+
 namespace Canis
 {
 
@@ -42,6 +44,8 @@ namespace Canis
     }
 
     void Scene::render(Camera* activeCamera, glm::mat4 projectionMatrix){
+        _projectionMatrix = projectionMatrix;
+
         if(Engine::getSingleton().isDynamicsEnabled()){
             _dynamicsWorld->stepSimulation((float)(_timer->millis() - _lastTime)/1000.0f, 7);
         }
@@ -54,14 +58,14 @@ namespace Canis
             }
         }
         
-        while(!_meshQueue.empty()){
+        /*while(!_meshQueue.empty()){
             std::pair<MeshPtr, glm::mat4> mesh = _meshQueue.front();
             
             mesh.first->setTransform(mesh.second);
             mesh.first->render(projectionMatrix, activeCamera->getTransform(), getLightsClosestToPoint(mesh.first->getTransform()[3]));
             
             _meshQueue.pop();
-        }
+        }*/
     }
 
     void Scene::reset(){
@@ -77,7 +81,9 @@ namespace Canis
     }
     
     void Scene::drawMesh(MeshPtr mesh, glm::mat4 transform){
-        _meshQueue.push(std::make_pair(mesh, transform));
+        //_meshQueue.push(std::make_pair(mesh, transform));
+        mesh->setTransform(transform);
+        mesh->render(_projectionMatrix, _activeCamera->getTransform(), getLightsClosestToPoint(transform[3]));
     }
 
     void Scene::addSceneNode(SceneNodePtr node){

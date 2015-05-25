@@ -115,6 +115,14 @@ namespace Canis
             glVertexAttribDivisor(4 + i, 1);
         }
 
+        glGenBuffers(1, &_lightPositionBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _lightPositionBuffer);
+        for(size_t i=0; i<4; i++){
+            glEnableVertexAttribArray(8 + i);
+            glVertexAttribPointer(8 + i, 4, GL_FLOAT, 0, sizeof(GLfloat)*16, (const GLvoid*)(sizeof(GLfloat) * i * 4));
+            glVertexAttribDivisor(8 + i, 1);
+        }
+
         err = glGetError();
         //if(err != GL_NO_ERROR)
         //  fprintf(stderr, "%s\n", gluErrorString(err));
@@ -130,9 +138,12 @@ namespace Canis
         delete[] _indices;
     }
 
-    void VertexObject::render(size_t numInstances, GLfloat* transformArray){
+    void VertexObject::render(size_t numInstances, GLfloat* transformArray, GLfloat* lightPositionArray){
         glBindBuffer(GL_ARRAY_BUFFER, _transformBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*16*numInstances, transformArray, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _lightPositionBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*16*numInstances, lightPositionArray, GL_DYNAMIC_DRAW);
         
         glBindVertexArray(_arrayId);
         if(_isIndexed)

@@ -15,6 +15,7 @@ namespace Canis
         std::map<std::string, SceneNodePtr> _nodes;
         std::queue<std::pair<MeshPtr,glm::mat4>> _meshQueue;
         Camera* _activeCamera;
+        glm::mat4 _projectionMatrix;
         
         //Maps of all objects contained in scene
         std::map<std::string, SceneNodePtr> _globalNodes;

@@ -130,7 +130,7 @@ namespace Canis
                         RenderablePtr renderable = it.second->item;
                         //t.passes[j].shader->setUniformMat4f("cs_ModelMatrix", renderable->getTransform());
                         //t.passes[j].shader->setUniformMat3f("cs_NormalMatrix", renderable->normalMatrix);
-                        t.passes[j].shader->setUniformMat4f("cs_LightPositions", renderable->getLightPositions());
+                        //t.passes[j].shader->setUniformMat4f("cs_LightPositions", renderable->getLightPositions());
                         t.passes[j].shader->setUniformMat4f("cs_LightColors", renderable->getLightColors());
                         t.passes[j].shader->setUniformVec4f("cs_LightRadius", renderable->getLightRadii());                                          
                     
