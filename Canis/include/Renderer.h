@@ -25,7 +25,7 @@ namespace Canis
         void render(Camera* activeCamera, glm::mat4 projectionMatrix);
         void resize(int w, int h);
         
-        void queueRenderable(Material* material, RenderablePtr renderable, size_t priority = 0);
+        void enqueueRenderable(Material* material, RenderablePtr renderable, size_t priority = 0);
         
         void addScene(ScenePtr scene);
         void attachRenderTarget(RenderTarget* target);

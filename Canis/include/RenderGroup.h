@@ -26,7 +26,7 @@ namespace Canis
         RenderGroup();
         ~RenderGroup();
         
-        void queueRenderable(RenderablePtr renderable);
+        void enqueueRenderable(RenderablePtr renderable);
         
         QueueItemMap getQueueItemMap();
     };

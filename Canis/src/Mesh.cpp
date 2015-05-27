@@ -153,6 +153,16 @@ namespace Canis
 
     void Mesh::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights){
         Texture* currentLightmap = nullptr;
+       
+        glm::mat4 retPos = glm::mat4(0.0f);
+        glm::mat4 retCol = glm::mat4(0.0f);
+        glm::vec4 retRad = glm::vec4(0.0f);
+
+        for(size_t j=0; j<lights.size(); j++){
+            retPos[j] = glm::vec4(lights[j]->getAbsolutePosition(), 1.0f);
+            retCol[j] = glm::vec4(lights[j]->getDiffuse(), 1.0f);
+            retRad[j] = lights[j]->getRadius();
+        }       
         
         for(size_t i=0; i<_groups.size(); i++){
             if(_groups[i].vertexObjects.size()){
@@ -161,16 +171,6 @@ namespace Canis
 
                 //glm::vec4 absCenter = _transform*glm::vec4(_groups[i].boundingBox.getCenter(), 1.0);
                 //std::pair<std::pair<glm::mat4, glm::mat4>, glm::vec4> lights = RenderManager::getSingleton().getLightsClosestToPoint(absCenter);
-
-                glm::mat4 retPos = glm::mat4(0.0f);
-                glm::mat4 retCol = glm::mat4(0.0f);
-                glm::vec4 retRad = glm::vec4(0.0f);
-
-                for(size_t j=0; j<lights.size(); j++){
-                    retPos[j] = glm::vec4(lights[j]->getAbsolutePosition(), 1.0f);
-                    retCol[j] = glm::vec4(lights[j]->getDiffuse(), 1.0f);
-                    retRad[j] = lights[j]->getRadius();
-                }
 
                 Material* mat;
                 if(_overrideMaterial == nullptr){
@@ -188,7 +188,7 @@ namespace Canis
                 renderable->setLightColors(retCol);
                 renderable->setLightRadii(retRad);
                 
-                Engine::getSingleton().getRenderer()->queueRenderable(mat, renderable, 0);
+                Engine::getSingleton().getRenderer()->enqueueRenderable(mat, renderable, 0);
             }
         }
         

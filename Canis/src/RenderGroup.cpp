@@ -12,7 +12,7 @@ namespace Canis
         
     }
     
-    void RenderGroup::queueRenderable(RenderablePtr renderable){
+    void RenderGroup::enqueueRenderable(RenderablePtr renderable){
         if(_items.count(renderable->getName()) > 0){
             //_items[renderable->getName()]->item->update(renderable);
             //_items[renderable->getName()]->transforms.push_back(renderable->getTransform());

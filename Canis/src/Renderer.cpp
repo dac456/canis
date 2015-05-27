@@ -58,17 +58,17 @@ namespace Canis
         _height = h;
     }
     
-    void Renderer::queueRenderable(Material* material, RenderablePtr renderable, size_t priority){
+    void Renderer::enqueueRenderable(Material* material, RenderablePtr renderable, size_t priority){
         //_renderQueue[priority]->addRenderable(material, renderable);
         //_renderQueue[material].push_back(renderable);
         if(_renderQueue.count(material) > 0){
-            _renderQueue[material]->queueRenderable(renderable);
+            _renderQueue[material]->enqueueRenderable(renderable);
         }
         else{
             RenderGroupPtr group = std::make_shared<RenderGroup>();
             _renderQueue[material] = group;
             
-            _renderQueue[material]->queueRenderable(renderable);
+            _renderQueue[material]->enqueueRenderable(renderable);
         }
     }
     
@@ -149,7 +149,7 @@ namespace Canis
                                 glBlendFunc(t.passes[j].blendSrc, t.passes[j].blendDst);
                             }
                         
-                            renderable->getVertexObjects()[k]->render(it.second->count, it.second->transArray);
+                            renderable->getVertexObjects()[k]->render(it.second->count, it.second->transArray, it.second->lightPositionArray);
                         
                             glDisable(GL_BLEND);
                         }
