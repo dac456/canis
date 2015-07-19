@@ -16,11 +16,13 @@ namespace Canis
     private:
         std::string _name;
         std::vector<MeshGroup> _groups;
-        std::vector<RenderablePtr> _renderables;
+        std::vector< std::pair<RenderablePtr,RenderableHandle> > _renderables;
         glm::mat4 _transform;
 
         AxisAlignedBox _aabb;
         Material* _overrideMaterial;
+        
+        bool _visible;
 
     public:
         Mesh(){}
@@ -31,6 +33,7 @@ namespace Canis
         ~Mesh();
 
         void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights);
+        void enqueue();
         
         std::string getName();
         

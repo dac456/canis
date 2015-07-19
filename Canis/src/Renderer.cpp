@@ -58,17 +58,17 @@ namespace Canis
         _height = h;
     }
     
-    void Renderer::enqueueRenderable(Material* material, RenderablePtr renderable, size_t priority){
+    RenderableHandle Renderer::enqueueRenderable(Material* material, RenderablePtr renderable, size_t priority){
         //_renderQueue[priority]->addRenderable(material, renderable);
         //_renderQueue[material].push_back(renderable);
         if(_renderQueue.count(material) > 0){
-            _renderQueue[material]->enqueueRenderable(renderable);
+            return _renderQueue[material]->enqueueRenderable(renderable);
         }
         else{
             RenderGroupPtr group = std::make_shared<RenderGroup>();
             _renderQueue[material] = group;
             
-            _renderQueue[material]->enqueueRenderable(renderable);
+            return _renderQueue[material]->enqueueRenderable(renderable);
         }
     }
     
@@ -155,7 +155,7 @@ namespace Canis
                         }
                         
                         //it.second->transforms.clear();
-                        it.second->count = 0;
+                        //it.second->count = 0;
                     }
                 }
                 

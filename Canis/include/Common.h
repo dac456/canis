@@ -101,6 +101,8 @@ namespace Canis
 
     typedef GLfloat Real;
     typedef std::map<std::string, std::string> StringMap;
+    
+    typedef uint64_t RenderableHandle;
 
     struct Technique;
     struct Pass;

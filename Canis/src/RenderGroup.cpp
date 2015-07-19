@@ -12,7 +12,7 @@ namespace Canis
         
     }
     
-    void RenderGroup::enqueueRenderable(RenderablePtr renderable){
+    RenderableHandle RenderGroup::enqueueRenderable(RenderablePtr renderable){
         if(_items.count(renderable->getName()) > 0){
             //_items[renderable->getName()]->item->update(renderable);
             //_items[renderable->getName()]->transforms.push_back(renderable->getTransform());
@@ -25,6 +25,8 @@ namespace Canis
             memcpy(&_items[renderable->getName()]->lightPositionArray[n*16], &lightPos[0], sizeof(float)*16);
 
             _items[renderable->getName()]->count += 1;
+            
+            return n;
         }
         else{
             QueueItemPtr qi = std::make_shared<QueueItem>();
@@ -42,6 +44,8 @@ namespace Canis
             
             
             _items[renderable->getName()] = qi;
+            
+            return 1;
         }
     }
     

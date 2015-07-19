@@ -75,6 +75,7 @@ namespace Canis
     Mesh::Mesh(std::string name, AssimpLoader* ai){
         _name = name;
         _overrideMaterial = nullptr;
+        _visible = false;
         
         if(!ai->getData().empty()){
             VertexData meshes = ai->getData();
@@ -109,7 +110,7 @@ namespace Canis
 
                 //TODO: should Mesh be modified so it holds Renderables rather than generating them?
                 RenderablePtr renderable = std::make_shared<Renderable>(renderableName.str(), mesh.vertexObjects);
-                _renderables.push_back(renderable);
+                _renderables.push_back( std::make_pair(renderable, 0) );
 
                 _groups.push_back(mesh);
                 _aabb.addAxisAlignedBox(mesh.boundingBox);
@@ -181,17 +182,40 @@ namespace Canis
                 }
                 
 
-				RenderablePtr renderable = _renderables[i];
+				RenderablePtr renderable = _renderables[i].first;
                 renderable->setTransform(_transform);
                 //renderable.normalMatrix = glm::inverseTranspose(glm::mat3(viewMatrix)*glm::mat3(_transform));
                 renderable->setLightPositions(retPos);
                 renderable->setLightColors(retCol);
                 renderable->setLightRadii(retRad);
                 
-                Engine::getSingleton().getRenderer()->enqueueRenderable(mat, renderable, 0);
+                //Engine::getSingleton().getRenderer()->enqueueRenderable(mat, renderable, 0);
             }
         }
         
+    }
+    
+    void Mesh::enqueue(){
+        if(_groups.size() == _renderables.size()){        
+            for(size_t i=0; i<_groups.size(); i++){
+                Material* mat;
+                if(_overrideMaterial == nullptr){
+                    mat = MaterialManager::getSingleton().getMaterial(_groups[i].materialId);
+                }
+                else{
+                    mat = _overrideMaterial;
+                }      
+                
+                RenderablePtr renderable = _renderables[i].first;     
+                renderable->setTransform(_transform);
+                     
+                RenderableHandle hnd = Engine::getSingleton().getRenderer()->enqueueRenderable(mat, renderable, 0);
+                
+                _renderables[i].second = hnd;
+            }
+            
+            _visible = true;
+        }
     }
     
     std::string Mesh::getName(){
