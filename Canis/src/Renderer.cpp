@@ -29,12 +29,15 @@ namespace Canis
     
     void Renderer::render(Camera* activeCamera, glm::mat4 projectionMatrix){
         if(_activeScene != nullptr){
+            glm::vec3 camPos = activeCamera->getAbsolutePosition();
+            std::vector<LightPtr> lights = _activeScene->getLightsClosestToPoint(glm::vec4(camPos, 1.0f));            
+            
             for(size_t i=0; i<_renderTargets.size(); i++){
                 _renderTargets[i]->set();
                 _activeScene->render(_renderTargets[i]->getCamera(), projectionMatrix);
                 
                 for(auto& it : _renderQueue){
-                    _renderGroup(activeCamera->getTransform(), projectionMatrix, it);
+                    _renderGroup(activeCamera->getTransform(), projectionMatrix, it, lights);
                 }                
             }        
         
@@ -46,7 +49,7 @@ namespace Canis
             _activeScene->render(activeCamera, projectionMatrix); //TODO: pass in pointer to this renderer?
             
             for(auto& it : _renderQueue){
-                _renderGroup(activeCamera->getTransform(), projectionMatrix, it);
+                _renderGroup(activeCamera->getTransform(), projectionMatrix, it, lights);
             }
             
             //_flushRenderQueue();
@@ -57,19 +60,35 @@ namespace Canis
         _width = w;
         _height = h;
     }
-    
-    RenderableHandle Renderer::enqueueRenderable(Material* material, RenderablePtr renderable, size_t priority){
-        //_renderQueue[priority]->addRenderable(material, renderable);
-        //_renderQueue[material].push_back(renderable);
-        if(_renderQueue.count(material) > 0){
-            return _renderQueue[material]->enqueueRenderable(renderable);
+
+    size_t Renderer::enqueueRenderable(RenderablePtr renderable, size_t priority){
+        if(_renderQueue.count(renderable->getMaterial()) > 0){
+            return _renderQueue[renderable->getMaterial()]->enqueueRenderable(renderable);
         }
         else{
             RenderGroupPtr group = std::make_shared<RenderGroup>();
-            _renderQueue[material] = group;
+            _renderQueue[renderable->getMaterial()] = group;
             
-            return _renderQueue[material]->enqueueRenderable(renderable);
+            return _renderQueue[renderable->getMaterial()]->enqueueRenderable(renderable);
         }
+    }
+    
+    void Renderer::enqueueRenderableList(RenderableList renderables, size_t priority){
+        for(auto renderable : renderables){
+            if(_renderQueue.count(renderable->getMaterial()) > 0){
+                _renderQueue[renderable->getMaterial()]->enqueueRenderable(renderable);
+            }
+            else{
+                RenderGroupPtr group = std::make_shared<RenderGroup>();
+                _renderQueue[renderable->getMaterial()] = group;
+                
+                _renderQueue[renderable->getMaterial()]->enqueueRenderable(renderable);
+            }    
+        }    
+    }
+    
+    void Renderer::updateRenderable(RenderablePtr renderable){
+        _renderQueue[renderable->getMaterial()]->updateRenderable(renderable);
     }
     
     void Renderer::addScene(ScenePtr scene){
@@ -94,10 +113,22 @@ namespace Canis
         return _activeScene;
     }
     
-    void Renderer::_renderGroup(glm::mat4 viewMatrix, glm::mat4 projMatrix, std::pair<Material*, RenderGroupPtr> group){
+
+    void Renderer::_renderGroup(glm::mat4 viewMatrix, glm::mat4 projMatrix, std::pair<Material*, RenderGroupPtr> group, std::vector<LightPtr> lights){
         Material* mat = group.first;
         
         if(mat != nullptr){
+            //Get lights
+            glm::mat4 lpos = glm::mat4(0.0f);
+            glm::mat4 lcol = glm::mat4(0.0f);
+            glm::vec4 lrad = glm::vec4(0.0f);
+            
+            for(size_t i=0; i<lights.size(); i++){
+                lpos[i] = glm::vec4(lights[i]->getAbsolutePosition(), 1.0f);
+                lcol[i] = glm::vec4(lights[i]->getDiffuse(), 1.0f);
+                lrad[i] = lights[i]->getRadius();
+            }            
+            
             RenderGroupPtr renderGroup = group.second;
             
             Technique t = mat->getTechniques()[0];
@@ -113,6 +144,10 @@ namespace Canis
                 //t.passes[j].shader->setUniformMat4f("cs_LightColors", renderable.lightColors);
                 //t.passes[j].shader->setUniformVec4f("cs_LightRadius", renderable.lightRadii);
                 t.passes[j].shader->setUniformVec4f("cs_DiffuseMaterial", t.passes[j].diffuse);
+                
+                t.passes[j].shader->setUniformMat4f("cs_LightPositions", lpos);
+                t.passes[j].shader->setUniformMat4f("cs_LightColors", lcol);
+                t.passes[j].shader->setUniformVec4f("cs_LightRadius", lrad);                  
 
                 if(t.passes[j].textures.size() > 0){
                     t.passes[j].shader->setUniform1i("cs_UseTexture", true);
@@ -127,19 +162,16 @@ namespace Canis
                 QueueItemMap groupItems = renderGroup->getQueueItemMap();    
                 for(auto& it : groupItems){
                     if(it.second->count > 0){
-                        RenderablePtr renderable = it.second->item;
+                        std::vector<VertexObject*> vertexObjects = it.second->item;
                         //t.passes[j].shader->setUniformMat4f("cs_ModelMatrix", renderable->getTransform());
-                        //t.passes[j].shader->setUniformMat3f("cs_NormalMatrix", renderable->normalMatrix);
-                        //t.passes[j].shader->setUniformMat4f("cs_LightPositions", renderable->getLightPositions());
-                        t.passes[j].shader->setUniformMat4f("cs_LightColors", renderable->getLightColors());
-                        t.passes[j].shader->setUniformVec4f("cs_LightRadius", renderable->getLightRadii());                                          
+                        //t.passes[j].shader->setUniformMat3f("cs_NormalMatrix", renderable->normalMatrix);                                        
                     
                         //TODO: multiple objects per group/renderable exists for CSG map support
                         //      not needed (i think) for assimp and could probably be dropped
-                        for(size_t k=0; k<renderable->getVertexObjects().size(); k++){
-                            if(renderable->getVertexObjects()[k]->getLightmap() != nullptr){
+                        for(size_t k=0; k<vertexObjects.size(); k++){
+                            if(vertexObjects[k]->getLightmap() != nullptr){
                                 t.passes[j].shader->setUniform1i("cs_UseLightmap", true);
-                                renderable->getVertexObjects()[k]->getLightmap()->use(shd);
+                                vertexObjects[k]->getLightmap()->use(shd);
                             }
                             else
                                 t.passes[j].shader->setUniform1i("cs_UseLightmap", false);
@@ -149,7 +181,7 @@ namespace Canis
                                 glBlendFunc(t.passes[j].blendSrc, t.passes[j].blendDst);
                             }
                         
-                            renderable->getVertexObjects()[k]->render(it.second->count, it.second->transArray, it.second->lightPositionArray);
+                            vertexObjects[k]->render(it.second->count, it.second->transArray/*, it.second->lightPositionArray, it.second->lightColorArray, it.second->lightRadiiArray*/);
                         
                             glDisable(GL_BLEND);
                         }

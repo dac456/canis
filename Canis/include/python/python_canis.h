@@ -9,8 +9,10 @@
 #include "Scene.h"
 #include "Engine.h"
 #include "Renderer.h"
+#include "Renderable.h"
 #include "Light.h"
 #include "MeshManager.h"
+#include "Material.h"
 #include "AssimpLoader.h"
 
 namespace py = boost::python;
@@ -22,7 +24,7 @@ namespace Canis
         return Engine::getSingleton().isDynamicsEnabled();
     }
     
-    Scene* getActiveScene(){
+    ScenePtr getActiveScene(){
         Renderer* renderer = Engine::getSingleton().getRenderer();
         if(renderer != nullptr){
             ScenePtr sc = renderer->getActiveScene();
@@ -31,7 +33,7 @@ namespace Canis
                 return nullptr;
             }
             else{
-                return sc.get();  
+                return sc;  
             }
         }
         else{
@@ -47,7 +49,7 @@ namespace Canis
         }
     }
     
-    void drawMesh(Scene* scene, std::string name, float px, float py, float pz){
+    void drawMesh(ScenePtr scene, std::string name, float px, float py, float pz){
         MeshPtr mesh = MeshManager::getSingleton().getMesh(name);
         
         if(mesh){
@@ -55,30 +57,48 @@ namespace Canis
         }
     }
     
-    void enqueueMesh(std::string name, float px, float py, float pz){
+    std::vector<RenderablePtr> enqueueMesh(std::string name, float px, float py, float pz){
         MeshPtr mesh = MeshManager::getSingleton().getMesh(name);
         
         if(mesh){
-            mesh->setTransform(glm::translate(glm::vec3(px, py, pz)));
-            mesh->enqueue();
+            std::vector<RenderablePtr> renderables = mesh->toRenderable();
+            for(auto r : renderables){
+                r->setTransform(glm::translate(glm::vec3(px, py, pz)));
+                Engine::getSingleton().getRenderer()->enqueueRenderable(r, 0);
+            }
+            //mesh->setTransform(glm::translate(glm::vec3(px, py, pz)));
+            //mesh->enqueue();
+            
+            return renderables;
         }
     }    
     
-    void attachLight(Scene* scene, std::string node, std::string name, float r, float g, float b, float radius){
+    void dequeueMesh(std::vector<RenderablePtr> renderables){
+        //TODO
+    }
+    
+    void updateMeshTransform(ScenePtr scene, std::vector<RenderablePtr> renderables, float px, float py, float pz){
+        for(auto r : renderables){
+            r->setTransform(glm::translate(glm::vec3(px, py, pz)));
+            Engine::getSingleton().getRenderer()->updateRenderable(r);
+        }
+    }
+    
+    void attachLight(ScenePtr scene, std::string node, std::string name, float r, float g, float b, float radius){
         SceneNodePtr n = scene->getNodeGlobal(node);
         if(n != nullptr){
             n->attachLight(std::make_shared<Light>(name, glm::vec3(r, g, b), radius));
         }
     }
     
-    void removeLight(Scene* scene, std::string node, std::string name){
+    void removeLight(ScenePtr scene, std::string node, std::string name){
         SceneNodePtr n = scene->getNodeGlobal(node);
         if(n != nullptr){
             n->removeLight(name);
         }
     }
     
-    void setNodeTransform(Scene* scene, std::string node, float px, float py, float pz, float yaw, float pitch, float roll){
+    void setNodeTransform(ScenePtr scene, std::string node, float px, float py, float pz, float yaw, float pitch, float roll){
         SceneNodePtr n = scene->getNodeGlobal(node);
         if(n){
             glm::mat4 trans = glm::eulerAngleYXZ(yaw, pitch, roll)*glm::translate(glm::vec3(px, py, pz));
@@ -86,7 +106,7 @@ namespace Canis
         }
     }
     
-    py::tuple getNodePosition(Scene* scene, std::string node){
+    py::tuple getNodePosition(ScenePtr scene, std::string node){
         SceneNodePtr n = scene->getNodeGlobal(node);
         if(n){        
             glm::mat4 trans = n->getAbsoluteTransform();
@@ -95,16 +115,26 @@ namespace Canis
     }
 
     BOOST_PYTHON_MODULE(canis){
-        py::class_<Scene>("scene", py::no_init)
+        py::class_<Scene>("Scene", py::no_init)
             .def("get_name", &Scene::getName)
+        ;
+        py::register_ptr_to_python<ScenePtr>();
+        
+        py::class_<Renderable>("Renderable", py::no_init);
+        py::register_ptr_to_python<RenderablePtr>();
+        
+        py::class_<std::vector<RenderablePtr>>("RenderableList")
+            .def(py::vector_indexing_suite<std::vector<RenderablePtr>>())
         ;
         
         py::def("dynamics_enabled", &dynamicsEnabled);
-        py::def("get_active_scene", &getActiveScene, py::return_value_policy<py::reference_existing_object>());
+        py::def("get_active_scene", &getActiveScene/*, py::return_value_policy<py::reference_existing_object>()*/);
         
         py::def("load_mesh", &loadMesh);
         py::def("draw_mesh", &drawMesh);
         py::def("enqueue_mesh", &enqueueMesh);
+        py::def("dequeue_mesh", &dequeueMesh);
+        py::def("update_mesh_transform", &updateMeshTransform);
         
         py::def("attach_light", &attachLight, "doc string");
         py::def("remove_light", &removeLight, "doc string");

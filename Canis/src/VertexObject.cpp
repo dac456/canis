@@ -115,13 +115,27 @@ namespace Canis
             glVertexAttribDivisor(4 + i, 1);
         }
 
-        glGenBuffers(1, &_lightPositionBuffer);
+        /*glGenBuffers(1, &_lightPositionBuffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _lightPositionBuffer);
         for(size_t i=0; i<4; i++){
-            glEnableVertexAttribArray(8 + i);
-            glVertexAttribPointer(8 + i, 4, GL_FLOAT, 0, sizeof(GLfloat)*16, (const GLvoid*)(sizeof(GLfloat) * i * 4));
-            glVertexAttribDivisor(8 + i, 1);
+            glEnableVertexAttribArray(7 + i);
+            glVertexAttribPointer(7 + i, 4, GL_FLOAT, 0, sizeof(GLfloat)*16, (const GLvoid*)(sizeof(GLfloat) * i * 4));
+            glVertexAttribDivisor(7 + i, 1);
         }
+        
+        glGenBuffers(1, &_lightColorBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _lightColorBuffer);
+        for(size_t i=0; i<4; i++){
+            glEnableVertexAttribArray(11 + i);
+            glVertexAttribPointer(11 + i, 4, GL_FLOAT, 0, sizeof(GLfloat)*16, (const GLvoid*)(sizeof(GLfloat) * i * 4));
+            glVertexAttribDivisor(11 + i, 1);
+        }  
+        
+        glGenBuffers(1, &_lightRadiiBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _lightRadiiBuffer);
+        glEnableVertexAttribArray(15);
+        glVertexAttribPointer(15, 4, GL_FLOAT, 0, sizeof(GLfloat)*4, (const GLvoid*)(sizeof(GLfloat) * 4));
+        glVertexAttribDivisor(15, 1);*/          
 
         err = glGetError();
         //if(err != GL_NO_ERROR)
@@ -138,12 +152,19 @@ namespace Canis
         delete[] _indices;
     }
 
-    void VertexObject::render(size_t numInstances, GLfloat* transformArray, GLfloat* lightPositionArray){
+    void VertexObject::render(size_t numInstances, GLfloat* transformArray/*, GLfloat* lightPositionArray, GLfloat* lightColorArray, GLfloat* lightRadiiArray*/){
+        //TODO: try and avoid uploding entire buffer every call/frame
         glBindBuffer(GL_ARRAY_BUFFER, _transformBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*16*numInstances, transformArray, GL_DYNAMIC_DRAW);
 
-        glBindBuffer(GL_ARRAY_BUFFER, _lightPositionBuffer);
+        /*glBindBuffer(GL_ARRAY_BUFFER, _lightPositionBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*16*numInstances, lightPositionArray, GL_DYNAMIC_DRAW);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, _lightColorBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*16*numInstances, lightColorArray, GL_DYNAMIC_DRAW);      
+        
+        glBindBuffer(GL_ARRAY_BUFFER, _lightRadiiBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*4*numInstances, lightRadiiArray, GL_DYNAMIC_DRAW);*/      
         
         glBindVertexArray(_arrayId);
         if(_isIndexed)

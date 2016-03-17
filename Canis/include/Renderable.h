@@ -10,6 +10,9 @@ namespace Canis
     class CSAPI Renderable{
     private:
         std::string _name;
+        size_t _queueOffset;
+        
+        Material* _material;
         std::vector<VertexObject*> _vertexObjects;
         
         glm::mat4 _transform;
@@ -20,7 +23,7 @@ namespace Canis
         glm::vec4 _lightRadii;
         
     public:
-        Renderable(std::string name, std::vector<VertexObject*> objects);
+        Renderable(std::string name, Material* mat, std::vector<VertexObject*> objects);
         ~Renderable();
         
         //void update(RenderablePtr renderable);
@@ -34,6 +37,9 @@ namespace Canis
         glm::mat3 getNormalMatrix();
         void setNormalMatrix(glm::mat3 normalMatrix);
         
+        Material* getMaterial();
+        //void setMaterial(MaterialPtr mat); //needed?
+        
         
         glm::mat4 getLightPositions();
         void setLightPositions(glm::mat4 lightPositions);
@@ -42,7 +48,11 @@ namespace Canis
         void setLightColors(glm::mat4 lightColors);
         
         glm::vec4 getLightRadii();
-        void setLightRadii(glm::vec4 lightRadii);        
+        void setLightRadii(glm::vec4 lightRadii); 
+        
+        bool isQueued();      
+        
+        friend class RenderGroup; 
     };
 
 }

@@ -9,7 +9,8 @@ namespace Canis
 
     class CSAPI StaticMesh : public IEntity{
     private:
-        MeshPtr _mesh;
+        //MeshPtr _mesh;
+        RenderableList _renderables;
         bool _needsRebuild;
 
         //--Bullet--//

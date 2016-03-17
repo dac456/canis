@@ -37,8 +37,10 @@ namespace SceneEditor
         //Canis
         Canis::Renderer* _renderer; //TODO: start offloading to renderer class as much as possible
         Canis::Camera* _cam;
-        Canis::Mesh* _nodeMarker;
-        Canis::Mesh* _selectionBox;
+        //Canis::Mesh* _nodeMarker;
+        //Canis::Mesh* _selectionBox;
+        Canis::RenderableList _nodeMarker;
+        Canis::RenderableList _selectionBox;
 
         glm::mat4 _projMatrix;
         glm::vec3 _lastPerspPos;

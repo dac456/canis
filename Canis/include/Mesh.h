@@ -35,6 +35,8 @@ namespace Canis
         void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights);
         void enqueue();
         
+        RenderableList toRenderable();
+        
         std::string getName();
         
         void setMaterialOverride(std::string name);

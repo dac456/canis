@@ -25,7 +25,9 @@ namespace Canis
         void render(Camera* activeCamera, glm::mat4 projectionMatrix);
         void resize(int w, int h);
         
-        RenderableHandle enqueueRenderable(Material* material, RenderablePtr renderable, size_t priority = 0);
+        size_t enqueueRenderable(RenderablePtr renderable, size_t priority = 0);
+        void enqueueRenderableList(RenderableList renderables, size_t priority = 0);
+        void updateRenderable(RenderablePtr renderable);
         
         void addScene(ScenePtr scene);
         void attachRenderTarget(RenderTarget* target);
@@ -37,7 +39,7 @@ namespace Canis
         ScenePtr getActiveScene();
         
     private:
-        void _renderGroup(glm::mat4 viewMatrix, glm::mat4 projMatrix, std::pair<Material*, RenderGroupPtr> group);
+        void _renderGroup(glm::mat4 viewMatrix, glm::mat4 projMatrix, std::pair<Material*, RenderGroupPtr> group, std::vector<LightPtr> lights);
     };
     
 }

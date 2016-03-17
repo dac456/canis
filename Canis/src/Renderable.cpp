@@ -3,22 +3,16 @@
 namespace Canis
 {
     
-    Renderable::Renderable(std::string name, std::vector<VertexObject*> objects){
+    Renderable::Renderable(std::string name, Material* mat, std::vector<VertexObject*> objects){
         _name = name;
+        _queueOffset = -1;
+        
+        _material = mat;
         _vertexObjects = objects;
     }
     
     Renderable::~Renderable(){
     }
-    
-    /*void Renderable::update(RenderablePtr renderable){
-        _transform = renderable->getTransform();
-        _normalMatrix = renderable->getNormalMatrix();
-        
-        _lightPositions = renderable->getLightPositions();
-        _lightColors = renderable->getLightColors();
-        _lightRadii = renderable->getLightRadii();
-    }*/
     
     std::string Renderable::getName(){
         return _name;
@@ -44,6 +38,10 @@ namespace Canis
         _normalMatrix = normalMatrix;
     }
     
+    Material* Renderable::getMaterial(){
+        return _material;
+    }
+    
     glm::mat4 Renderable::getLightPositions(){
         return _lightPositions;
     }
@@ -66,6 +64,10 @@ namespace Canis
     
     void Renderable::setLightRadii(glm::vec4 lightRadii){
         _lightRadii = lightRadii;
+    }
+    
+    bool Renderable::isQueued(){
+        return (_queueOffset != -1);
     }
 
 }

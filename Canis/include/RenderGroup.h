@@ -7,12 +7,13 @@ namespace Canis
 {
     
     struct QueueItem{
-        RenderablePtr item;
+        std::vector<VertexObject*> item;
         size_t count = 0;
         
-        std::vector<glm::mat4> transforms;
         GLfloat transArray[16*32768];
-        GLfloat lightPositionArray[16*32768];
+        /*GLfloat lightPositionArray[16*32768];
+        GLfloat lightColorArray[16*32768];
+        GLfloat lightRadiiArray[4*32768];*/
     };
     
     typedef std::shared_ptr<QueueItem> QueueItemPtr;
@@ -26,7 +27,8 @@ namespace Canis
         RenderGroup();
         ~RenderGroup();
         
-        RenderableHandle enqueueRenderable(RenderablePtr renderable);
+        size_t enqueueRenderable(RenderablePtr renderable);
+        void updateRenderable(RenderablePtr renderable);
         
         QueueItemMap getQueueItemMap();
     };

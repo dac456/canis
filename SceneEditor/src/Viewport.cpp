@@ -571,6 +571,10 @@ namespace SceneEditor
         }
         else
             markerScale = 4.0f;
+            
+        /* TODO: enqueue/dequeue node markers on node add/delete - vector of renderablelist
+                 keep only one renderablelist for selectionbox - enqueue on selection if not queued, update transform for selection, dequeue if no selection
+        */
 
         //glm::vec3 nodeScale = node->getScale();
         //_nodeMarker->setTransform(trans*glm::scale(glm::vec3(1.0f/nodeScale.x, 1.0f/nodeScale.y, 1.0f/nodeScale.z))*glm::scale(glm::vec3(markerScale, markerScale, markerScale)));
@@ -650,15 +654,22 @@ namespace SceneEditor
         _cam = new Canis::Camera("Editor", glm::vec3(0.0, 1.8, 0.0), glm::vec3(0.0, 1.8, -5.0));
         
         if(_viewType == 0)
-            _projMatrix = glm::perspective(45.0f, (float)this->width()/(float)this->height(), 0.1f, 10000.0f);
+            _projMatrix = glm::perspective(glm::radians(45.0f), (float)this->width()/(float)this->height(), 0.1f, 10000.0f);
         else
             _projMatrix = glm::ortho(0.0f, (float)this->width(), (float)this->height(), 0.0f, 0.1f, 10000.0f);
             
         //Load editor specific assets
         Canis::MaterialManager::getSingleton().addMaterial(new Canis::Material(new Canis::MaterialLoader("../Editor/Materials/Marker.material")));
         Canis::MaterialManager::getSingleton().addMaterial(new Canis::Material(new Canis::MaterialLoader("../Editor/Materials/Selection.material")));
-        _nodeMarker = new Canis::Mesh("editor_node", new Canis::AssimpLoader(std::string("./Media/Editor/Models/node.ms3d")));
-        _selectionBox = new Canis::Mesh("editor_selectionbox", new Canis::AssimpLoader(std::string("./Media/Editor/Models/selection_box.ms3d")));                    
+        //_nodeMarker = new Canis::Mesh("editor_node", new Canis::AssimpLoader(std::string("./Media/Editor/Models/node.ms3d")));
+        //_selectionBox = new Canis::Mesh("editor_selectionbox", new Canis::AssimpLoader(std::string("./Media/Editor/Models/selection_box.ms3d")));
+        
+        Canis::MeshPtr nodeMesh = std::make_shared<Mesh>("editor_node", new Canis::AssimpLoader(std::string("./Media/Editor/Models/node.ms3d")));
+        Canis::MeshPtr sboxMesh = std::make_shared<Mesh>("editor_selectionbox", new Canis::AssimpLoader(std::string("./Media/Editor/Models/selection_box.ms3d")));
+        Canis::MeshManager::getSingleton().addMesh(nodeMesh);
+        Canis::MeshManager::getSingleton().addMesh(sboxMesh);                    
+        //_nodeMarker = nodeMesh->toRenderable();
+        //_selectionBox = nodeMesh->toRenderable();
         
         fprintf(stdout, "GL Version: %s\n", glGetString(GL_VERSION));
         fprintf(stdout, "Canis Version: %i.%i.%i '%s'\n", CS_MAJOR_REVISION, CS_MINOR_REVISION, CS_BUILD_REVISION, CS_CODENAME);

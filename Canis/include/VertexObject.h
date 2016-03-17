@@ -48,7 +48,7 @@ namespace Canis
         VertexObject(Vertex vertices[], size_t numVertices, unsigned int indices[], size_t numIndices, GLenum drawMode, size_t materialId);
         ~VertexObject();
 
-        void render(size_t numInstances = 1, GLfloat* transformArray = nullptr, GLfloat* lightPositionArray = nullptr);
+        void render(size_t numInstances = 1, GLfloat* transformArray = nullptr/*, GLfloat* lightPositionArray = nullptr, GLfloat* lightColorArray = nullptr, GLfloat* lightRadiiArray = nullptr*/);
         void scale(Real s);
 
         void setLightmap(Texture* lightmap);

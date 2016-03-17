@@ -53,7 +53,7 @@ namespace Canis
             _indices[i].resize(_scene->mNumMeshes);
 
             GroupData group;
-            _data.push_back(group);
+            _data[i] = group;
             ObjectData object;
             _data[i].first.push_back(object);
 

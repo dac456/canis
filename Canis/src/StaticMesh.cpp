@@ -1,5 +1,7 @@
 #include "StaticMesh.h"
 #include "Mesh.h"
+#include "Renderer.h"
+#include "Renderable.h"
 #include "VertexObject.h"
 #include "Scene.h"
 #include "SceneNode.h"
@@ -9,8 +11,11 @@ namespace Canis
 
     StaticMesh::StaticMesh(std::string name, MeshPtr mesh, glm::mat4 transform)
         : IEntity("Static Mesh", name, transform, true){
-            _mesh = mesh;
-            _mesh->setTransform(transform);
+            //_mesh = mesh;
+            //_mesh->setTransform(transform);
+            
+            _renderables = mesh->toRenderable();
+            Engine::getSingleton().getRenderer()->enqueueRenderableList(_renderables);
             
             _paramTypes["name"] = PARAM_STRING;
             _paramTypes["mesh"] = PARAM_PATH;
@@ -19,7 +24,7 @@ namespace Canis
             _triangleMesh = nullptr;
             _compoundShape = nullptr;
 
-            std::vector<MeshGroup> groups = _mesh->getMeshGroups();
+            std::vector<MeshGroup> groups = mesh->getMeshGroups();
             for(size_t i=0; i<groups.size(); i++){
 
                 std::vector<VertexObject*> objects = groups[i].vertexObjects;
@@ -67,10 +72,14 @@ namespace Canis
         //glm::mat4 meshTransform = _mesh->getTransform();
 
         if(Engine::getSingleton().isDynamicsEnabled()){
-            _mesh->setTransform(_motionState.getBulletWorldTransform()*glm::scale(_scale));
+            for(auto renderable : _renderables){
+                renderable->setTransform(_motionState.getBulletWorldTransform()*glm::scale(_scale));
+            }
         }
         else{
-            _mesh->setTransform(this->getAbsoluteTransform()*glm::scale(_scale));
+            for(auto renderable : _renderables){
+                renderable->setTransform(this->getAbsoluteTransform()*glm::scale(_scale));
+            }
         }
 
         std::vector<LightPtr> lights;
@@ -81,7 +90,12 @@ namespace Canis
                 lights = parentScene->getLightsClosestToPoint(this->getAbsoluteTransform()[3]);
             }
         }
-        _mesh->render(projectionMatrix, viewMatrix, lights);
+        
+        //TODO: Renderer convienience function?
+        for(auto renderable : _renderables){
+            Engine::getSingleton().getRenderer()->updateRenderable(renderable);
+        }
+        //_mesh->render(projectionMatrix, viewMatrix, lights);
         //_mesh->setTransform(meshTransform);
         //_dynamicsTransform.setFromOpenGLMatrix(glm::value_ptr(localTransform));
         //_rigidBody->setWorldTransform(_dynamicsTransform);

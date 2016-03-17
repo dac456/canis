@@ -12,6 +12,7 @@
 #include <map>
 #include <queue>
 #include <memory>
+#include <random>
 
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32)
     #define CANIS_PLATFORM_WIN32
@@ -102,7 +103,7 @@ namespace Canis
     typedef GLfloat Real;
     typedef std::map<std::string, std::string> StringMap;
     
-    typedef uint64_t RenderableHandle;
+    typedef size_t RenderableHandle;
 
     struct Technique;
     struct Pass;
@@ -160,12 +161,16 @@ namespace Canis
     typedef std::shared_ptr<IEntity> IEntityPtr;
     typedef std::shared_ptr<IObject> IObjectPtr;
     typedef std::shared_ptr<Light> LightPtr;
+    typedef std::shared_ptr<Material> MaterialPtr;
     typedef std::shared_ptr<Mesh> MeshPtr;
     typedef std::shared_ptr<Scene> ScenePtr;
     typedef std::shared_ptr<SceneNode> SceneNodePtr;
     
     typedef std::shared_ptr<Renderable> RenderablePtr;
     typedef std::shared_ptr<RenderGroup> RenderGroupPtr;
+    
+    typedef std::vector<RenderablePtr> RenderableList;
+    
 }
 
 #endif

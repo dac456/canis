@@ -80,6 +80,7 @@ namespace Canis
         if(!ai->getData().empty()){
             VertexData meshes = ai->getData();
             IndexData meshIndices = ai->getIndices();
+
             for(size_t i=0; i<meshes.size(); i++){
                 MeshGroup mesh;
                 mesh.id = i;
@@ -104,13 +105,6 @@ namespace Canis
                     delete[] objVertsA;
                     //delete[] objIndices.first;
                 }
-
-                std::stringstream renderableName;
-                renderableName << name << mesh.id;
-
-                //TODO: should Mesh be modified so it holds Renderables rather than generating them?
-                RenderablePtr renderable = std::make_shared<Renderable>(renderableName.str(), mesh.vertexObjects);
-                _renderables.push_back( std::make_pair(renderable, 0) );
 
                 _groups.push_back(mesh);
                 _aabb.addAxisAlignedBox(mesh.boundingBox);
@@ -153,7 +147,7 @@ namespace Canis
     }
 
     void Mesh::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, std::vector<LightPtr> lights){
-        Texture* currentLightmap = nullptr;
+        /*Texture* currentLightmap = nullptr;
        
         glm::mat4 retPos = glm::mat4(0.0f);
         glm::mat4 retCol = glm::mat4(0.0f);
@@ -191,12 +185,12 @@ namespace Canis
                 
                 //Engine::getSingleton().getRenderer()->enqueueRenderable(mat, renderable, 0);
             }
-        }
+        }*/
         
     }
     
     void Mesh::enqueue(){
-        if(_groups.size() == _renderables.size()){        
+        /*if(_groups.size() == _renderables.size()){        
             for(size_t i=0; i<_groups.size(); i++){
                 Material* mat;
                 if(_overrideMaterial == nullptr){
@@ -215,7 +209,29 @@ namespace Canis
             }
             
             _visible = true;
+        }*/
+    }
+    
+    RenderableList Mesh::toRenderable(){
+        std::vector<RenderablePtr> out;
+        
+        for(auto& group : _groups){
+            std::stringstream renderableName;
+            renderableName << _name << group.id;
+
+            Material* mat;
+            if(_overrideMaterial == nullptr){
+                mat = MaterialManager::getSingleton().getMaterial(group.materialId);
+            }
+            else{
+                mat = _overrideMaterial;
+            }   
+            
+            RenderablePtr renderable = std::make_shared<Renderable>(renderableName.str(), mat, group.vertexObjects);
+            out.push_back(renderable);
         }
+        
+        return out;
     }
     
     std::string Mesh::getName(){
